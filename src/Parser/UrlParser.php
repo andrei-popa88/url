@@ -243,9 +243,9 @@ class UrlParser
     }
 
     /**
-     * @return null|string
+     * @return int|null
      */
-    public function getPort(): ?string
+    public function getPort(): ?int
     {
         return $this->port;
     }

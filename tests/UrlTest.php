@@ -84,8 +84,71 @@ class UrlTest extends TestCase
 
     public function test_should_have_fragment()
     {
+        $urlClass = new Url('http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top');
+
+        $this->assertEquals('top', $urlClass->parser->getFragment());
+    }
+
+    public function test_should_have_only_one_fragment()
+    {
         $urlClass = new Url('http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top#test');
 
         $this->assertEquals('top', $urlClass->parser->getFragment());
+    }
+
+    public function test_should_not_have_fragment()
+    {
+        $urlClass = new Url('http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest');
+
+        $this->assertEquals(null, $urlClass->parser->getFragment());
+    }
+
+    public function test_should_have_username()
+    {
+        $urlClass = new Url('http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top#test');
+
+        $this->assertEquals('john.doe', $urlClass->parser->getUsername());
+    }
+
+    public function test_should_not_have_username()
+    {
+        $urlClass = new Url('http://www.example.com:123/forum/questions/?tag=networking&order=newest#top#test');
+
+        $this->assertEquals(null, $urlClass->parser->getUsername());
+    }
+
+    public function test_should_have_host()
+    {
+        $urlClass = new Url('http://www.example.com:123/forum/questions/?tag=networking&order=newest#top#test');
+
+        $this->assertEquals('www.example.com', $urlClass->parser->getHost());
+    }
+
+    public function test_should_have_password()
+    {
+        $urlClass = new Url('http://john.doe:password@www.example.com:123/forum/questions/?tag=networking&order=newest#top#test');
+
+        $this->assertEquals('password', $urlClass->parser->getPassword());
+    }
+
+    public function test_should_not_have_password()
+    {
+        $urlClass = new Url('http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top#test');
+
+        $this->assertEquals(null, $urlClass->parser->getPassword());
+    }
+
+    public function test_should_have_port()
+    {
+        $urlClass = new Url('http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top#test');
+
+        $this->assertEquals(123, $urlClass->parser->getPort());
+    }
+
+    public function test_should_not_have_port()
+    {
+        $urlClass = new Url('http://john.doe@www.example.com/forum/questions/?tag=networking&order=newest#top#test');
+
+        $this->assertEquals(null, $urlClass->parser->getPort());
     }
 }
