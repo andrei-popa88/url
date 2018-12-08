@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Bags;
+namespace Keppler\Url\Parser\Bags;
 
 /**
  * Class QueryBag
@@ -36,7 +36,7 @@ class QueryBag
     /**
      * @return int|null|string
      */
-    public function getFirstQueryParam(): ?string
+    public function getFirst(): ?string
     {
         return $this->queryComponents[key($this->queryComponents)];
     }
@@ -44,7 +44,7 @@ class QueryBag
     /**
      * @return mixed
      */
-    public function getLastQueryParam(): ?string
+    public function getLast(): ?string
     {
         $array = $this->queryComponents;
         reset($array);

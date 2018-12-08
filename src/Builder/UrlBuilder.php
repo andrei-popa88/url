@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Builder;
 
-use Keppler\Url\Parser\UrlParser;
+use Keppler\Url\Parser\Parser;
 
 /**
  * Class UrlBuilder
@@ -13,16 +13,16 @@ use Keppler\Url\Parser\UrlParser;
 class UrlBuilder
 {
     /**
-     * @var UrlParser
+     * @var Parser
      */
     private $url;
 
     /**
      * UrlBuilder constructor.
      *
-     * @param UrlParser $url
+     * @param Parser $url
      */
-    public function __construct(UrlParser $url)
+    public function __construct(Parser $url)
     {
         $this->url = $url;
     }

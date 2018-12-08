@@ -3,16 +3,36 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Parser;
 
-use Keppler\Url\Bags\PathBag;
-use Keppler\Url\Bags\QueryBag;
+use Keppler\Url\Parser\Bags\PathBag;
+use Keppler\Url\Parser\Bags\QueryBag;
+use Keppler\Url\Parser\Exceptions\MalformedUrlException;
+use Keppler\Url\Parser\Exceptions\SchemaNotSupportedException;
 
 /**
- * Immutable Class UrlParser
+ * Immutable Class Parser
  *
  * @package Url\Parser
  */
-class UrlParser
+class Parser
 {
+    /**
+     * @var PathBag
+     */
+    public $path;
+
+    /**
+     * @var QueryBag
+     */
+    public $query;
+
+    /**
+     * @var array
+     */
+    protected $allowedSchemas = [
+        'http',
+        'https',
+        'mailto',
+    ];
 
     /**
      * @var
@@ -23,16 +43,6 @@ class UrlParser
      * @var
      */
     private $authority = null;
-
-    /**
-     * @var PathBag
-     */
-    private $pathBag;
-
-    /**
-     * @var QueryBag
-     */
-    private $queryBag;
 
     /**
      * @var
@@ -60,15 +70,31 @@ class UrlParser
     private $port = null;
 
     /**
-     * UrlParser constructor.
-     *
      * @param string $url
+     *
+     * @return Parser
+     * @throws MalformedUrlException
+     * @throws SchemaNotSupportedException
      */
-    public function __construct(string $url)
+    public static function from(string $url): self
     {
-        $this->queryBag = new QueryBag();
-        $this->pathBag = new PathBag();
-        $this->parseUrl($url);
+        $self = new self();
+        $schemaFromUrl = parse_url($url);
+
+        if(!isset($schemaFromUrl['scheme'])) {
+            throw new MalformedUrlException("Missing scheme");
+        }
+
+        $schemaFromUrl = $schemaFromUrl['scheme'];
+        if(!in_array($schemaFromUrl, $self->allowedSchemas)) {
+            throw new SchemaNotSupportedException(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemas extend this class and roll your own implementation.", $self->allowedSchemas));
+        }
+
+        $self->query = new QueryBag();
+        $self->path = new PathBag();
+        $self->parseUrl($url);
+
+        return $self;
     }
 
     /**
@@ -90,8 +116,8 @@ class UrlParser
             $this->buildFragment($parsedUrl['fragment']);
         }
 
-        ! isset($parsedUrl['path']) ?: $this->pathBag->buildPathComponents($parsedUrl['path']);
-        ! isset($parsedUrl['query']) ?: $this->queryBag->buildQueryComponents($parsedUrl['query']);
+        ! isset($parsedUrl['path']) ?: $this->path->buildPathComponents($parsedUrl['path']);
+        ! isset($parsedUrl['query']) ?: $this->query->buildQueryComponents($parsedUrl['query']);
     }
 
     /**
@@ -143,8 +169,8 @@ class UrlParser
           'schema' => $this->schema,
           'host' => $this->host,
           'authority' => $this->authority,
-          'path' => $this->pathBag->all(),
-          'query' => $this->queryBag->all(),
+          'path' => $this->path->all(),
+          'query' => $this->query->all(),
           'fragment' => $this->fragment,
           'username' => $this->username,
           'password' => $this->password,
@@ -184,22 +210,6 @@ class UrlParser
     public function getAuthority(): ?string
     {
         return $this->authority;
-    }
-
-    /**
-     * @return PathBag
-     */
-    public function getPathBag(): PathBag
-    {
-        return $this->pathBag;
-    }
-
-    /**
-     * @return QueryBag
-     */
-    public function getQueryBag(): QueryBag
-    {
-        return $this->queryBag;
     }
 
     /**
