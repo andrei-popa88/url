@@ -3,12 +3,6 @@
 [![Build Status](https://travis-ci.org/KepplerPl/url.svg?branch=master)](https://travis-ci.org/KepplerPl/url)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
-If you're looking for something more complex I recommend https://uri.thephpleague.com/
-
-It has a lot more features that this package offers and should be used for larger websites.
-
------
-
 This package contains 2 parts. The parser and the builder.
 
 ## Parser
@@ -66,3 +60,9 @@ echo $parser->path->original(); // /forum/questions/
 ```bash
 composer require keppler/url
 ````
+
+-----
+
+If you're looking for something more complex and a lot more stable I recommend https://uri.thephpleague.com/
+
+It has a lot more features that this package offers and should be used for larger websites.
