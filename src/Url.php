@@ -53,7 +53,7 @@ class Url
             throw new \Exception(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemas extend this class and roll your own implementation.", $this->allowedSchemas));
         }
 
-        $this->parser = new UrlParserr($url);
+        $this->parser = new UrlParser($url);
         $this->builder = new UrlBuilder(clone($this->parser));
     }
 }
