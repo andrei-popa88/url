@@ -34,13 +34,27 @@ class Url
      */
     public $builder;
 
-    /**]
+    /**
+     * @param string $url
+     *
+     * @return Url
+     * @throws MalformedUrlException
+     * @throws SchemaNotSupportedException
+     */
+    public static function from(string $url): self
+    {
+        $self = new self();
+        $self->init($url);
+        return $self;
+    }
+
+    /**
      * @param string $url
      *
      * @throws MalformedUrlException
      * @throws SchemaNotSupportedException
      */
-    private function init(string $url)
+    private function init(string $url): void
     {
         $schemaFromUrl = parse_url($url);
 
@@ -55,19 +69,5 @@ class Url
 
         $this->parser = new UrlParser($url);
         $this->builder = new UrlBuilder(clone($this->parser));
-    }
-
-    /**
-     * @param string $url
-     *
-     * @return Url
-     * @throws MalformedUrlException
-     * @throws SchemaNotSupportedException
-     */
-    public static function from(string $url): self
-    {
-        $self = new self();
-        $self->init($url);
-        return $self;
     }
 }
