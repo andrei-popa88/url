@@ -30,14 +30,14 @@ class ParserTest extends TestCase
     {
         $parser = Parser::from('https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top');
 
-        $this->assertInstanceOf(PathBag::class, $parser->getPathBag());
+        $this->assertInstanceOf(PathBag::class, $parser->path);
     }
 
     public function test_should_be_instance_of_query_bag()
     {
         $parser = Parser::from('https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top');
 
-        $this->assertInstanceOf(QueryBag::class, $parser->getQueryBag());
+        $this->assertInstanceOf(QueryBag::class, $parser->query);
     }
 
     public function test_should_have_schema_https()

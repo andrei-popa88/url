@@ -42,8 +42,8 @@ The path and query are kept in separte bags and can be accessed by getting the b
 ```php
 http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
 
-echo $parser->getQueryBag()->getFirstQueryParam(); // networking
-echo $parser->getQueryBag()->getLastQueryParam(); // 2015-11-12
+echo $parser->getQueryBag()->getFirst(); // networking
+echo $parser->getQueryBag()->getLast(); // 2015-11-12
 echo $parser->getQueryBag()->get('tag'); // networking
 ...
 ````
@@ -53,8 +53,8 @@ echo $parser->getQueryBag()->get('tag'); // networking
 ```php
 http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
 
-echo $parser->getPathBag()->getFirstPathParam(); // forum
-echo $parser->getPathBag()->getLastPathParam(); // questions
+echo $parser->getPathBag()->getFirst(); // forum
+echo $parser->getPathBag()->getLast(); // questions
 echo $parser->getPathBag()->get(0); // forum
 ...
 ````

@@ -11,21 +11,21 @@ class PathBagTest extends TestCase
     {
         $url = 'https://john.doe@www.example.com:123?tag=networking&order=newest#top';
         $parser = Parser::from($url);
-        $this->assertEquals(true, empty($parser->getPathBag()->all()));
+        $this->assertEquals(true, empty($parser->path->all()));
     }
 
     public function test_should_have_components()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
-        $this->assertEquals(['forum', 'questions'], $parser->getPathBag()->all());
+        $this->assertEquals(['forum', 'questions'], $parser->path->all());
     }
 
     public function test_get_first_path()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
         $parser = Parser::from($url);
-        $this->assertEquals('forum', $parser->getPathBag()->getFirstPathParam());
+        $this->assertEquals('forum', $parser->path->getFirst());
     }
 
     public function test_get_last_path()
@@ -33,7 +33,7 @@ class PathBagTest extends TestCase
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
         $parser = Parser::from($url);
 
-        $this->assertEquals('assert', $parser->getPathBag()->getLastPathParam());
+        $this->assertEquals('assert', $parser->path->getLast());
     }
 
     public function test_has_path()
@@ -41,27 +41,27 @@ class PathBagTest extends TestCase
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
         $parser = Parser::from($url);
 
-        $this->assertEquals(true, $parser->getPathBag()->has(1));
+        $this->assertEquals(true, $parser->path->has(1));
     }
 
     public function test_does_not_have_path()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
         $parser = Parser::from($url);
-        $this->assertEquals(false, $parser->getPathBag()->has(11));
+        $this->assertEquals(false, $parser->path->has(11));
     }
 
     public function test_has_path_with_get()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
         $parser = Parser::from($url);
-        $this->assertEquals('forum', $parser->getPathBag()->get(0));
+        $this->assertEquals('forum', $parser->path->get(0));
     }
 
     public function test_does_not_have_path_with_get()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
         $parser = Parser::from($url);
-        $this->assertEquals(null, $parser->getPathBag()->get(11));
+        $this->assertEquals(null, $parser->path->get(11));
     }
 }

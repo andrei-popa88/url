@@ -26,7 +26,7 @@ class PathBag
     /**
      * @return mixed
      */
-    public function getLastPathParam(): ?string
+    public function getLast(): ?string
     {
         $arrayKeys = array_keys($this->pathComponents);
 
@@ -40,7 +40,7 @@ class PathBag
     /**
      * @return null|string
      */
-    public function getFirstPathParam(): ?string
+    public function getFirst(): ?string
     {
         return $this->has(0) ? $this->get(0) : null;
     }

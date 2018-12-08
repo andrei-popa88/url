@@ -11,7 +11,7 @@ class QueryBagTest extends TestCase
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/';
         $parser = Parser::from($url);
-        $this->assertEquals(true, empty($parser->getQueryBag()->all()));
+        $this->assertEquals(true, empty($parser->query->all()));
     }
 
     public function test_not_empty_query()
@@ -22,48 +22,48 @@ class QueryBagTest extends TestCase
                 'tag' => 'networking',
                 'order' => 'newest',
                 'date' => '2015-11-12'
-        ], $parser->getQueryBag()->all());
+        ], $parser->query->all());
     }
 
     public function test_get_first_query_param()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
-        $this->assertEquals('networking', $parser->getQueryBag()->getFirstQueryParam());
+        $this->assertEquals('networking', $parser->query->getFirst());
     }
 
     public function test_get_last_query_param()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
-        $this->assertEquals('2015-11-12', $parser->getQueryBag()->getLastQueryParam());
+        $this->assertEquals('2015-11-12', $parser->query->getLast());
     }
 
     public function test_has_param()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
-        $this->assertEquals(true, $parser->getQueryBag()->has('tag'));
+        $this->assertEquals(true, $parser->query->has('tag'));
     }
 
     public function test_does_not_have_param()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
-        $this->assertEquals(false, $parser->getQueryBag()->has('invalid_param'));
+        $this->assertEquals(false, $parser->query->has('invalid_param'));
     }
 
     public function test_has_param_by_get()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
-        $this->assertEquals('newest', $parser->getQueryBag()->get('order'));
+        $this->assertEquals('newest', $parser->query->get('order'));
     }
 
     public function test_does_not_has_param_by_get()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
-        $this->assertEquals(null, $parser->getQueryBag()->get('invalid_param'));
+        $this->assertEquals(null, $parser->query->get('invalid_param'));
     }
 }
