@@ -20,12 +20,19 @@ require 'vendor/autoload.php';
 
 $urlString = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
 
-$url = Parser::from($urlString);
+$parser = Parser::from($urlString);
 
-echo $url->parser->getHost(); // www.example.com
-echo $url->parser->getSchema(); // http
-echo $url->parser->getAuthority(); // john.doe@www.example.com:123
-...
+echo $parser->getHost(); // www.example.com
+echo $parser->getSchema(); // http
+echo $parser->getAuthority(); // john.doe@www.example.com:123
+
+// you can also do
+
+echo Parser::from($urlString)->getHost(); // www.example.com
+echo Parser::from($urlString)->getSchema(); // http
+echo Parser::from($urlString)->getAuthority(); // john.doe@www.example.com:123
+
+// But this will create a new class every time
 ````
 
 The path and query are kept in separte bags and can be accessed by getting the bag
@@ -35,9 +42,9 @@ The path and query are kept in separte bags and can be accessed by getting the b
 ```php
 http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
 
-echo $url->parser->getQueryBag()->getFirstQueryParam(); // networking
-echo $url->parser->getQueryBag()->getLastQueryParam(); // 2015-11-12
-echo $url->parser->getQueryBag()->get('tag'); // networking
+echo $parser->getQueryBag()->getFirstQueryParam(); // networking
+echo $parser->getQueryBag()->getLastQueryParam(); // 2015-11-12
+echo $parser->getQueryBag()->get('tag'); // networking
 ...
 ````
 
@@ -46,9 +53,9 @@ echo $url->parser->getQueryBag()->get('tag'); // networking
 ```php
 http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
 
-echo $url->parser->getPathBag()->getFirstPathParam(); // forum
-echo $url->parser->getPathBag()->getLastPathParam(); // questions
-echo $url->parser->getPathBag()->get(0); // forum
+echo $parser->getPathBag()->getFirstPathParam(); // forum
+echo $parser->getPathBag()->getLastPathParam(); // questions
+echo $parser->getPathBag()->get(0); // forum
 ...
 ````
 
