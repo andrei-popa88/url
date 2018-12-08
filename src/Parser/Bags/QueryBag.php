@@ -41,9 +41,9 @@ class QueryBag
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function original()
+    public function original(): ?string
     {
         return $this->queryString;
     }
