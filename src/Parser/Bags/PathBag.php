@@ -16,11 +16,25 @@ class PathBag
     private $pathComponents = [];
 
     /**
+     * @var null
+     */
+    private $pathString = null;
+
+    /**
      * @param string $path
      */
     public function buildPathComponents(string $path): void
     {
         $this->pathComponents = explode('/', trim($path, '/'));
+        $this->pathString = $path;
+    }
+
+    /**
+     * @return null
+     */
+    public function original()
+    {
+        return $this->pathString;
     }
 
     /**

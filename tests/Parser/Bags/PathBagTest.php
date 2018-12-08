@@ -64,4 +64,18 @@ class PathBagTest extends TestCase
         $parser = Parser::from($url);
         $this->assertEquals(null, $parser->path->get(11));
     }
+
+    public function test_get_original_path_not_null()
+    {
+        $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
+        $parser = Parser::from($url);
+        $this->assertEquals('/forum/questions/phpunit/assert', $parser->path->original());
+    }
+
+    public function test_get_original_path_null()
+    {
+        $url = 'http://john.doe@www.example.com:123?tag=networking&order=newest#top';
+        $parser = Parser::from($url);
+        $this->assertEquals(null, $parser->path->original());
+    }
 }

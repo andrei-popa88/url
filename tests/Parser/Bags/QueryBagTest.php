@@ -66,4 +66,18 @@ class QueryBagTest extends TestCase
         $parser = Parser::from($url);
         $this->assertEquals(null, $parser->query->get('invalid_param'));
     }
+
+    public function test_get_original_path_not_null()
+    {
+        $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
+        $parser = Parser::from($url);
+        $this->assertEquals('tag=networking&order=newest', $parser->query->original());
+    }
+
+    public function test_get_original_path_null()
+    {
+        $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert#top';
+        $parser = Parser::from($url);
+        $this->assertEquals(null, $parser->query->original());
+    }
 }

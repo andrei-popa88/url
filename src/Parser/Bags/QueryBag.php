@@ -16,6 +16,11 @@ class QueryBag
     private $queryComponents = [];
 
     /**
+     * @var string
+     */
+    private $queryString = null;
+
+    /**
      * @param string $query
      */
     public function buildQueryComponents(string $query): void
@@ -31,6 +36,16 @@ class QueryBag
                 $this->queryComponents[$components[0]] = $components[1];
             }, $components);
         }
+
+        $this->queryString = $query;
+    }
+
+    /**
+     * @return string
+     */
+    public function original()
+    {
+        return $this->queryString;
     }
 
     /**
