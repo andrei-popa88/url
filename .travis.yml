@@ -7,4 +7,3 @@ before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 branches:
   only: develop
-test commit
