@@ -27,12 +27,11 @@ echo $parser->getSchema(); // http
 echo $parser->getAuthority(); // john.doe@www.example.com:123
 
 // you can also do
-
 echo Parser::from($urlString)->getHost(); // www.example.com
 echo Parser::from($urlString)->getSchema(); // http
 echo Parser::from($urlString)->getAuthority(); // john.doe@www.example.com:123
 
-// But this will create a new class every time
+// But this will create a new class instance every time
 ````
 
 The path and query are kept in separte bags and can be accessed by getting the bag
@@ -42,9 +41,9 @@ The path and query are kept in separte bags and can be accessed by getting the b
 ```php
 http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
 
-echo $parser->getQueryBag()->getFirst(); // networking
-echo $parser->getQueryBag()->getLast(); // 2015-11-12
-echo $parser->getQueryBag()->get('tag'); // networking
+echo $parser->query->getFirst(); // networking
+echo $parser->query->getLast(); // 2015-11-12
+echo $parser->query->get('tag'); // networking
 ...
 ````
 
@@ -53,9 +52,9 @@ echo $parser->getQueryBag()->get('tag'); // networking
 ```php
 http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
 
-echo $parser->getPathBag()->getFirst(); // forum
-echo $parser->getPathBag()->getLast(); // questions
-echo $parser->getPathBag()->get(0); // forum
+echo $parser->path->getFirst(); // forum
+echo $parser->path->getLast(); // questions
+echo $parser->path->get(0); // forum
 ...
 ````
 
