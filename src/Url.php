@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Url;
+namespace Keppler\Url;
 
-use Url\Builder\UrlBuilder;
-use Url\Exceptions\MalformedUrlException;
-use Url\Parser\UrlParser;
+use Keppler\Url\Builder\UrlBuilder;
+use Keppler\Url\Exceptions\MalformedUrlException;
+use Keppler\Url\Exceptions\SchemaNotSupportedException;
+use Keppler\Url\Parser\UrlParser;
 
 /**
  * Class Url
@@ -50,7 +51,7 @@ class Url
 
         $schemaFromUrl = $schemaFromUrl['scheme'];
         if(!in_array($schemaFromUrl, $this->allowedSchemas)) {
-            throw new \Exception(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemas extend this class and roll your own implementation.", $this->allowedSchemas));
+            throw new SchemaNotSupportedException(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemas extend this class and roll your own implementation.", $this->allowedSchemas));
         }
 
         $this->parser = new UrlParser($url);
