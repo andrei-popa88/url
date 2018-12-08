@@ -82,13 +82,30 @@ class UrlParser
         $this->schema = $parsedUrl['scheme'] ?? null;
         $this->host = $parsedUrl['host'] ?? null;
         $this->port = $parsedUrl['port'] ?? null;
-        $this->username = $parsedUrl['username'] ?? null;
+        $this->username = $parsedUrl['user'] ?? null;
         $this->password = $parsedUrl['pass'] ?? null;
         $this->buildAuthority();
-        $this->fragment = $parsedUrl['fragment'] ?? null;
+
+        if(isset($parsedUrl['fragment'])) {
+            $this->buildFragment($parsedUrl['fragment']);
+        }
 
         ! isset($parsedUrl['path']) ?: $this->pathBag->buildPathComponents($parsedUrl['path']);
         ! isset($parsedUrl['query']) ?: $this->queryBag->buildQueryComponents($parsedUrl['query']);
+    }
+
+    /**
+     * @param null|string $fragments
+     */
+    private function buildFragment(?string $fragments): void
+    {
+        if(null === $fragments) {
+            $this->fragment = null;
+        }
+
+        // Explode by # and get ONLY the first entry regardless of how many there are
+        $fragments = explode('#', $fragments);
+        $this->fragment = $fragments[0];
     }
 
     /**
