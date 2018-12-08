@@ -30,9 +30,9 @@ class PathBag
     }
 
     /**
-     * @return null
+     * @return string
      */
-    public function original()
+    public function original(): ?string
     {
         return $this->pathString;
     }

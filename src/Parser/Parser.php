@@ -103,7 +103,6 @@ class Parser
     private function parseUrl(string $url): void
     {
         $parsedUrl = parse_url($url);
-        print_r($parsedUrl);
 
         $this->schema = $parsedUrl['scheme'] ?? null;
         $this->host = $parsedUrl['host'] ?? null;
