@@ -33,7 +33,7 @@ echo $url->parser->getAuthority(); // john.doe@www.example.com:123
 
 The path and query are kept in separte bags and can be accessed by getting the bag
 
-## The query bag:
+#### The query bag:
 
 ```php
 http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
@@ -44,7 +44,7 @@ echo $url->parser->getQueryBag()->get('tag'); // networking
 ...
 ````
 
-## The path bag
+#### The path bag
 
 ```php
 http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
