@@ -11,19 +11,16 @@ It has a lot more features that this package offers and should be used for large
 
 This package contains 2 parts. The parser and the builder.
 
-Both are accessed using the class
-```php
-Keppler\Url\Url
-````
-
 ## Parser
+
+The parser is immutable
 
 ```php
 require 'vendor/autoload.php';
 
 $urlString = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
 
-$url = Url::from($urlString);
+$url = Parser::from($urlString);
 
 echo $url->parser->getHost(); // www.example.com
 echo $url->parser->getSchema(); // http
