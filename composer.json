@@ -1,11 +1,11 @@
 {
-    "name": "keppler/url-parser",
+    "name": "keppler/url",
     "description": "Url manipulation",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Keppler Pl",
+            "name": "Keppler",
             "email": "andrew.danse@gmail.com"
         }
     ],
