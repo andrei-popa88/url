@@ -21,9 +21,9 @@ Keppler\Url\Url
 ```php
 require 'vendor/autoload.php';
 
-$toParse = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
+$urlString = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
 
-$url = new Keppler\Url\Url($toParse);
+$url = Url::from($urlString);
 
 echo $url->parser->getHost(); // www.example.com
 echo $url->parser->getSchema(); // http
