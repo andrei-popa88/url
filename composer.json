@@ -13,7 +13,15 @@
     "require": {
         "php": ">=7.1"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^6.4"
+    },
     "autoload": {
-        "psr-4": { "Url\\": "src/" }
+        "psr-4": { "Keppler\\Url\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Keppler\\Url\\Test\\": "tests"
+        }
     }
 }
