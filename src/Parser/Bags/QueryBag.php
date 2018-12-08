@@ -36,7 +36,7 @@ class QueryBag
     /**
      * @return int|null|string
      */
-    public function getFirst(): ?string
+    public function first(): ?string
     {
         return $this->queryComponents[key($this->queryComponents)];
     }
@@ -44,7 +44,7 @@ class QueryBag
     /**
      * @return mixed
      */
-    public function getLast(): ?string
+    public function last(): ?string
     {
         $array = $this->queryComponents;
         reset($array);

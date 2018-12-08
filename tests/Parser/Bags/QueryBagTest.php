@@ -29,14 +29,14 @@ class QueryBagTest extends TestCase
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
-        $this->assertEquals('networking', $parser->query->getFirst());
+        $this->assertEquals('networking', $parser->query->first());
     }
 
     public function test_get_last_query_param()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
-        $this->assertEquals('2015-11-12', $parser->query->getLast());
+        $this->assertEquals('2015-11-12', $parser->query->last());
     }
 
     public function test_has_param()
