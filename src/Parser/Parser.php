@@ -3,16 +3,26 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Parser;
 
-use Keppler\Url\Bags\PathBag;
-use Keppler\Url\Bags\QueryBag;
+use Keppler\Url\Parser\Bags\PathBag;
+use Keppler\Url\Parser\Bags\QueryBag;
+use Keppler\Url\Parser\Exceptions\MalformedUrlException;
+use Keppler\Url\Parser\Exceptions\SchemaNotSupportedException;
 
 /**
- * Immutable Class UrlParser
+ * Immutable Class Parser
  *
  * @package Url\Parser
  */
-class UrlParser
+class Parser
 {
+    /**
+     * @var array
+     */
+    protected $allowedSchemas = [
+        'http',
+        'https',
+        'mailto',
+    ];
 
     /**
      * @var
@@ -60,15 +70,31 @@ class UrlParser
     private $port = null;
 
     /**
-     * UrlParser constructor.
-     *
      * @param string $url
+     *
+     * @return Parser
+     * @throws MalformedUrlException
+     * @throws SchemaNotSupportedException
      */
-    public function __construct(string $url)
+    public static function from(string $url): self
     {
-        $this->queryBag = new QueryBag();
-        $this->pathBag = new PathBag();
-        $this->parseUrl($url);
+        $self = new self();
+        $schemaFromUrl = parse_url($url);
+
+        if(!isset($schemaFromUrl['scheme'])) {
+            throw new MalformedUrlException("Missing scheme");
+        }
+
+        $schemaFromUrl = $schemaFromUrl['scheme'];
+        if(!in_array($schemaFromUrl, $self->allowedSchemas)) {
+            throw new SchemaNotSupportedException(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemas extend this class and roll your own implementation.", $self->allowedSchemas));
+        }
+
+        $self->queryBag = new QueryBag();
+        $self->pathBag = new PathBag();
+        $self->parseUrl($url);
+
+        return $self;
     }
 
     /**

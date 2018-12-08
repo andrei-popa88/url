@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Bags;
+namespace Keppler\Url\Parser\Bags;
 
 /**
  * Class PathBag
