@@ -16,17 +16,31 @@ class PathBag
     private $pathComponents = [];
 
     /**
+     * @var null
+     */
+    private $pathString = null;
+
+    /**
      * @param string $path
      */
     public function buildPathComponents(string $path): void
     {
         $this->pathComponents = explode('/', trim($path, '/'));
+        $this->pathString = $path;
+    }
+
+    /**
+     * @return null
+     */
+    public function original()
+    {
+        return $this->pathString;
     }
 
     /**
      * @return mixed
      */
-    public function getLast(): ?string
+    public function last(): ?string
     {
         $arrayKeys = array_keys($this->pathComponents);
 
@@ -40,7 +54,7 @@ class PathBag
     /**
      * @return null|string
      */
-    public function getFirst(): ?string
+    public function first(): ?string
     {
         return $this->has(0) ? $this->get(0) : null;
     }

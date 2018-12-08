@@ -29,14 +29,14 @@ class QueryBagTest extends TestCase
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
-        $this->assertEquals('networking', $parser->query->getFirst());
+        $this->assertEquals('networking', $parser->query->first());
     }
 
     public function test_get_last_query_param()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
-        $this->assertEquals('2015-11-12', $parser->query->getLast());
+        $this->assertEquals('2015-11-12', $parser->query->last());
     }
 
     public function test_has_param()
@@ -65,5 +65,19 @@ class QueryBagTest extends TestCase
         $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
         $parser = Parser::from($url);
         $this->assertEquals(null, $parser->query->get('invalid_param'));
+    }
+
+    public function test_get_original_path_not_null()
+    {
+        $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
+        $parser = Parser::from($url);
+        $this->assertEquals('tag=networking&order=newest', $parser->query->original());
+    }
+
+    public function test_get_original_path_null()
+    {
+        $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert#top';
+        $parser = Parser::from($url);
+        $this->assertEquals(null, $parser->query->original());
     }
 }
