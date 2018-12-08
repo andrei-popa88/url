@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Url\Bags;
+namespace Keppler\Url\Bags;
 
 /**
  * Class QueryBag

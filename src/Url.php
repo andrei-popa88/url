@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Url;
+namespace Keppler\Url;
 
-use Url\Builder\UrlBuilder;
-use Url\Exceptions\MalformedUrlException;
-use Url\Parser\UrlParser;
+use Keppler\Url\Builder\UrlBuilder;
+use Keppler\Url\Exceptions\MalformedUrlException;
+use Keppler\Url\Parser\UrlParser;
 
 /**
  * Class Url

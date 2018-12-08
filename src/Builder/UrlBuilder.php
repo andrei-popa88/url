@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Url\Builder;
+namespace Keppler\Url\Builder;
 
-use Url\Parser\UrlParser;
+use Keppler\Url\Parser\UrlParser;
 
 /**
  * Class UrlBuilder

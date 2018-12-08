@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
 
-namespace Url\Exceptions;
+namespace Keppler\Url\Exceptions;
 
 class MalformedUrlException extends \Exception{};
