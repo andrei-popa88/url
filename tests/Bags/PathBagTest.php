@@ -25,14 +25,14 @@ class PathBagTest extends TestCase
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
         $urlClass = new Url($url);
-        $this->assertEquals('forum', $urlClass->parser->getPathBag()->getFirstPath());
+        $this->assertEquals('forum', $urlClass->parser->getPathBag()->getFirstPathParam());
     }
 
     public function test_get_last_path()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
         $urlClass = new Url($url);
-        $this->assertEquals('assert', $urlClass->parser->getPathBag()->getLastPath());
+        $this->assertEquals('assert', $urlClass->parser->getPathBag()->getLastPathParam());
     }
 
     public function test_has_path()

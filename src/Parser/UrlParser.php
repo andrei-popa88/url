@@ -171,14 +171,6 @@ class UrlParser
     }
 
     /**
-     * @return string
-     */
-    public function getFirstPath(): string
-    {
-        return $this->pathBag->get(1);
-    }
-
-    /**
      * @return null|string
      */
     public function getSchema(): ?string
