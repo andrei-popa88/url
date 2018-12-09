@@ -24,6 +24,9 @@ require 'vendor/autoload.php';
 $urlString = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
 
 $parser = Parser::from($urlString);
+// OR
+$parser = new Parser();
+$parser->parseUrl($urlString);
 
 echo $parser->getHost(); // www.example.com
 echo $parser->getSchema(); // http
