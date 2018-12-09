@@ -1,6 +1,6 @@
 <?php
 
-namespace Keppler\Url\Test;
+namespace Keppler\Url\Test\Parser\Bags;
 
 use Keppler\Url\Parser\Parser;
 use PHPUnit\Framework\TestCase;

@@ -13,7 +13,7 @@ abstract class AbstractUrl
     /**
      * @var string
      */
-    protected $original;
+    protected $original = null;
 
     /**
      * @var

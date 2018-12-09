@@ -6,7 +6,7 @@ namespace Keppler\Url\Builder;
 use Keppler\Url\AbstractUrl;
 use Keppler\Url\Builder\Bags\PathBag;
 use Keppler\Url\Builder\Bags\QueryBag;
-use Keppler\Url\Parser\Exceptions\SchemaNotSupportedException;
+use Keppler\Url\Exceptions\SchemaNotSupportedException;
 use Keppler\Url\Parser\Parser;
 
 /**
@@ -25,6 +25,15 @@ class Builder extends AbstractUrl
      * @var QueryBag
      */
     public $query;
+
+    /**
+     * Builder constructor.
+     */
+    public function __construct()
+    {
+        $this->query = new QueryBag();
+        $this->path = new PathBag();
+    }
 
     /**
      * @param Parser $parser
@@ -50,7 +59,6 @@ class Builder extends AbstractUrl
         $self->query->setQueryComponents($parser->query->all());
         return $self;
     }
-//$toParse = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
 
     /**
      * @param string $scheme
@@ -127,5 +135,55 @@ class Builder extends AbstractUrl
         $this->port = $port;
 
         return $this;
+    }
+
+    /**
+     * Builds the authority by appending username:password@host:port
+     */
+    private function buildAuthority(): string
+    {
+        $authority = '';
+
+        if (null !== $this->username) {
+            $authority .= $this->username;
+
+            if (null !== $this->password) {
+                $authority .= ':'.$this->password.'@';
+            } else {
+                $authority .= '@';
+            }
+        }
+
+        $authority .= $this->host;
+
+        if (null !== $this->port) {
+            $authority .= ':'.$this->port;
+        }
+
+        return $authority;
+    }
+
+    /**
+     * @param bool $withTrailingSlash
+     *
+     * @return string
+     */
+    public function getUrl(bool $withTrailingSlash = false): string
+    {
+        $url = '';
+
+        if(null === $this->schema || null === $this->host) {
+            throw new \LogicException("At least the schema and the host must be present.");
+        }
+
+        $url .= $this->schema . '://';
+        $url .= $this->buildAuthority();
+        $url .= $this->path->getPath($withTrailingSlash);
+        $url .= $this->query->buildQuery();
+        if(null !== $this->fragment) {
+            $url .= '#' . $this->fragment;
+        }
+
+        return $url;
     }
 }

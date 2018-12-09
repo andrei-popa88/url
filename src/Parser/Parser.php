@@ -6,8 +6,8 @@ namespace Keppler\Url\Parser;
 use Keppler\Url\AbstractUrl;
 use Keppler\Url\Parser\Bags\PathBag;
 use Keppler\Url\Parser\Bags\QueryBag;
-use Keppler\Url\Parser\Exceptions\MalformedUrlException;
-use Keppler\Url\Parser\Exceptions\SchemaNotSupportedException;
+use Keppler\Url\Exceptions\MalformedUrlException;
+use Keppler\Url\Exceptions\SchemaNotSupportedException;
 
 /**
  * Immutable Class Parser
