@@ -7,12 +7,10 @@ This package contains 2 parts. The parser and the builder.
 
 #### Both can be used individually if you so desire.
 
-The parser will simply parse a url and make available its parts. However you cannot modify them using this class directly. For all intents and purposes it's immutable.
+The parser will simply parse a url and make its parts available. However you cannot modify them using this class directly. For all intents and purposes it's immutable.
 
 The builder allows you to modify a url.
 However you cannot retrieve information directly from it(for example you cannot do $builder->getHost()), you can only modify the existing parts of the url.
-
-You can find information about each bellow.
 
 ## Parser
 
@@ -80,7 +78,7 @@ echo $parser
 
 Like the Parser, the Builder has a path and a query bag.
 
-All setters are fluent with the class that they belong to. Read the below code.
+All setters are fluent with the class that they belong to.
 
 ```php
 require 'vendor/autoload.php';
@@ -89,6 +87,10 @@ $urlString = 'http://john.doe@www.example.com:123/forum/questions/?tag=networkin
 
 $parser = Parser::from($urlString);
 $builder = Builder::from($parser);
+// OR
+$builder = new Builder();
+// however you'll have to take care of setting all the necessary
+// parts of the url and it's more error prone
 
 // access the path bag
 $builder->path->insertAfter('forum', 'new_path_value');
