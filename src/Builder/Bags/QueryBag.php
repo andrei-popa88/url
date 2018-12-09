@@ -35,14 +35,14 @@ class QueryBag
      */
     public function buildQuery(): string
     {
-        if(empty($this->queryComponents)) {
+        if (empty($this->queryComponents)) {
             return '';
         }
 
         $query = '?';
 
-        foreach($this->queryComponents as $key => $value){
-            $query .= $key . '=' . $value . '&';
+        foreach ($this->queryComponents as $key => $value) {
+            $query .= $key.'='.$value.'&';
         }
 
         return rtrim($query, '&');
@@ -56,7 +56,7 @@ class QueryBag
      */
     public function remove(string $index): self
     {
-        if(!$this->has($index)){
+        if ( ! $this->has($index)) {
             throw new ComponentNotFoundException("The component does not exist.");
         }
 
@@ -85,21 +85,21 @@ class QueryBag
      */
     public function overwrite(array $components): self
     {
-        if(count($components) !== count($components, COUNT_RECURSIVE)) {
+        if (count($components) !== count($components, COUNT_RECURSIVE)) {
             throw new \Exception("Unable to accept multidimensional arrays");
         }
 
-        if(empty($components)) {
+        if (empty($components)) {
             throw new InvalidComponentsException("Cannot insert empty components");
         }
 
-        foreach($this->queryComponents as $key => $value) {
-            foreach($components as $k => $v) {
-                if(!$this->has($k)){
+        foreach ($this->queryComponents as $key => $value) {
+            foreach ($components as $k => $v) {
+                if ( ! $this->has($k)) {
                     throw new ComponentNotFoundException("The component does not exist.");
                 }
 
-                if($key === $k) {
+                if ($key === $k) {
                     $this->queryComponents[$key] = $v;
                 }
             }
@@ -116,11 +116,11 @@ class QueryBag
      */
     public function append(array $components): self
     {
-        if(empty($components)) {
+        if (empty($components)) {
             throw new InvalidComponentsException("Cannot insert empty components");
         }
 
-        foreach($components as $key => $component) {
+        foreach ($components as $key => $component) {
             $this->queryComponents[$key] = $component;
         }
 
@@ -135,17 +135,17 @@ class QueryBag
      */
     public function prepend(array $components): self
     {
-        if(empty($components)) {
+        if (empty($components)) {
             throw new InvalidComponentsException("Cannot insert empty components");
         }
 
         $newComponents = [];
 
-        foreach($components as $key => $component) {
+        foreach ($components as $key => $component) {
             $newComponents[$key] = $component;
         }
 
-        foreach($this->queryComponents as $key => $component) {
+        foreach ($this->queryComponents as $key => $component) {
             $newComponents[$key] = $component;
         }
 
@@ -164,19 +164,19 @@ class QueryBag
      */
     public function insertAfter(string $index, array $components): self
     {
-        if(!$this->has($index)){
+        if ( ! $this->has($index)) {
             throw new ComponentNotFoundException("The component does not exist.");
         }
 
-        if(empty($components)) {
+        if (empty($components)) {
             throw new InvalidComponentsException("Cannot insert empty components");
         }
 
         $newComponents = [];
-        foreach($this->queryComponents as $key => $component){
+        foreach ($this->queryComponents as $key => $component) {
             $newComponents[$key] = $component;
-            if($index === $key){
-                foreach($components as $k => $v) {
+            if ($index === $key) {
+                foreach ($components as $k => $v) {
                     $newComponents[$k] = $v;
                 }
             }
@@ -186,7 +186,6 @@ class QueryBag
 
         return $this;
     }
-
 
     /**
      * @param string $index
@@ -198,18 +197,18 @@ class QueryBag
      */
     public function insertBefore(string $index, array $components): self
     {
-        if(!$this->has($index)){
+        if ( ! $this->has($index)) {
             throw new ComponentNotFoundException("The component does not exist.");
         }
 
-        if(empty($components)) {
+        if (empty($components)) {
             throw new InvalidComponentsException("Cannot insert empty components");
         }
 
         $newComponents = [];
-        foreach($this->queryComponents as $key => $component){
-            if($index === $key){
-                foreach($components as $k => $v) {
+        foreach ($this->queryComponents as $key => $component) {
+            if ($index === $key) {
+                foreach ($components as $k => $v) {
                     $newComponents[$k] = $v;
                 }
             }

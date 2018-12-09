@@ -28,11 +28,12 @@ abstract class AbstractUrl
     /**
      * @var array
      */
-    protected $allowedSchemas = [
-        'http',
-        'https',
-        'mailto',
-    ];
+    protected $allowedSchemas
+        = [
+            'http',
+            'https',
+            'mailto',
+        ];
 
     /**
      * @var

@@ -57,6 +57,7 @@ class Builder extends AbstractUrl
 
         $self->path->setPathComponents($parser->path->all());
         $self->query->setQueryComponents($parser->query->all());
+
         return $self;
     }
 
@@ -68,7 +69,7 @@ class Builder extends AbstractUrl
      */
     public function setScheme(string $scheme): self
     {
-        if(!in_array($scheme, $this->allowedSchemas)) {
+        if ( ! in_array($scheme, $this->allowedSchemas)) {
             throw new SchemaNotSupportedException("The scheme is not supported");
         }
 
@@ -172,16 +173,16 @@ class Builder extends AbstractUrl
     {
         $url = '';
 
-        if(null === $this->schema || null === $this->host) {
+        if (null === $this->schema || null === $this->host) {
             throw new \LogicException("At least the schema and the host must be present.");
         }
 
-        $url .= $this->schema . '://';
+        $url .= $this->schema.'://';
         $url .= $this->buildAuthority();
         $url .= $this->path->buildPath($withTrailingSlash);
         $url .= $this->query->buildQuery();
-        if(null !== $this->fragment) {
-            $url .= '#' . $this->fragment;
+        if (null !== $this->fragment) {
+            $url .= '#'.$this->fragment;
         }
 
         return $url;
