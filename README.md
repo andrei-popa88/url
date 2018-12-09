@@ -65,8 +65,6 @@ echo $parser->path->original(); // /forum/questions/
 All getters are fluent with the class that they belong to. Meaning you can't do something like this.
 
 ```php
-http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
-
 echo $parser->path->first()->getHost(); // <-- this will throw a fatal error as a new PathBag instance is
                                         //  returned and the setHost() method belongs to the Parser class
 ...
