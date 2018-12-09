@@ -68,7 +68,7 @@ All getters are fluent with the class that they belong to. Meaning you can't do 
 echo $parser
         ->path
         ->first()
-        ->getHost(); // <-- this will throw a fatal error as a new PathBag instance is
+        ->getHost(); // <-- this will throw a fatal error as a PathBag instance is
                      //  returned and the setHost() method belongs to the Parser class
 ...
 ````
@@ -122,7 +122,7 @@ echo $builder->getUrl(false); // without trailing slash
 $builder
     ->path
     ->insertAfter('fatal', 'fatal')
-    ->setHost(); // <-- this will throw a fatal error as a new PathBag instance is
+    ->setHost(); // <-- this will throw a fatal error as a PathBag instance is
                  //  returned and the setHost() method belongs to the Builder class
 
 // however, nothing is stopping you from doing this
