@@ -43,8 +43,8 @@ The path and query are kept in separte bags and can be accessed by getting the b
 ```php
 http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
 
-echo $parser->query->first(); // networking
-echo $parser->query->last(); // 2015-11-12
+echo $parser->query->first(); // ['tag' => 'networking']
+echo $parser->query->last(); // ['date' => '2015-11-12']
 echo $parser->query->get('tag'); // networking
 echo $parser->query->original(); // tag=networking&order=newest&date=2015-11-12
 ...
