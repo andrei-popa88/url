@@ -30,7 +30,7 @@ class PathBag
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function original(): ?string
     {
@@ -38,24 +38,31 @@ class PathBag
     }
 
     /**
-     * @return mixed
+     * @return string
+     * @throws \LogicException
      */
     public function last(): ?string
     {
-        $arrayKeys = array_keys($this->pathComponents);
-
-        if(empty($arrayKeys)) {
-            return null;
+        if (empty($this->pathComponents)) {
+            throw new \LogicException("Cannot get last entry in empty array");
         }
 
-        return $this->pathComponents[max($arrayKeys)];
+        $arrayKeys = array_keys($this->pathComponents);
+
+        return ! empty($arrayKeys) ? $this->pathComponents[max($arrayKeys)]
+            : null;
     }
 
     /**
      * @return null|string
+     * @throws \LogicException
      */
     public function first(): ?string
     {
+        if (empty($this->pathComponents)) {
+            throw new \LogicException("Cannot get first entry in empty array");
+        }
+
         return $this->has(0) ? $this->get(0) : null;
     }
 
@@ -73,11 +80,17 @@ class PathBag
      * @param int $index
      *
      * @return string
+     *
+     * @throws \LogicException
      */
     public function get(int $index): ?string
     {
         if ($index < 0) {
             $index = abs($index);
+        }
+
+        if (empty($this->pathComponents)) {
+            throw new \LogicException("Path bag is empty");
         }
 
         return $this->has($index) ? $this->pathComponents[$index] : null;

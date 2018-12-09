@@ -54,7 +54,7 @@ class QueryBag
      */
     public function first(): array
     {
-        if(empty($this->queryComponents)) {
+        if (empty($this->queryComponents)) {
             throw new \LogicException("Cannot get first entry of an empty array");
         }
 
@@ -67,13 +67,14 @@ class QueryBag
      */
     public function last(): array
     {
-        if(empty($this->queryComponents)) {
+        if (empty($this->queryComponents)) {
             throw new \LogicException("Cannot get last entry of an empty array");
         }
 
         $array = $this->queryComponents;
         reset($array);
         end($array);
+
         return [key($array) => $this->queryComponents[key($array)]];
     }
 
@@ -94,7 +95,12 @@ class QueryBag
      */
     public function get(string $component): ?string
     {
-        return $this->has($component) ? $this->queryComponents[$component] : null;
+        if (empty($this->queryComponents)) {
+            throw new \LogicException("Query bag is empty");
+        }
+
+        return $this->has($component) ? $this->queryComponents[$component]
+            : null;
     }
 
     /**
