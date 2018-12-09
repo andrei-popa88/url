@@ -34,7 +34,6 @@ echo Parser::from($urlString)->getHost(); // www.example.com
 echo Parser::from($urlString)->getSchema(); // http
 echo Parser::from($urlString)->getAuthority(); // john.doe@www.example.com:123
 
-// But this will create a new class instance every time
 ````
 
 The path and query are kept in separte bags and can be accessed by getting the bag
