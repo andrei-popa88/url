@@ -106,7 +106,7 @@ class QueryBagTest extends TestCase
 
         $this->expectException(ComponentNotFoundException::class);
 
-        $builder->query->overwrite('invalid_component');
+        $builder->query->overwrite(['invalid' => 'invalid']);
     }
 
     public function test_insert_before_should_throw_exception_when_missing_component()
