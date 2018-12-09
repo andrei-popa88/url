@@ -15,7 +15,7 @@ class PathBag
     /**
      * @var array
      */
-    private $pathComponents = [];
+    protected $pathComponents = [];
 
     /**
      * @param array $pathComponents

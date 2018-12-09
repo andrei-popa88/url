@@ -16,7 +16,7 @@ class QueryBag
     /**
      * @var array
      */
-    private $queryComponents = [];
+    protected $queryComponents = [];
 
     /**
      * @param array $queryComponents

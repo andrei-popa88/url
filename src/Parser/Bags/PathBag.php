@@ -13,12 +13,12 @@ class PathBag
     /**
      * @var array
      */
-    private $pathComponents = [];
+    protected $pathComponents = [];
 
     /**
-     * @var null
+     * @var string | null
      */
-    private $pathString = null;
+    protected $pathString = null;
 
     /**
      * @param string $path

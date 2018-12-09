@@ -26,6 +26,14 @@ class Parser extends AbstractUrl
      */
     public $query;
 
+    /**
+     * Parser constructor.
+     */
+    public function __construct()
+    {
+        $this->query = new QueryBag();
+        $this->path = new PathBag();
+    }
 
     /**
      * @param string $url
@@ -37,18 +45,6 @@ class Parser extends AbstractUrl
     public static function from(string $url): self
     {
         $self = new self();
-        $schemaFromUrl = parse_url($url);
-
-        if ( ! isset($schemaFromUrl['scheme'])) {
-            throw new MalformedUrlException("Missing scheme");
-        }
-
-        $schemaFromUrl = $schemaFromUrl['scheme'];
-        if ( ! in_array($schemaFromUrl, $self->allowedSchemas)) {
-            throw new SchemaNotSupportedException(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemas extend this class and roll your own implementation.",
-                $self->allowedSchemas));
-        }
-
         $self->query = new QueryBag();
         $self->path = new PathBag();
         $self->parseUrl($url);
@@ -59,11 +55,25 @@ class Parser extends AbstractUrl
 
     /**
      * @param string $url
+     *
+     * @throws MalformedUrlException
+     * @throws SchemaNotSupportedException
      */
-    private function parseUrl(string $url): void
+    public function parseUrl(string $url): void
     {
         $parsedUrl = parse_url($url);
 
+        if ( ! isset($parsedUrl['scheme'])) {
+            throw new MalformedUrlException("Missing scheme");
+        }
+
+        $schemaFromUrl = $parsedUrl['scheme'];
+        if ( ! in_array($schemaFromUrl, $this->allowedSchemas)) {
+            throw new SchemaNotSupportedException(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemas extend this class and roll your own implementation.",
+                $this->allowedSchemas));
+        }
+
+        $this->original = $url;
         $this->schema = $parsedUrl['scheme'] ?? null;
         $this->host = $parsedUrl['host'] ?? null;
         $this->port = $parsedUrl['port'] ?? null;

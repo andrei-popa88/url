@@ -13,12 +13,12 @@ class QueryBag
     /**
      * @var array
      */
-    private $queryComponents = [];
+    protected $queryComponents = [];
 
     /**
-     * @var string
+     * @var string | null
      */
-    private $queryString = null;
+    protected $queryString = null;
 
     /**
      * @param string $query
