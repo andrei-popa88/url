@@ -65,8 +65,11 @@ echo $parser->path->original(); // /forum/questions/
 All getters are fluent with the class that they belong to. Meaning you can't do something like this.
 
 ```php
-echo $parser->path->first()->getHost(); // <-- this will throw a fatal error as a new PathBag instance is
-                                        //  returned and the setHost() method belongs to the Parser class
+echo $parser
+        ->path
+        ->first()
+        ->getHost(); // <-- this will throw a fatal error as a new PathBag instance is
+                     //  returned and the setHost() method belongs to the Parser class
 ...
 ````
 
@@ -79,7 +82,9 @@ All setters are fluent with the class that they belong to. Read the below code.
 ```php
 require 'vendor/autoload.php';
 
-$parser = Parser::from($url);
+$urlString = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top';
+
+$parser = Parser::from($urlString);
 $builder = Builder::from($parser);
 
 // access the path bag
@@ -87,14 +92,6 @@ $builder->path->insertAfter('forum', 'new_path_value');
 
 // access the query bag
 $builder->query->insertAfter('tag', ['new_query_index' => 'new_query_value']);
-
-// Please note that path/query setters are only fluent with themselfs meaning you can't do this
-
-$builder
-    ->path
-    ->insertAfter('fatal', 'fatal')
-    ->setHost(); // <-- this will throw a fatal error as a new PathBag instance is
-                 //  returned and the setHost() method belongs to the Builder class
 
 //$builder->path->overwrite('forum', 'new_value');
 //$builder->path->prepend('prepended');
@@ -119,6 +116,38 @@ echo $builder->getUrl(true); // withTrainingSlash - implicit value is true
 echo $builder->getUrl(false); // without trailing slash
 // http://keppler_pl:hunter2@www.google.com:987/forum/new_path_value/questions?tag=networking&new_query_index=new_query_value&order=newest#new_fragment
 ````
+
+````php
+
+// Please note that path/query setters are only fluent with themselfs meaning you can't do this
+$builder
+    ->path
+    ->insertAfter('fatal', 'fatal')
+    ->setHost(); // <-- this will throw a fatal error as a new PathBag instance is
+                 //  returned and the setHost() method belongs to the Builder class
+
+// however, nothing is stopping you from doing this
+
+$builder
+    ->path
+    ->insertAfter('forum', 'new_value')
+    ->remove('questions')
+    ->append('another_value');
+
+$builder
+    ->query
+    ->prepend(['new_query_index' => 'new_query_value'])
+    ->overwrite(['new_query_index'])
+    ->append(['yet_another_index' => 'yet_another_value']);
+
+$builder
+    ->setScheme('http')
+    ->setFragment('new_fragment')
+    ->setHost('www.google.com')
+    ->setUsername('keppler_pl')
+    ->setPassword('hunter2')
+    ->setPort(987);
+```
 
 You can also use the builder without the parsers, just create a new instance of it.
 
