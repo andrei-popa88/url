@@ -20,10 +20,14 @@ class QueryBag
 
     /**
      * @param array $queryComponents
+     *
+     * @return QueryBag
      */
-    public function setQueryComponents(array $queryComponents): void
+    public function setQueryComponents(array $queryComponents): self
     {
         $this->queryComponents = $queryComponents;
+
+        return $this;
     }
 
     /**
@@ -47,15 +51,18 @@ class QueryBag
     /**
      * @param string $index
      *
+     * @return QueryBag
      * @throws ComponentNotFoundException
      */
-    public function remove(string $index) : void
+    public function remove(string $index): self
     {
         if(!$this->has($index)){
             throw new ComponentNotFoundException("The component does not exist.");
         }
 
         unset($this->queryComponents[$index]);
+
+        return $this;
     }
 
     /**

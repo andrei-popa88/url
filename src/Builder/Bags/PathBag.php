@@ -19,18 +19,23 @@ class PathBag
 
     /**
      * @param array $pathComponents
+     *
+     * @return PathBag
      */
-    public function setPathComponents(array $pathComponents): void
+    public function setPathComponents(array $pathComponents): self
     {
         $this->pathComponents = $pathComponents;
+
+        return $this;
     }
 
     /**
      * @param string $component
      *
+     * @return PathBag
      * @throws ComponentNotFoundException
      */
-    public function remove(string $component): void
+    public function remove(string $component): self
     {
         if ( ! $this->has($component)) {
             throw new ComponentNotFoundException("The component does not exist.");
@@ -42,6 +47,8 @@ class PathBag
                 break;
             }
         }
+
+        return $this;
     }
 
     /**

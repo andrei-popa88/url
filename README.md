@@ -62,7 +62,21 @@ echo $parser->path->original(); // /forum/questions/
 ...
 ````
 
+All getters are fluent with the class that they belong to. Meaning you can't do something like this.
+
+```php
+http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&date=2015-11-12#top
+
+echo $parser->path->first()->getHost(); // <-- this will throw a fatal error as a new PathBag instance is
+                                        //  returned and the setHost() method belongs to the Parser class
+...
+````
+
 ## Builder
+
+Like the Parser, the Builder has a path and a query bag.
+
+All setters are fluent with the class that they belong to. Read the below code.
 
 ```php
 require 'vendor/autoload.php';
@@ -70,8 +84,20 @@ require 'vendor/autoload.php';
 $parser = Parser::from($url);
 $builder = Builder::from($parser);
 
+// access the path bag
 $builder->path->insertAfter('forum', 'new_path_value');
+
+// access the query bag
 $builder->query->insertAfter('tag', ['new_query_index' => 'new_query_value']);
+
+// Please note that path/query setters are only fluent with themselfs meaning you can't do this
+
+$builder
+    ->path
+    ->insertAfter('fatal', 'fatal')
+    ->setHost(); // <-- this will throw a fatal error as a new PathBag instance is
+                 //  returned and the setHost() method belongs to the Builder class
+
 //$builder->path->overwrite('forum', 'new_value');
 //$builder->path->prepend('prepended');
 //echo $builder->path->buildPath(); // /forum/new_path_value/questions/
