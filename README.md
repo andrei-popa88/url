@@ -5,6 +5,15 @@
 
 This package contains 2 parts. The parser and the builder.
 
+#### Both can be used individually if you so desire.
+
+The parser will simply parse a url and make available its parts. However you cannot modify them using this class directly. For all intents and purposes it's immutable.
+
+The builder allows you to modify a url.
+However you cannot retrieve information directly from it(for example you cannot do $builder->getHost()), you can only modify the existing parts of the url.
+
+You can find information about each bellow.
+
 ## Parser
 
 The parser is immutable
@@ -54,15 +63,60 @@ echo $parser->path->original(); // /forum/questions/
 ...
 ````
 
+## Builder
 
-## Instalation
+```php
+require 'vendor/autoload.php';
+
+$parser = Parser::from($url);
+$builder = Builder::from($parser);
+
+$builder->path->insertAfter('forum', 'new_path_value');
+$builder->query->insertAfter('tag', ['new_query_index' => 'new_query_value']);
+//$builder->path->overwrite('forum', 'new_value');
+//$builder->path->prepend('prepended');
+//echo $builder->path->buildPath(); // /forum/new_path_value/questions/
+//echo $builder->path->buildPath(false); // /forum/new_path_value/questions
+$builder->setScheme('http');
+$builder->setFragment('new_fragment');
+
+// or just chain them
+
+$builder
+    ->setScheme('http')
+    ->setFragment('new_fragment')
+    ->setHost('www.google.com')
+    ->setUsername('keppler_pl')
+    ->setPassword('hunter2')
+    ->setPort(987);
+
+echo $builder->getUrl(true); // withTrainingSlash - implicit value is true
+// http://keppler_pl:hunter2@www.google.com:987/forum/new_path_value/questions/?tag=networking&new_query_index=new_query_value&order=newest#new_fragment
+
+echo $builder->getUrl(false); // without trailing slash
+// http://keppler_pl:hunter2@www.google.com:987/forum/new_path_value/questions?tag=networking&new_query_index=new_query_value&order=newest#new_fragment
+````
+
+You can also use the builder without the parsers, just create a new instance of it.
+
+```php
+$builder = new Builder();
+
+$builder
+    ->setScheme('http')
+    ->setFragment('new_fragment')
+    ->setHost('www.google.com')
+    ->setUsername('keppler_pl')
+    ->setPassword('hunter2')
+    ->setPort(987);
+
+echo $builder->getUrl();
+// http://keppler_pl:hunter2@www.google.com:987#new_fragment
+````
+
+## Installation
 
 ```bash
 composer require keppler/url
 ````
 
------
-
-If you're looking for something more complex and a lot more stable I recommend https://uri.thephpleague.com/
-
-It has a lot more features that this package offers and should be used for larger websites.
