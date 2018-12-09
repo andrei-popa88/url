@@ -5,6 +5,8 @@
 
 This package contains 2 parts. The parser and the builder.
 
+###### [How to extend these classes and roll your own implementation](ROLLYOUROWN.md)
+
 #### Both can be used individually if you so desire.
 
 The parser will simply parse a url and make its parts available. However you cannot modify them using this class directly. For all intents and purposes it's immutable.
