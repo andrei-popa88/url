@@ -65,6 +65,6 @@ class BuilderTest extends TestCase
         $url = 'https://www.example.com/forum/questions';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $this->assertEquals($url, $builder->getUrl());
+        $this->assertEquals($url, $builder->getUrl(false));
     }
 }

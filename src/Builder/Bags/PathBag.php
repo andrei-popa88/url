@@ -26,17 +26,22 @@ class PathBag
     }
 
     /**
-     * @param string $index
+     * @param string $component
      *
      * @throws ComponentNotFoundException
      */
-    public function remove(string $index) : void
+    public function remove(string $component): void
     {
-        if(!$this->has($index)){
+        if ( ! $this->has($component)) {
             throw new ComponentNotFoundException("The component does not exist.");
         }
 
-        unset($this->pathComponents[$index]);
+        foreach ($this->pathComponents as $key => $pathComponent) {
+            if ($pathComponent === $component) {
+                unset($this->pathComponents[$key]);
+                break;
+            }
+        }
     }
 
     /**
@@ -48,12 +53,12 @@ class PathBag
      */
     public function overwrite(string $oldComponent, string $newComponent): self
     {
-        if(!$this->has($oldComponent)){
+        if ( ! $this->has($oldComponent)) {
             throw new ComponentNotFoundException("The component does not exist.");
         }
 
-        foreach($this->pathComponents as $key => $value) {
-            if($oldComponent === $value) {
+        foreach ($this->pathComponents as $key => $value) {
+            if ($oldComponent === $value) {
                 $this->pathComponents[$key] = $newComponent;
                 break;
             }
@@ -95,14 +100,14 @@ class PathBag
      */
     public function insertAfter(string $index, string $component): self
     {
-        if(!$this->has($index)){
+        if ( ! $this->has($index)) {
             throw new ComponentNotFoundException("The component does not exist.");
         }
 
         $newComponents = [];
-        foreach($this->pathComponents as $value){
+        foreach ($this->pathComponents as $value) {
             $newComponents[] = $value;
-            if($index === $value){
+            if ($index === $value) {
                 $newComponents[] = $component;
             }
         }
@@ -119,7 +124,7 @@ class PathBag
      */
     public function has(string $index): bool
     {
-        return in_array($index, $this->pathComponents);
+        return in_array(trim($index), $this->pathComponents);
     }
 
     /**
@@ -131,13 +136,13 @@ class PathBag
      */
     public function insertBefore(string $index, string $component): self
     {
-        if(!$this->has($index)){
+        if ( ! $this->has($index)) {
             throw new ComponentNotFoundException("The component does not exist.");
         }
 
         $newComponents = [];
-        foreach($this->pathComponents as $value){
-            if($index === $value){
+        foreach ($this->pathComponents as $value) {
+            if ($index === $value) {
                 $newComponents[] = $component;
             }
             $newComponents[] = $value;
@@ -153,16 +158,16 @@ class PathBag
      *
      * @return string
      */
-    public function getPath(bool $withTrailingSlash = true): string
+    public function buildPath(bool $withTrailingSlash = true): string
     {
-        if(empty($this->pathComponents)) {
+        if (empty($this->pathComponents)) {
             return '';
         }
 
         $path = '/';
 
-        array_map(function($value) use (&$path){
-            $path .= $value . '/';
+        array_map(function ($value) use (&$path) {
+            $path .= $value.'/';
         }, $this->pathComponents);
 
         return true === $withTrailingSlash ? $path : rtrim($path, '/');

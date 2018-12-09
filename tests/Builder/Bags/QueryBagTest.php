@@ -7,11 +7,11 @@ use Keppler\Url\Exceptions\ComponentNotFoundException;
 use Keppler\Url\Parser\Parser;
 use PHPUnit\Framework\TestCase;
 
-class PathBagTest extends TestCase
+class QueryBagTest extends TestCase
 {
     public function test_should_not_impact_build_without_components()
     {
-        $url = 'https://john.doe@www.example.com:123?tag=networking&order=newest#top';
+        $url = 'https://john.doe@www.example.com:123';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
 
@@ -23,9 +23,9 @@ class PathBagTest extends TestCase
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
+        $builder->query->remove('tag');
 
-        $builder->path->remove('forum');
-        $this->assertEquals('https://john.doe@www.example.com:123/questions/?tag=networking&order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?order=newest#top', ($builder->getUrl()));
     }
 
     public function test_should_overwrite_component()
@@ -33,9 +33,9 @@ class PathBagTest extends TestCase
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $builder->path->overwrite('forum', 'new_component');
+        $builder->query->overwrite(['tag' => 'new_value']);
 
-        $this->assertEquals('https://john.doe@www.example.com:123/new_component/questions/?tag=networking&order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?tag=new_value&order=newest#top', ($builder->getUrl()));
     }
 
     public function test_should_append_component()
@@ -43,9 +43,9 @@ class PathBagTest extends TestCase
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $builder->path->append('new_component');
+        $builder->query->append(['new_index' => 'new_value']);
 
-        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/new_component/?tag=networking&order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&new_index=new_value#top', ($builder->getUrl()));
     }
 
     public function test_should_prepend_component()
@@ -53,39 +53,38 @@ class PathBagTest extends TestCase
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $builder->path->prepend('new_component');
+        $builder->query->prepend(['new_index' => 'new_value']);
 
-        $this->assertEquals('https://john.doe@www.example.com:123/new_component/forum/questions/?tag=networking&order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?new_index=new_value&tag=networking&order=newest#top', ($builder->getUrl()));
     }
 
     public function test_should_insert_after_component()
     {
-        $url = 'https://john.doe@www.example.com:123/forum/questions/phpunit/exceptions/?tag=networking&order=newest#top';
+        $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $builder->path->insertAfter('questions', 'new_value');
+        $builder->query->insertAfter('tag', ['new_index' => 'new_value']);
 
-        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/new_value/phpunit/exceptions/?tag=networking&order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?tag=networking&new_index=new_value&order=newest#top', ($builder->getUrl()));
     }
 
     public function test_should_insert_before_component()
     {
-        $url = 'https://john.doe@www.example.com:123/forum/questions/phpunit/exceptions/?tag=networking&order=newest#top';
+        $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $builder->path->insertBefore('questions', 'new_value');
+        $builder->query->insertBefore('tag', ['new_index' => 'new_value']);
 
-        $this->assertEquals('https://john.doe@www.example.com:123/forum/new_value/questions/phpunit/exceptions/?tag=networking&order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?new_index=new_value&tag=networking&order=newest#top', ($builder->getUrl()));
     }
 
-    public function test_should_build_correct_path()
+    public function test_should_build_correct_query()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/phpunit/exceptions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $builder->path->buildPath();
 
-        $this->assertEquals('/forum/questions/phpunit/exceptions/', ($builder->path->buildPath()));
+        $this->assertEquals('?tag=networking&order=newest', ($builder->query->buildQuery()));
     }
 
     public function test_remove_should_throw_exception_when_missing_component()
@@ -96,7 +95,7 @@ class PathBagTest extends TestCase
 
         $this->expectException(ComponentNotFoundException::class);
 
-        $builder->path->remove('invalid_component');
+        $builder->query->remove('invalid_component');
     }
 
     public function test_overwrite_should_throw_exception_when_missing_component()
@@ -107,7 +106,7 @@ class PathBagTest extends TestCase
 
         $this->expectException(ComponentNotFoundException::class);
 
-        $builder->path->overwrite('invalid_component', '');
+        $builder->query->overwrite('invalid_component');
     }
 
     public function test_insert_before_should_throw_exception_when_missing_component()
@@ -118,7 +117,7 @@ class PathBagTest extends TestCase
 
         $this->expectException(ComponentNotFoundException::class);
 
-        $builder->path->insertBefore('invalid_component', '');
+        $builder->query->insertBefore('invalid_component', []);
     }
 
     public function test_insert_after_should_throw_exception_when_missing_component()
@@ -129,6 +128,6 @@ class PathBagTest extends TestCase
 
         $this->expectException(ComponentNotFoundException::class);
 
-        $builder->path->insertAfter('invalid_component', '');
+        $builder->query->insertAfter('invalid_component', []);
     }
 }

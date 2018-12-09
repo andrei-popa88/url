@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Keppler\Url\Builder\Bags;
 
 use Keppler\Url\Exceptions\ComponentNotFoundException;
+use Keppler\Url\Exceptions\InvalidComponentsException;
 
 /**
  * Class QueryBag
@@ -72,12 +73,17 @@ class QueryBag
      *
      * @return QueryBag
      * @throws ComponentNotFoundException
+     * @throws InvalidComponentsException
      * @throws \Exception
      */
     public function overwrite(array $components): self
     {
         if(count($components) !== count($components, COUNT_RECURSIVE)) {
             throw new \Exception("Unable to accept multidimensional arrays");
+        }
+
+        if(empty($components)) {
+            throw new InvalidComponentsException("Cannot insert empty components");
         }
 
         foreach($this->queryComponents as $key => $value) {
@@ -99,9 +105,14 @@ class QueryBag
      * @param array $components
      *
      * @return QueryBag
+     * @throws InvalidComponentsException
      */
     public function append(array $components): self
     {
+        if(empty($components)) {
+            throw new InvalidComponentsException("Cannot insert empty components");
+        }
+
         foreach($components as $key => $component) {
             $this->queryComponents[$key] = $component;
         }
@@ -113,9 +124,14 @@ class QueryBag
      * @param array $components
      *
      * @return QueryBag
+     * @throws InvalidComponentsException
      */
     public function prepend(array $components): self
     {
+        if(empty($components)) {
+            throw new InvalidComponentsException("Cannot insert empty components");
+        }
+
         $newComponents = [];
 
         foreach($components as $key => $component) {
@@ -126,20 +142,27 @@ class QueryBag
             $newComponents[$key] = $component;
         }
 
+        $this->queryComponents = $newComponents;
+
         return $this;
     }
 
     /**
      * @param string $index
-     * @param array $components
+     * @param array  $components
      *
      * @return QueryBag
      * @throws ComponentNotFoundException
+     * @throws InvalidComponentsException
      */
     public function insertAfter(string $index, array $components): self
     {
         if(!$this->has($index)){
             throw new ComponentNotFoundException("The component does not exist.");
+        }
+
+        if(empty($components)) {
+            throw new InvalidComponentsException("Cannot insert empty components");
         }
 
         $newComponents = [];
@@ -160,15 +183,20 @@ class QueryBag
 
     /**
      * @param string $index
-     * @param array $components
+     * @param array  $components
      *
      * @return QueryBag
      * @throws ComponentNotFoundException
+     * @throws InvalidComponentsException
      */
     public function insertBefore(string $index, array $components): self
     {
         if(!$this->has($index)){
             throw new ComponentNotFoundException("The component does not exist.");
+        }
+
+        if(empty($components)) {
+            throw new InvalidComponentsException("Cannot insert empty components");
         }
 
         $newComponents = [];

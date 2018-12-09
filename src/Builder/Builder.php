@@ -168,7 +168,7 @@ class Builder extends AbstractUrl
      *
      * @return string
      */
-    public function getUrl(bool $withTrailingSlash = false): string
+    public function getUrl(bool $withTrailingSlash = true): string
     {
         $url = '';
 
@@ -178,7 +178,7 @@ class Builder extends AbstractUrl
 
         $url .= $this->schema . '://';
         $url .= $this->buildAuthority();
-        $url .= $this->path->getPath($withTrailingSlash);
+        $url .= $this->path->buildPath($withTrailingSlash);
         $url .= $this->query->buildQuery();
         if(null !== $this->fragment) {
             $url .= '#' . $this->fragment;
