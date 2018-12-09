@@ -3,17 +3,18 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Parser;
 
+use Keppler\Url\AbstractUrl;
 use Keppler\Url\Parser\Bags\PathBag;
 use Keppler\Url\Parser\Bags\QueryBag;
-use Keppler\Url\Parser\Exceptions\MalformedUrlException;
-use Keppler\Url\Parser\Exceptions\SchemaNotSupportedException;
+use Keppler\Url\Exceptions\MalformedUrlException;
+use Keppler\Url\Exceptions\SchemaNotSupportedException;
 
 /**
  * Immutable Class Parser
  *
  * @package Url\Parser
  */
-class Parser
+class Parser extends AbstractUrl
 {
     /**
      * @var PathBag
@@ -25,49 +26,6 @@ class Parser
      */
     public $query;
 
-    /**
-     * @var array
-     */
-    protected $allowedSchemas = [
-        'http',
-        'https',
-        'mailto',
-    ];
-
-    /**
-     * @var
-     */
-    private $schema = null;
-
-    /**
-     * @var
-     */
-    private $authority = null;
-
-    /**
-     * @var
-     */
-    private $fragment = null;
-
-    /**
-     * @var
-     */
-    private $username = null;
-
-    /**
-     * @var
-     */
-    private $host = null;
-
-    /**
-     * @var null
-     */
-    private $password = null;
-
-    /**
-     * @var
-     */
-    private $port = null;
 
     /**
      * @param string $url
@@ -81,18 +39,20 @@ class Parser
         $self = new self();
         $schemaFromUrl = parse_url($url);
 
-        if(!isset($schemaFromUrl['scheme'])) {
+        if ( ! isset($schemaFromUrl['scheme'])) {
             throw new MalformedUrlException("Missing scheme");
         }
 
         $schemaFromUrl = $schemaFromUrl['scheme'];
-        if(!in_array($schemaFromUrl, $self->allowedSchemas)) {
-            throw new SchemaNotSupportedException(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemas extend this class and roll your own implementation.", $self->allowedSchemas));
+        if ( ! in_array($schemaFromUrl, $self->allowedSchemas)) {
+            throw new SchemaNotSupportedException(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemas extend this class and roll your own implementation.",
+                $self->allowedSchemas));
         }
 
         $self->query = new QueryBag();
         $self->path = new PathBag();
         $self->parseUrl($url);
+        $self->original = $url;
 
         return $self;
     }
@@ -111,12 +71,14 @@ class Parser
         $this->password = $parsedUrl['pass'] ?? null;
         $this->buildAuthority();
 
-        if(isset($parsedUrl['fragment'])) {
+        if (isset($parsedUrl['fragment'])) {
             $this->buildFragment($parsedUrl['fragment']);
         }
 
-        ! isset($parsedUrl['path']) ?: $this->path->buildPathComponents($parsedUrl['path']);
-        ! isset($parsedUrl['query']) ?: $this->query->buildQueryComponents($parsedUrl['query']);
+        ! isset($parsedUrl['path'])
+            ?: $this->path->buildPathComponents($parsedUrl['path']);
+        ! isset($parsedUrl['query'])
+            ?: $this->query->buildQueryComponents($parsedUrl['query']);
     }
 
     /**
@@ -124,7 +86,7 @@ class Parser
      */
     private function buildFragment(?string $fragments): void
     {
-        if(null === $fragments) {
+        if (null === $fragments) {
             $this->fragment = null;
         }
 
@@ -160,20 +122,28 @@ class Parser
     }
 
     /**
+     * @return null|string
+     */
+    public function getOriginal(): string
+    {
+        return $this->original;
+    }
+
+    /**
      * @return array
      */
     public function all(): array
     {
         return [
-          'schema' => $this->schema,
-          'host' => $this->host,
-          'authority' => $this->authority,
-          'path' => $this->path->all(),
-          'query' => $this->query->all(),
-          'fragment' => $this->fragment,
-          'username' => $this->username,
-          'password' => $this->password,
-          'port' => $this->port,
+            'schema'    => $this->schema,
+            'host'      => $this->host,
+            'authority' => $this->authority,
+            'path'      => $this->path->all(),
+            'query'     => $this->query->all(),
+            'fragment'  => $this->fragment,
+            'username'  => $this->username,
+            'password'  => $this->password,
+            'port'      => $this->port,
         ];
     }
 
@@ -182,14 +152,14 @@ class Parser
      */
     public function getUserInfo(): ?string
     {
-        if(null === $this->username) {
+        if (null === $this->username) {
             return null;
         }
 
         $userInfo = $this->username;
 
-        if(null !== $this->password) {
-            $userInfo .= ':' . $this->password;
+        if (null !== $this->password) {
+            $userInfo .= ':'.$this->password;
         }
 
         return $userInfo;
