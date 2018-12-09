@@ -136,7 +136,7 @@ $builder
 $builder
     ->query
     ->prepend(['new_query_index' => 'new_query_value'])
-    ->overwrite(['new_query_index'])
+    ->overwrite(['new_query_index', 'overwritten'])
     ->append(['yet_another_index' => 'yet_another_value']);
 
 $builder
