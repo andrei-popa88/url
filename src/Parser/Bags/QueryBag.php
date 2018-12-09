@@ -49,22 +49,32 @@ class QueryBag
     }
 
     /**
-     * @return int|null|string
+     * @return array
+     * @throws \LogicException
      */
-    public function first(): ?string
+    public function first(): array
     {
-        return $this->queryComponents[key($this->queryComponents)];
+        if(empty($this->queryComponents)) {
+            throw new \LogicException("Cannot get first entry of an empty array");
+        }
+
+        return [key($this->queryComponents) => $this->queryComponents[key($this->queryComponents)]];
     }
 
     /**
-     * @return mixed
+     * @return array
+     * @throws \LogicException
      */
-    public function last(): ?string
+    public function last(): array
     {
+        if(empty($this->queryComponents)) {
+            throw new \LogicException("Cannot get last entry of an empty array");
+        }
+
         $array = $this->queryComponents;
         reset($array);
         end($array);
-        return $this->queryComponents[key($array)];
+        return [key($array) => $this->queryComponents[key($array)]];
     }
 
     /**
