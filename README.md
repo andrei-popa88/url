@@ -117,8 +117,7 @@ echo $builder->getUrl(false); // without trailing slash
 // http://keppler_pl:hunter2@www.google.com:987/forum/new_path_value/questions?tag=networking&new_query_index=new_query_value&order=newest#new_fragment
 ````
 
-````php
-
+```php
 // Please note that path/query setters are only fluent with themselfs meaning you can't do this
 $builder
     ->path
@@ -147,7 +146,7 @@ $builder
     ->setUsername('keppler_pl')
     ->setPassword('hunter2')
     ->setPort(987);
-```
+````
 
 You can also use the builder without the parsers, just create a new instance of it.
 
