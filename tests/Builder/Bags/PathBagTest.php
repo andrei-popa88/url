@@ -24,7 +24,7 @@ class PathBagTest extends TestCase
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
 
-        $builder->path->remove('forum');
+        $builder->path->remove(0);
         $this->assertEquals('https://john.doe@www.example.com:123/questions/?tag=networking&order=newest#top', ($builder->getUrl()));
     }
 
@@ -96,7 +96,7 @@ class PathBagTest extends TestCase
 
         $this->expectException(ComponentNotFoundException::class);
 
-        $builder->path->remove('invalid_component');
+        $builder->path->remove(10);
     }
 
     public function test_overwrite_should_throw_exception_when_missing_component()

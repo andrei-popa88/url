@@ -38,23 +38,18 @@ class PathBag
     }
 
     /**
-     * @param string $component
+     * @param int $index
      *
      * @return PathBag
      * @throws ComponentNotFoundException
      */
-    public function remove(string $component): self
+    public function remove(int $index): self
     {
-        if ( ! $this->has($component)) {
-            throw new ComponentNotFoundException("The component does not exist.");
+        if ( ! array_key_exists($index, $this->pathComponents)) {
+            throw new ComponentNotFoundException("The component does not exist");
         }
 
-        foreach ($this->pathComponents as $key => $pathComponent) {
-            if ($pathComponent === $component) {
-                unset($this->pathComponents[$key]);
-                break;
-            }
-        }
+        unset($this->pathComponents[$index]);
 
         return $this;
     }

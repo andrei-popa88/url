@@ -26,6 +26,8 @@ class QueryBag
     public function buildQueryComponents(string $query): void
     {
         // If the needle is not found it means that we have only one value
+        // TODO This could potentially lead to some errors down the line
+        // TODO Check if there's a better way to find if a query actually exists
         if (false === strpos($query, '&')) {
             $this->queryComponents = explode('=', $query);
         } else {
