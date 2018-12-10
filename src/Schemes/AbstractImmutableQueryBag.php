@@ -32,7 +32,7 @@ abstract class AbstractImmutableQueryBag
     abstract function last();
 
     /**
-     * Should return the unaltered query string as is, encoding included
+     * Should return the unaltered query string as is
      *
      * @return string
      */

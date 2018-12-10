@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Schemes\Mailto\Bags;
 
+use Keppler\Url\Schemes\AbstractImmutableQueryBag;
+
 /**
  * Default and accepted possible components of a mailto
  *
@@ -21,7 +23,7 @@ namespace Keppler\Url\Schemes\Mailto\Bags;
  *
  * @package Keppler\Url\Schemes\MailtoImmutable\Bags
  */
-final class MailtoImmutableQueryBag
+final class MailtoImmutableQueryBag extends AbstractImmutableQueryBag
 {
     /**
      * TO recipients
@@ -65,6 +67,13 @@ final class MailtoImmutableQueryBag
     private $body = '';
 
     /**
+     * The raw query string
+     *
+     * @var string
+     */
+    private $raw = '';
+
+    /**
      * This should be the ONLY entry point and it should accept ONLY
      * the raw string, it's the job of this class to set from it
      *
@@ -74,6 +83,8 @@ final class MailtoImmutableQueryBag
      */
     public function __construct(string $raw)
     {
+        $this->raw = $raw;
+
         // some characters may be encoded
         // since the mailto can be malformed
         // there's no way to tell if what we're doing is actually correct
@@ -121,6 +132,14 @@ final class MailtoImmutableQueryBag
         if (isset($parsed['body']) && ! empty(trim($parsed['body']))) {
             $this->body = $parsed['body'];
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function raw(): string
+    {
+        return $this->raw;
     }
 
     /**
