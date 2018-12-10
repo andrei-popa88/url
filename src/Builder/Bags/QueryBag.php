@@ -163,7 +163,6 @@ class QueryBag
 
     /**
      * @param array $components
-     *
      * @return QueryBag
      * @throws InvalidComponentsException
      */
@@ -173,11 +172,29 @@ class QueryBag
             throw new InvalidComponentsException("Cannot insert empty components");
         }
 
-        foreach ($components as $key => $component) {
-            $this->queryComponents[$key] = $component;
-        }
+        $newQueryComponents = [];
+
+        $this->appendRecursive($newQueryComponents, $components);
+        $this->appendRecursive($newQueryComponents, $this->queryComponents);
+
+        $this->queryComponents = $newQueryComponents;
 
         return $this;
+    }
+
+    /**
+     * @param $array
+     * @param $components
+     */
+    private function appendRecursive(&$array, $components)
+    {
+        foreach($components as $key => $value) {
+            if(is_array($value)) {
+                $this->appendRecursive($array, $value);
+            } else {
+                $array[$key] = $value;
+            }
+        }
     }
 
     /**
