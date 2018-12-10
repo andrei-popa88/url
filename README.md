@@ -39,7 +39,7 @@ echo Parser::from($urlString)->getAuthority(); // john.doe@www.example.com:123
 
 ````
 
-The path and query are kept in separte bags and can be accessed by getting the bag
+The path and query are kept in separate bags and can be accessed by getting the bag
 
 #### The query bag:
 
@@ -125,7 +125,7 @@ echo $builder->getUrl(false); // without trailing slash
 ````
 
 ```php
-// Please note that path/query setters are only fluent with themselfs meaning you can't do this
+// Please note that path/query setters are only fluent with themselves meaning you can't do this
 $builder
     ->path
     ->insertAfter(0 'fatal')
