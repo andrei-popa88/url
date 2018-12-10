@@ -84,7 +84,7 @@ class QueryBagTest extends TestCase
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
 
-        $this->assertEquals('?tag=networking&order=newest', ($builder->query->buildQuery()));
+        $this->assertEquals('?tag=networking&order=newest', ($builder->query->raw()));
     }
 
     public function test_remove_should_throw_exception_when_missing_component()

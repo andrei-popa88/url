@@ -165,7 +165,7 @@ class PathBag
      *
      * @return string
      */
-    public function buildPath(bool $withTrailingSlash = true): string
+    public function raw(bool $withTrailingSlash = true): string
     {
         if (empty($this->pathComponents)) {
             return '';

@@ -179,8 +179,8 @@ class Builder extends AbstractUrl
 
         $url .= $this->schema.'://';
         $url .= $this->buildAuthority();
-        $url .= $this->path->buildPath($withTrailingSlash);
-        $url .= $this->query->buildQuery();
+        $url .= $this->path->raw($withTrailingSlash);
+        $url .= $this->query->raw();
         if (null !== $this->fragment) {
             $url .= '#'.$this->fragment;
         }

@@ -33,7 +33,7 @@ class QueryBag
     /**
      * @return string
      */
-    public function buildQuery(): string
+    public function raw(): string
     {
         if (empty($this->queryComponents)) {
             return '';

@@ -83,9 +83,9 @@ class PathBagTest extends TestCase
         $url = 'https://john.doe@www.example.com:123/forum/questions/phpunit/exceptions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $builder->path->buildPath();
+        $builder->path->raw();
 
-        $this->assertEquals('/forum/questions/phpunit/exceptions/', ($builder->path->buildPath()));
+        $this->assertEquals('/forum/questions/phpunit/exceptions/', ($builder->path->raw()));
     }
 
     public function test_remove_should_throw_exception_when_missing_component()
