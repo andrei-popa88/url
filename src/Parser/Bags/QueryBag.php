@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Parser\Bags;
 
+use Keppler\Url\Exceptions\ComponentNotFoundException;
+
 /**
  * Class QueryBag
  *
@@ -25,21 +27,8 @@ class QueryBag
      */
     public function buildQueryComponents(string $query): void
     {
-        // If the needle is not found it means that we have only one value
-        // TODO This could potentially lead to some errors down the line
-        // TODO Check if there's a better way to find if a query actually exists
-        if (false === strpos($query, '&')) {
-            $this->queryComponents = explode('=', $query);
-        } else {
-            $components = explode('&', $query);
-
-            array_map(function ($value) {
-                $components = explode('=', $value);
-                $this->queryComponents[$components[0]] = $components[1];
-            }, $components);
-        }
-
         $this->queryString = $query;
+        parse_str($query, $this->queryComponents);
     }
 
     /**
@@ -48,6 +37,66 @@ class QueryBag
     public function raw(): string
     {
         return null !== $this->queryString ? $this->queryString : '';
+    }
+
+    /**
+     * @param $index
+     * @return mixed
+     * @throws ComponentNotFoundException
+     */
+    public function firstIn($index)
+    {
+        if (empty($this->queryComponents)) {
+            throw new \LogicException("Cannot get first entry of an empty array");
+        }
+
+        $match = $this->inRecursive($this->queryComponents, $index);
+
+        return $match[key($match)];
+    }
+
+    /**
+     * @param $index
+     * @return mixed
+     * @throws ComponentNotFoundException
+     */
+    public function lastIn($index)
+    {
+        if (empty($this->queryComponents)) {
+            throw new \LogicException("Cannot get first entry of an empty array");
+        }
+
+        $match = $this->inRecursive($this->queryComponents, $index);
+
+        if(is_array($match)) {
+            reset($match);
+            end($match);
+            return $match[key($match)];
+        }
+
+        return $match;
+    }
+    /**
+     * @param $array
+     * @param null $match
+     * @return mixed
+     * @throws ComponentNotFoundException
+     */
+    private function inRecursive($array, $match = null)
+    {
+        // Walk the queryComponents and check if the index exists somewhere in the array
+        // Match only the first entry since it's basically a hassle to try and match a specific entry
+        foreach($array as $key => $value) {
+            if(is_array($key)) {
+                $this->inRecursive($key);
+            }else{
+                if($key === $match) {
+                    return $value;
+                }
+            }
+        }
+
+        throw new ComponentNotFoundException("Component {$match} does not exist");
     }
 
     /**
@@ -95,7 +144,7 @@ class QueryBag
      *
      * @return null|string
      */
-    public function get(string $component): ?string
+    public function get(string $component)
     {
         if (empty($this->queryComponents)) {
             throw new \LogicException("Query bag is empty");
