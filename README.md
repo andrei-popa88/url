@@ -49,7 +49,7 @@ http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest
 echo $parser->query->first(); // ['tag' => 'networking']
 echo $parser->query->last(); // ['date' => '2015-11-12']
 echo $parser->query->get('tag'); // networking
-echo $parser->query->original(); // tag=networking&order=newest&date=2015-11-12
+echo $parser->query->raw(); // tag=networking&order=newest&date=2015-11-12
 ...
 ````
 
@@ -61,7 +61,7 @@ http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest
 echo $parser->path->first(); // forum
 echo $parser->path->last(); // questions
 echo $parser->path->get(0); // forum
-echo $parser->path->original(); // /forum/questions/
+echo $parser->path->raw(); // /forum/questions/
 ...
 ````
 

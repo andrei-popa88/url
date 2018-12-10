@@ -43,7 +43,7 @@ class QueryBag
     /**
      * @return null|string
      */
-    public function original(): ?string
+    public function raw(): ?string
     {
         return $this->queryString;
     }

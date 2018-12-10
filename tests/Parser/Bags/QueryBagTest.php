@@ -71,13 +71,13 @@ class QueryBagTest extends TestCase
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert?tag=networking&order=newest#top';
         $parser = Parser::from($url);
-        $this->assertEquals('tag=networking&order=newest', $parser->query->original());
+        $this->assertEquals('tag=networking&order=newest', $parser->query->raw());
     }
 
     public function test_get_original_path_null()
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert#top';
         $parser = Parser::from($url);
-        $this->assertEquals(null, $parser->query->original());
+        $this->assertEquals(null, $parser->query->raw());
     }
 }
