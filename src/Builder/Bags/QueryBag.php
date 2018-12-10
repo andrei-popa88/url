@@ -35,7 +35,7 @@ class QueryBag
      */
     public function all(): array
     {
-        return $this->$this->queryComponents;
+        return $this->queryComponents;
     }
 
     /**

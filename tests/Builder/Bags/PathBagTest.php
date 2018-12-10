@@ -131,4 +131,20 @@ class PathBagTest extends TestCase
 
         $builder->path->insertAfter('invalid_component', '');
     }
+
+    public function test_can_get_all()
+    {
+        $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
+        $parser = Parser::from($url);
+        $builder = Builder::from($parser);
+
+        $this->assertEquals(['forum', 'questions'], $builder->path->all());
+    }
+
+    public function test_all_function_should_return_empty_array_even_without_url()
+    {
+        $builder = new Builder();
+
+        $this->assertEquals([], $builder->path->all());
+    }
 }
