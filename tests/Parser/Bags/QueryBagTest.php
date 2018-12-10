@@ -78,6 +78,6 @@ class QueryBagTest extends TestCase
     {
         $url = 'http://john.doe@www.example.com:123/forum/questions/phpunit/assert#top';
         $parser = Parser::from($url);
-        $this->assertEquals(null, $parser->query->raw());
+        $this->assertEquals('', $parser->query->raw());
     }
 }

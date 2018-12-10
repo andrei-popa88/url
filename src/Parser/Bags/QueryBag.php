@@ -41,11 +41,11 @@ class QueryBag
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function raw(): ?string
+    public function raw(): string
     {
-        return $this->queryString;
+        return null !== $this->queryString ? $this->queryString : '';
     }
 
     /**
