@@ -96,13 +96,11 @@ class Parser extends AbstractUrl
      */
     private function buildFragment(?string $fragments): void
     {
-        if (null === $fragments) {
-            $this->fragment = null;
+        if (null !== $fragments) {
+            // Explode by # and get ONLY the first entry regardless of how many there are
+            $fragments = explode('#', $fragments);
+            $this->fragment = $fragments[0];
         }
-
-        // Explode by # and get ONLY the first entry regardless of how many there are
-        $fragments = explode('#', $fragments);
-        $this->fragment = $fragments[0];
     }
 
     /**
