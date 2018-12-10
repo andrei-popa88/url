@@ -47,30 +47,47 @@ class QueryBag
             return '';
         }
 
-        $query = '?';
-
-        foreach ($this->queryComponents as $key => $value) {
-            $query .= $key.'='.$value.'&';
-        }
-
-        return rtrim($query, '&');
+        return urldecode(http_build_query($this->queryComponents));
     }
 
     /**
      * @param string $index
-     *
+     * @param bool $recursive
      * @return QueryBag
      * @throws ComponentNotFoundException
      */
-    public function remove(string $index): self
+    public function remove(string $index, $recursive = false): self
     {
-        if ( ! $this->has($index)) {
-            throw new ComponentNotFoundException("The component does not exist.");
+        if(false === $recursive && $this->has($index)) {
+            if ( ! $this->has($index)) {
+                throw new ComponentNotFoundException("The component does not exist.");
+            }
+
+            unset($this->queryComponents[$index]);
+
+            return $this;
         }
 
-        unset($this->queryComponents[$index]);
+        $this->removeRecursive($this->queryComponents, $index);
 
         return $this;
+    }
+
+    /**
+     * @param $array
+     * @param $index
+     */
+    private function removeRecursive(&$array, $index)
+    {
+        foreach ($array as $key => &$value) {
+            // Remove all the values encountered, regardless if they're an array or not
+            if($key === $index) {
+                unset($array[$key]);
+            }
+            if(is_array($value)) {
+                $this->removeRecursive($value, $index);
+            }
+        }
     }
 
     /**
