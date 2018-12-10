@@ -25,7 +25,8 @@ class QueryBagTest extends TestCase
         $builder = Builder::from($parser);
         $builder->query->remove('tag');
 
-        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?order=newest#top',
+            ($builder->getUrl()));
     }
 
     public function test_should_overwrite_component()
@@ -35,7 +36,8 @@ class QueryBagTest extends TestCase
         $builder = Builder::from($parser);
         $builder->query->overwrite(['tag' => 'new_value']);
 
-        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?tag=new_value&order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?tag=new_value&order=newest#top',
+            ($builder->getUrl()));
     }
 
     public function test_should_append_component()
@@ -45,7 +47,8 @@ class QueryBagTest extends TestCase
         $builder = Builder::from($parser);
         $builder->query->append(['new_index' => 'new_value']);
 
-        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&new_index=new_value#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest&new_index=new_value#top',
+            ($builder->getUrl()));
     }
 
     public function test_should_prepend_component()
@@ -55,7 +58,8 @@ class QueryBagTest extends TestCase
         $builder = Builder::from($parser);
         $builder->query->prepend(['new_index' => 'new_value']);
 
-        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?new_index=new_value&tag=networking&order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?new_index=new_value&tag=networking&order=newest#top',
+            ($builder->getUrl()));
     }
 
     public function test_should_insert_after_component()
@@ -65,7 +69,8 @@ class QueryBagTest extends TestCase
         $builder = Builder::from($parser);
         $builder->query->insertAfter('tag', ['new_index' => 'new_value']);
 
-        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?tag=networking&new_index=new_value&order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?tag=networking&new_index=new_value&order=newest#top',
+            ($builder->getUrl()));
     }
 
     public function test_should_insert_before_component()
@@ -75,7 +80,8 @@ class QueryBagTest extends TestCase
         $builder = Builder::from($parser);
         $builder->query->insertBefore('tag', ['new_index' => 'new_value']);
 
-        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?new_index=new_value&tag=networking&order=newest#top', ($builder->getUrl()));
+        $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/?new_index=new_value&tag=networking&order=newest#top',
+            ($builder->getUrl()));
     }
 
     public function test_should_build_correct_query()
@@ -154,5 +160,57 @@ class QueryBagTest extends TestCase
         $builder = Builder::from($parser);
 
         $this->assertEquals(['first' => 'value', 'arr' => ['foo bar']], $builder->query->remove('baz', true)->all());
+    }
+
+    public function test_overwrite_recursive()
+    {
+        $url = 'https://john.doe@www.example.com:123/forum/questions/?first=value&arr[]=foo+bar&arr[baz]=baz&arr[arr][biz]=biz&arr[][][baz]=inner_value';
+        $parser = Parser::from($url);
+        $builder = Builder::from($parser);
+
+        $this->assertEquals(
+            [
+                'first' => 'value',
+                'arr' => [
+                    'foo bar',
+                    'baz' => 'new_value',
+                    'arr' => [
+                        'biz' => 'biz',
+                    ],
+                    1 => [
+                        0 => [
+                            'baz' => 'new_value'
+                        ]
+                    ]
+                ],
+            ],
+            $builder->query->overwrite(['baz' => 'new_value'], true, false)->all()
+        );
+    }
+
+    public function test_overwrite_recursive_stop_at_first_match()
+    {
+        $url = 'https://john.doe@www.example.com:123/forum/questions/?first=value&arr[]=foo+bar&arr[baz]=baz&arr[arr][biz]=biz&arr[][][baz]=inner_value';
+        $parser = Parser::from($url);
+        $builder = Builder::from($parser);
+
+        $this->assertEquals(
+            [
+                'first' => 'value',
+                'arr' => [
+                    'foo bar',
+                    'baz' => 'new_value',
+                    'arr' => [
+                        'biz' => 'biz',
+                    ],
+                    1 => [
+                        0 => [
+                            'baz' => 'inner_value'
+                        ]
+                    ]
+                ],
+            ],
+            $builder->query->overwrite(['baz' => 'new_value'], true, true)->all()
+        );
     }
 }

@@ -56,7 +56,7 @@ class QueryBag
      * @return QueryBag
      * @throws ComponentNotFoundException
      */
-    public function remove(string $index, $recursive = false): self
+    public function remove(string $index, bool $recursive = false): self
     {
         if(false === $recursive) {
             if ( ! $this->has($index)) {
@@ -102,20 +102,26 @@ class QueryBag
 
     /**
      * @param array $components
-     *
+     * @param bool $recursive
+     * @param bool $stopAtFirstMatch
      * @return QueryBag
      * @throws ComponentNotFoundException
      * @throws InvalidComponentsException
-     * @throws \Exception
      */
-    public function overwrite(array $components): self
+    public function overwrite(array $components, bool $recursive = false, bool $stopAtFirstMatch = true): self
     {
         if (count($components) !== count($components, COUNT_RECURSIVE)) {
-            throw new \Exception("Unable to accept multidimensional arrays");
+            throw new \Exception("Unable to accept multidimensional arrays, you can overwrite only one component at at time");
         }
 
         if (empty($components)) {
             throw new InvalidComponentsException("Cannot insert empty components");
+        }
+
+        if($recursive) {
+            $this->overwriteRecursive($this->queryComponents, $components, $stopAtFirstMatch);
+
+            return $this;
         }
 
         foreach ($this->queryComponents as $key => $value) {
@@ -131,6 +137,28 @@ class QueryBag
         }
 
         return $this;
+    }
+
+    /**
+     * @param $array
+     * @param array $components
+     * @param bool $stopAtFirstMatch
+     */
+    private function overwriteRecursive(&$array, array $components, bool $stopAtFirstMatch): void
+    {
+        $match = key($components);
+
+        foreach($array as $key => &$value) {
+            if($match === $key) {
+                $array[$match] = $components[$match];
+                if($stopAtFirstMatch) {
+                    break;
+                }
+            }
+            if(is_array($value)) {
+                $this->overwriteRecursive($value, $components, $stopAtFirstMatch);
+            }
+        }
     }
 
     /**
