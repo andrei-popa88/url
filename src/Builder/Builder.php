@@ -19,7 +19,7 @@ class Builder extends AbstractUrl
     /**
      * @var array
      */
-    protected $allowedSchemas
+    private $allowedSchemas
         = [
             'http',
             'https',
