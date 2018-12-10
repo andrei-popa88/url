@@ -94,4 +94,19 @@ class QueryBagTest extends TestCase
         $parser = Parser::from($url);
         $this->assertEquals(['test' => 'value'], $parser->query->lastIn('arr'));
     }
+
+    public function test_get_firstin_one_dimensional()
+    {
+        $url = 'https://john.doe@www.example.com:123/forum/questions/?first=value&arr[]=foo+bar&arr[]=baz&arr[test]=value';
+        $parser = Parser::from($url);
+        $this->assertEquals('value', $parser->query->lastIn('first'));
+    }
+
+
+    public function test_last_firstin_one_dimensional()
+    {
+        $url = 'https://john.doe@www.example.com:123/forum/questions/?first=value&arr[]=foo+bar&arr[]=baz&arr[test]=value&new_index=new_value';
+        $parser = Parser::from($url);
+        $this->assertEquals('new_value', $parser->query->lastIn('new_index'));
+    }
 }
