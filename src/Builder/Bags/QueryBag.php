@@ -31,6 +31,14 @@ class QueryBag
     }
 
     /**
+     * @return array
+     */
+    public function all(): array
+    {
+        return $this->$this->queryComponents;
+    }
+
+    /**
      * @return string
      */
     public function raw(): string

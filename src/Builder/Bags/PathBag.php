@@ -30,6 +30,14 @@ class PathBag
     }
 
     /**
+     * @return array
+     */
+    public function all(): array
+    {
+        return $this->pathComponents;
+    }
+
+    /**
      * @param string $component
      *
      * @return PathBag
