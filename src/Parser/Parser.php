@@ -120,7 +120,9 @@ class Parser extends AbstractUrl
             }
         }
 
-        $authority .= $this->host;
+        if (null !== $this->host) {
+            $authority .= $this->host;
+        }
 
         if (null !== $this->port) {
             $authority .= ':'.$this->port;
@@ -130,7 +132,7 @@ class Parser extends AbstractUrl
     }
 
     /**
-     * @return null|string
+     * @return string
      */
     public function getOriginal(): string
     {

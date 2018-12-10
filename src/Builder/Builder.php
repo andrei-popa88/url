@@ -155,7 +155,9 @@ class Builder extends AbstractUrl
             }
         }
 
-        $authority .= $this->host;
+        if (null !== $this->host) {
+            $authority .= $this->host;
+        }
 
         if (null !== $this->port) {
             $authority .= ':'.$this->port;
