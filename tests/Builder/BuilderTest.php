@@ -16,7 +16,7 @@ class BuilderTest extends TestCase
     {
         $this->expectException(MalformedUrlException::class);
 
-        $parser = Parser::from('');
+        $parser = new Parser('');
         Builder::from($parser);
     }
 
@@ -47,7 +47,7 @@ class BuilderTest extends TestCase
     public function test_url_builds_correctly()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
         $this->assertEquals($url, $builder->getUrl(true));
     }
@@ -55,7 +55,7 @@ class BuilderTest extends TestCase
     public function test_with_trailing_slash()
     {
         $url = 'https://www.example.com/forum/questions';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
         $this->assertEquals($url . '/', $builder->getUrl(true));
     }
@@ -63,7 +63,7 @@ class BuilderTest extends TestCase
     public function test_without_trailing_slash()
     {
         $url = 'https://www.example.com/forum/questions';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
         $this->assertEquals($url, $builder->getUrl(false));
     }

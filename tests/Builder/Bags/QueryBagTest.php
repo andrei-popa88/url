@@ -13,7 +13,7 @@ class QueryBagTest extends TestCase
     public function test_should_not_impact_build_without_components()
     {
         $url = 'https://john.doe@www.example.com:123';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
 
         $this->assertEquals($url, ($builder->getUrl()));
@@ -22,7 +22,7 @@ class QueryBagTest extends TestCase
     public function test_should_remove_component()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
         $builder->query->remove('tag');
 
@@ -33,7 +33,7 @@ class QueryBagTest extends TestCase
     public function test_should_overwrite_component()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
         $builder->query->overwrite(['tag' => 'new_value']);
 
@@ -44,7 +44,7 @@ class QueryBagTest extends TestCase
     public function test_should_append_component()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
         $builder->query->append(['new_index' => 'new_value']);
 
@@ -55,7 +55,7 @@ class QueryBagTest extends TestCase
     public function test_should_prepend_component()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
         $builder->query->prepend(['new_index' => 'new_value']);
 
@@ -66,7 +66,7 @@ class QueryBagTest extends TestCase
     public function test_should_insert_after_component()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
         $builder->query->insertAfter('tag', ['new_index' => 'new_value']);
 
@@ -77,7 +77,7 @@ class QueryBagTest extends TestCase
     public function test_should_insert_before_component()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
         $builder->query->insertBefore('tag', ['new_index' => 'new_value']);
 
@@ -88,7 +88,7 @@ class QueryBagTest extends TestCase
     public function test_should_build_correct_query()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/phpunit/exceptions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
 
         $this->assertEquals('?tag=networking&order=newest', ($builder->query->raw()));
@@ -97,7 +97,7 @@ class QueryBagTest extends TestCase
     public function test_remove_should_throw_exception_when_missing_component()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
 
         $this->expectException(ComponentNotFoundException::class);
@@ -108,7 +108,7 @@ class QueryBagTest extends TestCase
     public function test_overwrite_should_throw_exception_when_missing_component()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
 
         $this->expectException(ComponentNotFoundException::class);
@@ -119,7 +119,7 @@ class QueryBagTest extends TestCase
     public function test_insert_before_should_throw_exception_when_missing_component()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
 
         $this->expectException(ComponentNotFoundException::class);
@@ -130,7 +130,7 @@ class QueryBagTest extends TestCase
     public function test_insert_after_should_throw_exception_when_missing_component()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
 
         $this->expectException(InvalidComponentsException::class);
@@ -141,7 +141,7 @@ class QueryBagTest extends TestCase
     public function test_can_get_all()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
 
         $this->assertEquals(['tag' => 'networking', 'order' => 'newest'], $builder->query->all());
@@ -157,7 +157,7 @@ class QueryBagTest extends TestCase
     public function test_all_function_should_remove_recursive()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?first=value&arr[]=foo+bar&arr[baz]=baz';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
 
         $this->assertEquals(['first' => 'value', 'arr' => ['foo bar']], $builder->query->remove('baz', true)->all());
@@ -166,7 +166,7 @@ class QueryBagTest extends TestCase
     public function test_overwrite_recursive()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?first=value&arr[]=foo+bar&arr[baz]=baz&arr[arr][biz]=biz&arr[][][baz]=inner_value';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
 
         $this->assertEquals(
@@ -192,7 +192,7 @@ class QueryBagTest extends TestCase
     public function test_overwrite_recursive_stop_at_first_match()
     {
         $url = 'https://john.doe@www.example.com:123/forum/questions/?first=value&arr[]=foo+bar&arr[baz]=baz&arr[arr][biz]=biz&arr[][][baz]=inner_value';
-        $parser = Parser::from($url);
+        $parser = new Parser($url);
         $builder = Builder::from($parser);
 
         $this->assertEquals(

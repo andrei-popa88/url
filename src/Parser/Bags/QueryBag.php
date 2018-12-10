@@ -4,13 +4,14 @@ declare(strict_types=1);
 namespace Keppler\Url\Parser\Bags;
 
 use Keppler\Url\Exceptions\ComponentNotFoundException;
+use Keppler\Url\Parser\Bags\Interfaces\QueryBagInterface;
 
 /**
  * Class QueryBag
  *
  * @package Url\Bags
  */
-class QueryBag
+class QueryBag implements QueryBagInterface
 {
     /**
      * @var array
@@ -157,8 +158,7 @@ class QueryBag
             throw new \LogicException("Query bag is empty");
         }
 
-        return $this->has($component) ? $this->queryComponents[$component]
-            : null;
+        return $this->has($component) ? $this->queryComponents[$component] : null;
     }
 
     /**

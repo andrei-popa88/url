@@ -17,6 +17,16 @@ use Keppler\Url\Parser\Parser;
 class Builder extends AbstractUrl
 {
     /**
+     * @var array
+     */
+    protected $allowedSchemas
+        = [
+            'http',
+            'https',
+            'mailto',
+        ];
+
+    /**
      * @var PathBag
      */
     public $path;
@@ -28,37 +38,25 @@ class Builder extends AbstractUrl
 
     /**
      * Builder constructor.
+     * @param Parser $parser
      */
-    public function __construct()
+    public function __construct(Parser $parser)
     {
         $this->query = new QueryBag();
         $this->path = new PathBag();
-    }
 
-    /**
-     * @param Parser $parser
-     *
-     * @return Builder
-     */
-    public static function from(Parser $parser): self
-    {
-        $self = new self;
-        $self->query = new QueryBag();
-        $self->path = new PathBag();
+        $this->original = $parser->getOriginal();
+        $this->schema = $parser->getSchema();
+        $this->authority = $parser->getAuthority();
+        $this->fragment = $parser->getFragment();
+        $this->username = $parser->getUsername();
+        $this->host = $parser->getHost();
+        $this->password = $parser->getPassword();
+        $this->port = $parser->getPort();
 
-        $self->original = $parser->getOriginal();
-        $self->schema = $parser->getSchema();
-        $self->authority = $parser->getAuthority();
-        $self->fragment = $parser->getFragment();
-        $self->username = $parser->getUsername();
-        $self->host = $parser->getHost();
-        $self->password = $parser->getPassword();
-        $self->port = $parser->getPort();
+        $this->path->setPathComponents($parser->path->all());
+        $this->query->setQueryComponents($parser->query->all());
 
-        $self->path->setPathComponents($parser->path->all());
-        $self->query->setQueryComponents($parser->query->all());
-
-        return $self;
     }
 
     /**

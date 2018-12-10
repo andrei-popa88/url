@@ -1,14 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url;
+namespace Keppler\Url\Parser\Models;
 
-/**
- * Class AbstractUrl
- *
- * @package Keppler\Url
- */
-abstract class AbstractUrl
+use Keppler\Url\AbstractUrl;
+
+abstract class AbstractUrlModel extends AbstractUrl
 {
     /**
      * @var string

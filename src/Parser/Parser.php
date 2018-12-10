@@ -17,6 +17,16 @@ use Keppler\Url\Exceptions\SchemaNotSupportedException;
 class Parser extends AbstractUrl
 {
     /**
+     * @var array
+     */
+    protected $allowedSchemas
+        = [
+            'http',
+            'https',
+            'mailto',
+        ];
+
+    /**
      * @var PathBag
      */
     public $path;
@@ -28,29 +38,19 @@ class Parser extends AbstractUrl
 
     /**
      * Parser constructor.
+     * @param string $url
+     * @throws MalformedUrlException
+     * @throws SchemaNotSupportedException
      */
-    public function __construct()
+    public function __construct(string $url)
     {
         $this->query = new QueryBag();
         $this->path = new PathBag();
-    }
 
-    /**
-     * @param string $url
-     *
-     * @return Parser
-     * @throws MalformedUrlException
-     * @throws SchemaNotSupportedException
-     */
-    public static function from(string $url): self
-    {
-        $self = new self();
-        $self->query = new QueryBag();
-        $self->path = new PathBag();
-        $self->parseUrl($url);
-        $self->original = $url;
-
-        return $self;
+        $this->query = new QueryBag();
+        $this->path = new PathBag();
+        $this->parseUrl($url);
+        $this->original = $url;
     }
 
     /**
@@ -59,7 +59,7 @@ class Parser extends AbstractUrl
      * @throws MalformedUrlException
      * @throws SchemaNotSupportedException
      */
-    public function parseUrl(string $url): void
+    private function parseUrl(string $url): void
     {
         $parsedUrl = parse_url($url);
 

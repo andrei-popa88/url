@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Parser\Bags;
 
+use Keppler\Url\Parser\Bags\Interfaces\PathBagInterface;
+
 /**
  * Class PathBag
  *
  * @package Url\Bags
  */
-class PathBag
+class PathBag implements PathBagInterface
 {
     /**
      * @var array
@@ -49,8 +51,7 @@ class PathBag
 
         $arrayKeys = array_keys($this->pathComponents);
 
-        return ! empty($arrayKeys) ? $this->pathComponents[max($arrayKeys)]
-            : null;
+        return ! empty($arrayKeys) ? $this->pathComponents[max($arrayKeys)] : null;
     }
 
     /**
