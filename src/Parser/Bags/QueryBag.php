@@ -82,6 +82,7 @@ class QueryBag
 
         return $match;
     }
+
     /**
      * @param $array
      * @param null $match
@@ -168,4 +169,13 @@ class QueryBag
         return $this->queryComponents;
     }
 
+    /**
+     * @return \Generator
+     */
+    public function walkRecursive(): \Generator
+    {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($this->queryComponents)) as $key => $value) {
+            yield $key => $value;
+        }
+    }
 }

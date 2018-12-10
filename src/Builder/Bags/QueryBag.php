@@ -47,7 +47,7 @@ class QueryBag
             return '';
         }
 
-        return urldecode(http_build_query($this->queryComponents));
+        return '?' . urldecode(http_build_query($this->queryComponents));
     }
 
     /**
@@ -144,7 +144,7 @@ class QueryBag
      * @param array $components
      * @param bool $stopAtFirstMatch
      */
-    private function overwriteRecursive(&$array, array $components, bool $stopAtFirstMatch): void
+    private function overwriteRecursive(&$array, array $components, bool $stopAtFirstMatch = true): void
     {
         $match = key($components);
 
@@ -174,27 +174,18 @@ class QueryBag
 
         $newQueryComponents = [];
 
-        $this->appendRecursive($newQueryComponents, $components);
-        $this->appendRecursive($newQueryComponents, $this->queryComponents);
+
+        foreach($this->queryComponents as $key => $value) {
+            $newQueryComponents[$key] = $value;
+        }
+
+        foreach($components as $key => $value) {
+            $newQueryComponents[$key] = $value;
+        }
 
         $this->queryComponents = $newQueryComponents;
 
         return $this;
-    }
-
-    /**
-     * @param $array
-     * @param $components
-     */
-    private function appendRecursive(&$array, $components)
-    {
-        foreach($components as $key => $value) {
-            if(is_array($value)) {
-                $this->appendRecursive($array, $value);
-            } else {
-                $array[$key] = $value;
-            }
-        }
     }
 
     /**
@@ -234,12 +225,12 @@ class QueryBag
      */
     public function insertAfter(string $index, array $components): self
     {
-        if ( ! $this->has($index)) {
-            throw new ComponentNotFoundException("The component does not exist.");
-        }
-
         if (empty($components)) {
             throw new InvalidComponentsException("Cannot insert empty components");
+        }
+
+        if ( ! $this->has($index)) {
+            throw new ComponentNotFoundException("The component does not exist.");
         }
 
         $newComponents = [];
@@ -290,4 +281,13 @@ class QueryBag
         return $this;
     }
 
+    /**
+     * @return \Generator
+     */
+    public function walkRecursive(): \Generator
+    {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($this->queryComponents)) as $key => $value) {
+            yield $key => $value;
+        }
+    }
 }

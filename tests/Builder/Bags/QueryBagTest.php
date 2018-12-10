@@ -4,6 +4,7 @@ namespace Keppler\Url\Test\Builder\Bags;
 
 use Keppler\Url\Builder\Builder;
 use Keppler\Url\Exceptions\ComponentNotFoundException;
+use Keppler\Url\Exceptions\InvalidComponentsException;
 use Keppler\Url\Parser\Parser;
 use PHPUnit\Framework\TestCase;
 
@@ -132,7 +133,7 @@ class QueryBagTest extends TestCase
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
 
-        $this->expectException(ComponentNotFoundException::class);
+        $this->expectException(InvalidComponentsException::class);
 
         $builder->query->insertAfter('invalid_component', []);
     }
