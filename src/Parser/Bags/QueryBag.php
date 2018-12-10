@@ -51,8 +51,8 @@ class QueryBag
         }
 
         $match = $this->inRecursive($this->queryComponents, $index);
-
-        return $match[key($match)];
+        $array_slice = array_slice($match, 0, 1);
+        return [key($match) => array_shift($array_slice)];
     }
 
     /**
@@ -69,9 +69,10 @@ class QueryBag
         $match = $this->inRecursive($this->queryComponents, $index);
 
         if(is_array($match)) {
+            $array_slice = array_slice($match, -1);
             reset($match);
             end($match);
-            return $match[key($match)];
+            return [key($match) => array_shift($array_slice)];
         }
 
         return $match;

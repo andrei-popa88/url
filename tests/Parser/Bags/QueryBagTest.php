@@ -80,4 +80,18 @@ class QueryBagTest extends TestCase
         $parser = Parser::from($url);
         $this->assertEquals('', $parser->query->raw());
     }
+
+    public function test_get_firstin_not_multidimensional()
+    {
+        $url = 'https://john.doe@www.example.com:123/forum/questions/?first=value&arr[]=foo+bar&arr[]=baz&arr[test]=value';
+        $parser = Parser::from($url);
+        $this->assertEquals([0 => 'foo bar'], $parser->query->firstIn('arr'));
+    }
+
+    public function test_get_firstin_multidimensional()
+    {
+        $url = 'https://john.doe@www.example.com:123/forum/questions/?first=value&arr[]=foo+bar&arr[]=baz&arr[test]=value';
+        $parser = Parser::from($url);
+        $this->assertEquals(['test' => 'value'], $parser->query->lastIn('arr'));
+    }
 }
