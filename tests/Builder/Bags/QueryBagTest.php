@@ -146,4 +146,13 @@ class QueryBagTest extends TestCase
 
         $this->assertEquals([], $builder->query->all());
     }
+
+    public function test_all_function_should_remove_recursive()
+    {
+        $url = 'https://john.doe@www.example.com:123/forum/questions/?first=value&arr[]=foo+bar&arr[baz]=baz';
+        $parser = Parser::from($url);
+        $builder = Builder::from($parser);
+
+        $this->assertEquals(['first' => 'value', 'arr' => ['foo bar']], $builder->query->remove('baz', true)->all());
+    }
 }

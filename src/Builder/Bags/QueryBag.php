@@ -58,7 +58,7 @@ class QueryBag
      */
     public function remove(string $index, $recursive = false): self
     {
-        if(false === $recursive && $this->has($index)) {
+        if(false === $recursive) {
             if ( ! $this->has($index)) {
                 throw new ComponentNotFoundException("The component does not exist.");
             }
