@@ -33,7 +33,7 @@ class PathBagTest extends TestCase
         $url = 'https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $builder->path->overwrite('forum', 'new_component');
+        $builder->path->overwrite(0, 'new_component');
 
         $this->assertEquals('https://john.doe@www.example.com:123/new_component/questions/?tag=networking&order=newest#top', ($builder->getUrl()));
     }
@@ -63,7 +63,7 @@ class PathBagTest extends TestCase
         $url = 'https://john.doe@www.example.com:123/forum/questions/phpunit/exceptions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $builder->path->insertAfter('questions', 'new_value');
+        $builder->path->insertAfter(1, 'new_value');
 
         $this->assertEquals('https://john.doe@www.example.com:123/forum/questions/new_value/phpunit/exceptions/?tag=networking&order=newest#top', ($builder->getUrl()));
     }
@@ -73,7 +73,7 @@ class PathBagTest extends TestCase
         $url = 'https://john.doe@www.example.com:123/forum/questions/phpunit/exceptions/?tag=networking&order=newest#top';
         $parser = Parser::from($url);
         $builder = Builder::from($parser);
-        $builder->path->insertBefore('questions', 'new_value');
+        $builder->path->insertBefore(1, 'new_value');
 
         $this->assertEquals('https://john.doe@www.example.com:123/forum/new_value/questions/phpunit/exceptions/?tag=networking&order=newest#top', ($builder->getUrl()));
     }
@@ -107,7 +107,7 @@ class PathBagTest extends TestCase
 
         $this->expectException(ComponentNotFoundException::class);
 
-        $builder->path->overwrite('invalid_component', '');
+        $builder->path->overwrite(10 /* invalid offset */, '');
     }
 
     public function test_insert_before_should_throw_exception_when_missing_component()
@@ -118,7 +118,7 @@ class PathBagTest extends TestCase
 
         $this->expectException(ComponentNotFoundException::class);
 
-        $builder->path->insertBefore('invalid_component', '');
+        $builder->path->insertBefore(10 /* invalid offset */, '');
     }
 
     public function test_insert_after_should_throw_exception_when_missing_component()
@@ -129,7 +129,7 @@ class PathBagTest extends TestCase
 
         $this->expectException(ComponentNotFoundException::class);
 
-        $builder->path->insertAfter('invalid_component', '');
+        $builder->path->insertAfter(10 /* invalid offset */, '');
     }
 
     public function test_can_get_all()
