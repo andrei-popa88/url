@@ -128,7 +128,7 @@ echo $builder->getUrl(false); // without trailing slash
 // Please note that path/query setters are only fluent with themselfs meaning you can't do this
 $builder
     ->path
-    ->insertAfter('fatal', 'fatal')
+    ->insertAfter(0 'fatal')
     ->setHost(); // <-- this will throw a fatal error as a PathBag instance is
                  //  returned and the setHost() method belongs to the Builder class
 
@@ -137,7 +137,7 @@ $builder
 $builder
     ->path
     ->insertAfter('forum', 'new_value')
-    ->remove('questions')
+    ->remove(1) // key index of questions
     ->append('another_value');
 
 $builder
