@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Http\Bags;
 
+use Keppler\Url\Scheme\Interfaces\BagInterface;
+use Keppler\Url\Scheme\Schemes\AbstractImmutable;
+
 /**
  * Class HttpsImmutablePathBag
  * @package Keppler\Url\Schemes\Http\Bags
  */
-final class HttpsImmutablePathBag
+final class HttpsImmutablePathBag extends AbstractImmutable implements BagInterface
 {
     /**
      *  path = path-abempty    ; begins with "/" or is empty

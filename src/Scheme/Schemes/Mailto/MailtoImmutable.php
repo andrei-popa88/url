@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Mailto;
 
+use Keppler\Url\Scheme\Interfaces\SchemeInterface;
+use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
 
 /**
@@ -37,7 +39,7 @@ use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
  *
  * @package Keppler\Url\Schemes\Mailto
  */
-final class MailtoImmutable
+final class MailtoImmutable extends AbstractImmutable implements SchemeInterface
 {
     /**
      * The default scheme for this class
@@ -70,7 +72,7 @@ final class MailtoImmutable
      * MailtoImmutable constructor.
      * @param $url
      */
-    public function __construct( $url)
+    public function __construct(string $url)
     {
         $this->raw = $url;
 
@@ -90,6 +92,26 @@ final class MailtoImmutable
         if(isset($parsedUrl['query']) && !empty($parsedUrl['query'])) {
             $this->queryBag = new MailtoImmutableQueryBag($parsedUrl['query']);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function all(): array
+    {
+        return [
+            'scheme' => self::SCHEME_MAILTO,
+            'path' => $this->path,
+            'query' => null !== $this->queryBag ? $this->queryBag->all() : [],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function raw(): string
+    {
+        return $this->raw;
     }
 
     /**

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Mailto\Bags;
 
+use Keppler\Url\Scheme\Interfaces\BagInterface;
+use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Traits\Filter;
 
 /**
@@ -10,7 +12,7 @@ use Keppler\Url\Scheme\Traits\Filter;
  *
  * @package Keppler\Url\Schemes\MailtoImmutable\Bags
  */
-final class MailtoImmutableQueryBag
+final class MailtoImmutableQueryBag extends AbstractImmutable implements BagInterface
 {
     use Filter;
 
@@ -211,15 +213,6 @@ final class MailtoImmutableQueryBag
         return $this->lastIn($this->bcc);
     }
 
-
-    /**
-     * @return string
-     */
-    public function raw(): string
-    {
-        return $this->raw;
-    }
-
     /**
      * @return array
      */
@@ -273,4 +266,13 @@ final class MailtoImmutableQueryBag
             'body' => $this->body,
         ];
     }
+
+    /**
+     * @return string
+     */
+    public function raw(): string
+    {
+        return $this->raw;
+    }
+
 }

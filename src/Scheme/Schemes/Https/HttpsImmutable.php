@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Http;
 
+use Keppler\Url\Scheme\Interfaces\SchemeInterface;
+use Keppler\Url\Scheme\Schemes\AbstractImmutable;
+
 /**
  * Note that the following class makes no assumption regarding url encoding
  * the https url is taken AS IS and will not be decoded or encoded
@@ -20,7 +23,7 @@ namespace Keppler\Url\Scheme\Schemes\Http;
  *
  * @package Keppler\Url\Schemes\Https
  */
-final class HttpsImmutable
+final class HttpsImmutable extends AbstractImmutable implements SchemeInterface
 {
     /**
      * The default scheme for this class

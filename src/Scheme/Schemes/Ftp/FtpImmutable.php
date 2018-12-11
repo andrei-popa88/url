@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Ftp;
 
+use Keppler\Url\Scheme\Interfaces\SchemeInterface;
+use Keppler\Url\Scheme\Schemes\AbstractImmutable;
+
 /**
  * Note that the following class makes no assumption regarding url encoding
  * the ftp url is taken AS IS and will not be decoded or encoded
@@ -18,7 +21,7 @@ namespace Keppler\Url\Scheme\Schemes\Ftp;
  *
  * @package Keppler\Url\Schemes\Ftp
  */
-final class FtpImmutable
+final class FtpImmutable extends AbstractImmutable implements SchemeInterface
 {
     /**
      * The default scheme for this class
