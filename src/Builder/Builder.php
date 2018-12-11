@@ -6,7 +6,7 @@ namespace Keppler\Url\Builder;
 use Keppler\Url\AbstractUrl;
 use Keppler\Url\Builder\Bags\PathBag;
 use Keppler\Url\Builder\Bags\QueryBag;
-use Keppler\Url\Exceptions\SchemaNotSupportedException;
+use Keppler\Url\Exceptions\SchemeNotSupportedException;
 use Keppler\Url\Parser\Parser;
 
 /**
@@ -47,7 +47,7 @@ class Builder extends AbstractUrl
         $self->path = new PathBag();
 
         $self->original = $parser->getOriginal();
-        $self->schema = $parser->getSchema();
+        $self->scheme = $parser->getScheme();
         $self->authority = $parser->getAuthority();
         $self->fragment = $parser->getFragment();
         $self->username = $parser->getUsername();
@@ -65,15 +65,15 @@ class Builder extends AbstractUrl
      * @param string $scheme
      *
      * @return Builder
-     * @throws SchemaNotSupportedException
+     * @throws SchemeNotSupportedException
      */
     public function setScheme(string $scheme): self
     {
-        if ( ! in_array($scheme, $this->allowedSchemas)) {
-            throw new SchemaNotSupportedException("The scheme is not supported");
+        if ( ! in_array($scheme, $this->allowedSchemes)) {
+            throw new SchemeNotSupportedException("The scheme is not supported.");
         }
 
-        $this->schema = $scheme;
+        $this->scheme = $scheme;
 
         return $this;
     }
@@ -175,11 +175,11 @@ class Builder extends AbstractUrl
     {
         $url = '';
 
-        if (null === $this->schema || null === $this->host) {
-            throw new \LogicException("At least the schema and the host must be present.");
+        if (null === $this->scheme || null === $this->host) {
+            throw new \LogicException("At least the scheme and the host must be present.");
         }
 
-        $url .= $this->schema.'://';
+        $url .= $this->scheme.'://';
         $url .= $this->buildAuthority();
         $url .= $this->path->raw($withTrailingSlash);
         $url .= $this->query->raw();

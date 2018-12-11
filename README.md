@@ -29,12 +29,12 @@ $parser = new Parser();
 $parser->parseUrl($urlString);
 
 echo $parser->getHost(); // www.example.com
-echo $parser->getSchema(); // http
+echo $parser->getScheme(); // http
 echo $parser->getAuthority(); // john.doe@www.example.com:123
 
 // you can also do
 echo Parser::from($urlString)->getHost(); // www.example.com
-echo Parser::from($urlString)->getSchema(); // http
+echo Parser::from($urlString)->getScheme(); // http
 echo Parser::from($urlString)->getAuthority(); // john.doe@www.example.com:123
 
 ````

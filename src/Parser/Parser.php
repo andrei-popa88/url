@@ -7,7 +7,7 @@ use Keppler\Url\AbstractUrl;
 use Keppler\Url\Parser\Bags\PathBag;
 use Keppler\Url\Parser\Bags\QueryBag;
 use Keppler\Url\Exceptions\MalformedUrlException;
-use Keppler\Url\Exceptions\SchemaNotSupportedException;
+use Keppler\Url\Exceptions\SchemeNotSupportedException;
 
 /**
  * Immutable Class Parser
@@ -40,7 +40,7 @@ class Parser extends AbstractUrl
      *
      * @return Parser
      * @throws MalformedUrlException
-     * @throws SchemaNotSupportedException
+     * @throws SchemeNotSupportedException
      */
     public static function from(string $url): self
     {
@@ -57,24 +57,24 @@ class Parser extends AbstractUrl
      * @param string $url
      *
      * @throws MalformedUrlException
-     * @throws SchemaNotSupportedException
+     * @throws SchemeNotSupportedException
      */
     public function parseUrl(string $url): void
     {
         $parsedUrl = parse_url($url);
 
         if ( ! isset($parsedUrl['scheme'])) {
-            throw new MalformedUrlException("Missing scheme");
+            throw new MalformedUrlException("Missing scheme.");
         }
 
-        $schemaFromUrl = $parsedUrl['scheme'];
-        if ( ! in_array($schemaFromUrl, $this->allowedSchemas)) {
-            throw new SchemaNotSupportedException(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemas extend this class and roll your own implementation.",
-                $this->allowedSchemas));
+        $schemeFromUrl = $parsedUrl['scheme'];
+        if ( ! in_array($schemeFromUrl, $this->allowedSchemes)) {
+            throw new SchemeNotSupportedException(vsprintf("Scheme not allowed. Only %s, %s, and %s are supported. If you need additional schemes extend this class and roll your own implementation.",
+                $this->allowedSchemes));
         }
 
         $this->original = $url;
-        $this->schema = $parsedUrl['scheme'] ?? null;
+        $this->scheme = $parsedUrl['scheme'] ?? null;
         $this->host = $parsedUrl['host'] ?? null;
         $this->port = $parsedUrl['port'] ?? null;
         $this->username = $parsedUrl['user'] ?? null;
@@ -145,7 +145,7 @@ class Parser extends AbstractUrl
     public function all(): array
     {
         return [
-            'schema'    => $this->schema,
+            'scheme'    => $this->scheme,
             'host'      => $this->host,
             'authority' => $this->authority,
             'path'      => $this->path->all(),
@@ -178,9 +178,9 @@ class Parser extends AbstractUrl
     /**
      * @return null|string
      */
-    public function getSchema(): ?string
+    public function getScheme(): ?string
     {
-        return $this->schema;
+        return $this->scheme;
     }
 
     /**

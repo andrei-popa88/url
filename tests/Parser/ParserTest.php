@@ -5,7 +5,7 @@ namespace Keppler\Parser\Tests;
 use Keppler\Url\Parser\Bags\PathBag;
 use Keppler\Url\Parser\Bags\QueryBag;
 use Keppler\Url\Exceptions\MalformedUrlException;
-use Keppler\Url\Exceptions\SchemaNotSupportedException;
+use Keppler\Url\Exceptions\SchemeNotSupportedException;
 use Keppler\Url\Parser\Parser;
 use PHPUnit\Framework\TestCase;
 
@@ -18,9 +18,9 @@ class ParserTest extends TestCase
         Parser::from(''); // pass in a malformed url
     }
 
-    public function test_should_throw_schema_not_supported_exception()
+    public function test_should_throw_scheme_not_supported_exception()
     {
-        $this->expectException(SchemaNotSupportedException::class);
+        $this->expectException(SchemeNotSupportedException::class);
 
         Parser::from('news:comp.infosystems.www.servers.unix');
     }
@@ -39,25 +39,25 @@ class ParserTest extends TestCase
         $this->assertInstanceOf(QueryBag::class, $parser->query);
     }
 
-    public function test_should_have_schema_https()
+    public function test_should_have_scheme_https()
     {
         $parser = Parser::from('https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top');
 
-        $this->assertEquals('https', $parser->getSchema());
+        $this->assertEquals('https', $parser->getScheme());
     }
 
-    public function test_should_have_schema_http()
+    public function test_should_have_scheme_http()
     {
         $parser = Parser::from('http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top');
 
-        $this->assertEquals('http', $parser->getSchema());
+        $this->assertEquals('http', $parser->getScheme());
     }
 
-    public function test_should_have_schema_mailto()
+    public function test_should_have_scheme_mailto()
     {
         $parser = Parser::from('mailto:John.Doe@example.com');
 
-        $this->assertEquals('mailto', $parser->getSchema());
+        $this->assertEquals('mailto', $parser->getScheme());
     }
 
     public function test_should_full_authority()
