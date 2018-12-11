@@ -34,7 +34,7 @@ class Scheme
         }
 
         if (MailtoImmutable::SCHEME_MAILTO === $parsed['scheme']) {
-            return new MailtoImmutable($parsed);
+            return new MailtoImmutable($url);
         }
 
         throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',

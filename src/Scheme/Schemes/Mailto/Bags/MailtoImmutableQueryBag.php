@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Mailto\Bags;
 
+use Keppler\Url\Scheme\Traits\Filter;
+
 /**
  * Class MailtoImmutableQueryBag
  *
@@ -10,6 +12,8 @@ namespace Keppler\Url\Scheme\Schemes\Mailto\Bags;
  */
 final class MailtoImmutableQueryBag
 {
+    use Filter;
+
     /**
      * TO recipients
      * Can have multiple to recipients as long as
@@ -116,6 +120,55 @@ final class MailtoImmutableQueryBag
     }
 
     /**
+     * @return array
+     */
+    public function firstInCc(): array
+    {
+        return $this->firstIn($this->cc);
+    }
+
+    /**
+     * @return array
+     */
+    public function lastInCc(): array
+    {
+        return $this->lastIn($this->cc);
+    }
+
+    /**
+     * @return array
+     */
+    public function firstInTo(): array
+    {
+        return $this->firstIn($this->to);
+    }
+
+    /**
+     * @return array
+     */
+    public function lastInTo(): array
+    {
+        return $this->lastIn($this->cc);
+    }
+
+    /**
+     * @return array
+     */
+    public function firstInBcc(): array
+    {
+        return $this->firstIn($this->bcc);
+    }
+
+    /**
+     * @return array
+     */
+    public function lastInBcc(): array
+    {
+        return $this->lastIn($this->bcc);
+    }
+
+
+    /**
      * @return string
      */
     public function raw(): string
@@ -208,6 +261,8 @@ final class MailtoImmutableQueryBag
             'to' => $this->to,
             'cc' => $this->cc,
             'bcc' => $this->bcc,
+            'subject' => $this->subject,
+            'body' => $this->body,
         ];
     }
 }

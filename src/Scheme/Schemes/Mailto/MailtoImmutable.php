@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Keppler\Url\Scheme\Schemes\Mailto;
 
 use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
+use Keppler\Url\Scheme\Traits\Filter;
 
 /**
  * Note that the following class makes no assumption regarding url encoding
@@ -52,22 +53,30 @@ final class MailtoImmutable
     private $queryBag = null;
 
     /**
-     * The path can be either a string or an array
+     * The path can be either a string or a comma separated value of strings
      *
      * @example mailto:john@gmail.com,test@gmail.com is an array
      * @example mailto:john@gmail.com is a string
      *
-     * @var null | string | array
+     * @var string | array
      */
     private $path = '';
 
     /**
-     * MailtoImmutable constructor.
-     *
-     * @param array $parsedUrl
+     * @var string
      */
-    public function __construct(array $parsedUrl)
+    private $raw = '';
+
+    /**
+     * MailtoImmutable constructor.
+     * @param $url
+     */
+    public function __construct( $url)
     {
+        $this->raw = $url;
+
+        $parsedUrl = parse_url($url);
+
         if(isset($parsedUrl['path']) && !empty(trim($parsedUrl['path']))){
             // If a comma is present assume that the url contains more than one email address
             // Also assume that the url isn't malformed in some way
@@ -101,10 +110,18 @@ final class MailtoImmutable
     }
 
     /**
-     * @return array|null|string
+     * @return string | array
      */
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRaw(): string
+    {
+        return $this->raw;
     }
 }
