@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Builder;
 
+use Keppler\Url\Builder\Schemes\Mailto\MailtoBuilder;
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 
 /**
@@ -12,8 +13,13 @@ use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
  */
 class Builder
 {
-    public static function mailto(MailtoImmutable $mailto)
+    /**
+     * @param MailtoImmutable $mailto
+     *
+     * @return MailtoBuilder
+     */
+    public static function mailto(MailtoImmutable $mailto): MailtoBuilder
     {
-
+        return new MailtoBuilder($mailto);
     }
 }

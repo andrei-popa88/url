@@ -17,42 +17,35 @@ final class MailtoImmutableQueryBag extends AbstractImmutable implements BagInte
     use Filter;
 
     /**
-     * TO recipients
-     * Can have multiple to recipients as long as
-     * they are separated by a comma
+     * To recipients, can be more than one as
+     * long they are separated by a comma
      *
      * @var array
      */
     private $to = [];
 
     /**
-     * CarbonCopy recipients, can be more than one as long as they
-     * are separated by a comma. The getter should take
-     * care of any encoding the setter WILL always decode it
+     * CarbonCopy recipients, can be more than one
+     * as long as they are separated by a comma
      *
      * @var array
      */
     private $cc = [];
 
     /**
-     * BlindCarbonCopy recipients, can be more than one as long as they
-     * are separated by an encoded comma. The getter should take
-     * care of any encoding the setter WILL always decode it
+     * BlindCarbonCopy recipients, can be more than
+     * one as long as they are separated by a comma
      *
      * @var array
      */
     private $bcc = [];
 
     /**
-     * The setter WILL always decode it before assigning it
-     *
      * @var string
      */
     private $subject = '';
 
     /**
-     * The setter WILL always decode it before assigning it
-     *
      * @var string
      */
     private $body = '';
@@ -65,8 +58,7 @@ final class MailtoImmutableQueryBag extends AbstractImmutable implements BagInte
     private $raw = '';
 
     /**
-     * This should be the ONLY entry point and it should accept ONLY
-     * the raw string, it's the job of this class to set from it
+     * This should be the ONLY entry point and it should accept ONLY the raw string
      *
      * MailtoImmutableQueryBag constructor.
      *
