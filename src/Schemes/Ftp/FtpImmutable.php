@@ -1,40 +1,31 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Schemes\Http;
+namespace Keppler\Url\Schemes\Ftp;
 
 /**
  * Note that the following class makes no assumption regarding url encoding
- * the http url is taken AS IS and will not be decoded or encoded
+ * the ftp url is taken AS IS and will not be decoded or encoded
  * url encoded strings WILL result in errors
  *
- *  http://example.com:8042/over/there?name=ferret#nose
- *   \_/   \______________/\_________/ \_________/ \__/
- *    |           |            |            |       |
- *  scheme   authority       path         query  fragment
+ * ftpurl = "ftp://" login [ "/" fpath [ ";type=" ftptype ]]
  *
- * @see https://tools.ietf.org/html/rfc3986#page-16
+ * ftp://[user[:password]@]host[:port]/url-path
  *
+ * @see https://tools.ietf.org/html/rfc1738
  *
- * Class HttpImmutable
+ * Class FtpImmutable
  *
- * @package Keppler\Url\Schemes\Http
+ * @package Keppler\Url\Schemes\Ftp
  */
-final class HttpImmutable
+final class FtpImmutable
 {
     /**
      * The default scheme for this class
      *
      * @var string
      */
-    const SCHEME_HTTP = 'http';
-
-    /**
-     * authority = [ userinfo "@" ] host [ ":" port ]
-     *
-     * @var string
-     */
-    private $authority = '';
+    const SCHEME_FTP = 'ftp';
 
     /**
      * userinfo = *( unreserved / pct-encoded / sub-delims / ":" )
@@ -51,13 +42,6 @@ final class HttpImmutable
     private $password = '';
 
     /**
-     * host = IP-literal / IPv4address / reg-name
-     *
-     * @var string
-     */
-    private $host = '';
-
-    /**
      * port = *DIGIT
      *
      * Ports can't be negative, -1 should be considered the default value and ignored
@@ -72,13 +56,11 @@ final class HttpImmutable
      * @see https://www.ietf.org/rfc/rfc1413.txt
      * @var int
      */
-    private $port = -1;
+    private $host = '';
 
     /**
-     * fragment = *( pchar / "/" / "?" )
-     *
-     * @var string
+     * @var int
      */
-    private $fragment = '';
-}
+    private $port = -1;
 
+}

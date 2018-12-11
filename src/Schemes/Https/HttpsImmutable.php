@@ -8,7 +8,7 @@ namespace Keppler\Url\Schemes\Http;
  * the http url is taken AS IS and will not be decoded or encoded
  * url encoded strings WILL result in errors
  *
- *  http://example.com:8042/over/there?name=ferret#nose
+ *  https://example.com:8042/over/there?name=ferret#nose
  *   \_/   \______________/\_________/ \_________/ \__/
  *    |           |            |            |       |
  *  scheme   authority       path         query  fragment
@@ -16,18 +16,18 @@ namespace Keppler\Url\Schemes\Http;
  * @see https://tools.ietf.org/html/rfc3986#page-16
  *
  *
- * Class HttpImmutable
+ * Class HttpsImmutable
  *
- * @package Keppler\Url\Schemes\Http
+ * @package Keppler\Url\Schemes\Https
  */
-final class HttpImmutable
+final class HttpsImmutable
 {
     /**
      * The default scheme for this class
      *
      * @var string
      */
-    const SCHEME_HTTP = 'http';
+    const SCHEME_HTTPS = 'https';
 
     /**
      * authority = [ userinfo "@" ] host [ ":" port ]

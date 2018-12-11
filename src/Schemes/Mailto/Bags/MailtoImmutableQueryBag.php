@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Schemes\Mailto\Bags;
 
-use Keppler\Url\Schemes\AbstractImmutableQueryBag;
+use Keppler\Url\Schemes\Interfaces\ImmutableQueryBagInterface;
 
 /**
  * Class MailtoImmutableQueryBag
  *
  * @package Keppler\Url\Schemes\MailtoImmutable\Bags
  */
-final class MailtoImmutableQueryBag
+final class MailtoImmutableQueryBag implements ImmutableQueryBagInterface
 {
     /**
      * TO recipients
@@ -199,5 +199,15 @@ final class MailtoImmutableQueryBag
         } else {
             $this->to[] = $to;
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function all(): array
+    {
+        return [
+            'to' => $this->to,
+        ];
     }
 }

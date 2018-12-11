@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Keppler\Url\Schemes\Http\Bags;
 
 /**
- * Class HttpImmutablePathBag
+ * Class HttpsImmutablePathBag
  * @package Keppler\Url\Schemes\Http\Bags
  */
-final class HttpImmutablePathBag
+final class HttpsImmutablePathBag
 {
     /**
      *  path = path-abempty    ; begins with "/" or is empty
