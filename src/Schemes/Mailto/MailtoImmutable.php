@@ -8,7 +8,7 @@ use Keppler\Url\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
 /**
  * Note that the following class makes no assumption regarding url encoding
  * the mailto url is taken AS IS and will not be decoded or encoded
- * Url encoded strings WILL break the
+ * Url encoded strings WILL result in errors
  *
  * Default and accepted possible components of a mailto
  *
@@ -31,6 +31,7 @@ use Keppler\Url\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
  * @example mailto:john@gmail.com?to=jane@gmail.com,jannis@gmail.com&cc=manny@gmail.com,july@gmail.com&bcc=travis@gmail.com,yani@gmail.com&subject=hello&body=welcome
  *
  * @see https://tools.ietf.org/html/rfc6068
+ *
  *
  * Class MailtoImmutable
  *
@@ -58,7 +59,7 @@ final class MailtoImmutable
      *
      * @var null | string | array
      */
-    private $path = null;
+    private $path = '';
 
     /**
      * MailtoImmutable constructor.
@@ -68,15 +69,13 @@ final class MailtoImmutable
     public function __construct(array $parsedUrl)
     {
         if(isset($parsedUrl['path']) && !empty(trim($parsedUrl['path']))){
-            $path = $parsedUrl['path'];
-
             // If a comma is present assume that the url contains more than one email address
             // Also assume that the url isn't malformed in some way
             // No validation of emails will occur, it's the job of the caller to do that
-            if(false !== strpos($path, ',')) {
-                $this->path = explode(',', $path);
+            if(false !== strpos($parsedUrl['path'], ',')) {
+                $this->path = explode(',', $parsedUrl['path']);
             }else {
-                $this->path = $path;
+                $this->path = $parsedUrl['path'];
             }
         }
 

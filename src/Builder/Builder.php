@@ -7,7 +7,7 @@ use Keppler\Url\AbstractUrl;
 use Keppler\Url\Builder\Bags\PathBag;
 use Keppler\Url\Builder\Bags\QueryBag;
 use Keppler\Url\Exceptions\SchemeNotSupportedException;
-use Keppler\Url\Parser\Parser;
+use Keppler\Url\Parser\Scheme;
 
 /**
  * Class Builder
@@ -38,9 +38,9 @@ class Builder extends AbstractUrl
 
     /**
      * Builder constructor.
-     * @param Parser $parser
+     * @param Scheme $parser
      */
-    public function __construct(Parser $parser)
+    public function __construct(Scheme $parser)
     {
         $this->query = new QueryBag();
         $this->path = new PathBag();

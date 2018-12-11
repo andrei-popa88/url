@@ -10,7 +10,7 @@ use Keppler\Url\Schemes\AbstractImmutableQueryBag;
  *
  * @package Keppler\Url\Schemes\MailtoImmutable\Bags
  */
-final class MailtoImmutableQueryBag extends AbstractImmutableQueryBag
+final class MailtoImmutableQueryBag
 {
     /**
      * TO recipients
@@ -72,12 +72,6 @@ final class MailtoImmutableQueryBag extends AbstractImmutableQueryBag
     {
         $this->raw = $raw;
 
-        // some characters may be encoded
-        // since the mailto can be malformed
-        // there's no way to tell if what we're doing is actually correct
-        // decode the whole string anyway
-        $raw = urldecode($raw);
-
         $result = [];
         parse_str($raw, $result);
         $this->buildFromParsed($result);
@@ -93,6 +87,8 @@ final class MailtoImmutableQueryBag extends AbstractImmutableQueryBag
 
         // Check ONLY for accepted values in the rfc
         // There's no point in looking for something else
+
+        // Some functions will check if there are multiple email addresses by
 
         // Try to set $to
         if (isset($parsed['to']) && ! empty(trim($parsed['to']))) {
@@ -204,7 +200,4 @@ final class MailtoImmutableQueryBag extends AbstractImmutableQueryBag
             $this->to[] = $to;
         }
     }
-
-    // I won't be bothering with magic methods
-    // If you really want to change it, just use Reflection
 }
