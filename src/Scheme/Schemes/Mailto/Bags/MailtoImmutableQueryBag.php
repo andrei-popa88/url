@@ -206,6 +206,8 @@ final class MailtoImmutableQueryBag
     {
         return [
             'to' => $this->to,
+            'cc' => $this->cc,
+            'bcc' => $this->bcc,
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace Keppler\Url\Scheme\Schemes\Http;
 
 /**
  * Note that the following class makes no assumption regarding url encoding
- * the http url is taken AS IS and will not be decoded or encoded
+ * the https url is taken AS IS and will not be decoded or encoded
  * url encoded strings WILL result in errors
  *
  *  https://example.com:8042/over/there?name=ferret#nose

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Schemes\Interfaces;
+namespace Keppler\Url\Scheme\Interfaces;
 
 /**
  * Interface ImmutablePathBagInterface
