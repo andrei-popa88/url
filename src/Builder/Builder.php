@@ -6,7 +6,7 @@ namespace Keppler\Url\Builder;
 use Keppler\Url\AbstractUrl;
 use Keppler\Url\Builder\Bags\PathBag;
 use Keppler\Url\Builder\Bags\QueryBag;
-use Keppler\Url\Exceptions\SchemaNotSupportedException;
+use Keppler\Url\Exceptions\SchemeNotSupportedException;
 use Keppler\Url\Parser\Parser;
 
 /**
@@ -63,12 +63,12 @@ class Builder extends AbstractUrl
      * @param string $scheme
      *
      * @return Builder
-     * @throws SchemaNotSupportedException
+     * @throws SchemeNotSupportedException
      */
     public function setScheme(string $scheme): self
     {
         if ( ! in_array($scheme, $this->allowedSchemas)) {
-            throw new SchemaNotSupportedException("The scheme is not supported");
+            throw new SchemeNotSupportedException("The scheme is not supported");
         }
 
         $this->schema = $scheme;

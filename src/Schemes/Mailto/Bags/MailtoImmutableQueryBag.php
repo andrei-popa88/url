@@ -6,19 +6,6 @@ namespace Keppler\Url\Schemes\Mailto\Bags;
 use Keppler\Url\Schemes\AbstractImmutableQueryBag;
 
 /**
- * Default and accepted possible components of a mailto
- *
- * mailtoURL  =  "mailto:" [ to ] [ headers ]
- * to         =  #mailbox
- * headers    =  "?" header *( "&" header )
- * header     =  hname "=" hvalue
- * hname      =  *urlc
- * hvalue     =  *urlc
- *
- * @example mailto:john@gmail.com?to=jane@gmail.com,jannis@gmail.com&cc=manny@gmail.com,july@gmail.com&bcc=travis@gmail.com,yani@gmail.com&subject=hello&body=welcome
- *
- * @see     https://tools.ietf.org/html/rfc2368
- *
  * Class MailtoImmutableQueryBag
  *
  * @package Keppler\Url\Schemes\MailtoImmutable\Bags
