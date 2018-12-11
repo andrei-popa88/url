@@ -119,6 +119,50 @@ final class MailtoImmutableQueryBag
         }
     }
 
+///////////////////////
+/// START PRIVATE  ///
+//////////////////////
+
+    /**
+     * @param string $bcc
+     */
+    private function setBcc(string $bcc): void
+    {
+        if (false !== strpos($bcc, ',')) {
+            $this->bcc = explode(',', $bcc);
+        } else {
+            $this->bcc[] = $bcc;
+        }
+    }
+
+    /**
+     * @param string $cc
+     */
+    private function setCc(string $cc): void
+    {
+        if (false !== strpos($cc, ',')) {
+            $this->cc = explode(',', $cc);
+        } else {
+            $this->cc[] = $cc;
+        }
+    }
+
+    /**
+     * @param string $to
+     */
+    private function setTo(string $to): void
+    {
+        if (false !== strpos($to, ',')) {
+            $this->to = explode(',', $to);
+        } else {
+            $this->to[] = $to;
+        }
+    }
+
+////////////////////
+/// END PRIVATE  ///
+///////////////////
+
     /**
      * @return array
      */
@@ -214,42 +258,6 @@ final class MailtoImmutableQueryBag
     public function getBody(): string
     {
         return $this->body;
-    }
-
-    /**
-     * @param string $bcc
-     */
-    private function setBcc(string $bcc): void
-    {
-        if (false !== strpos($bcc, ',')) {
-            $this->bcc = explode(',', $bcc);
-        } else {
-            $this->bcc[] = $bcc;
-        }
-    }
-
-    /**
-     * @param string $cc
-     */
-    private function setCc(string $cc): void
-    {
-        if (false !== strpos($cc, ',')) {
-            $this->cc = explode(',', $cc);
-        } else {
-            $this->cc[] = $cc;
-        }
-    }
-
-    /**
-     * @param string $to
-     */
-    private function setTo(string $to): void
-    {
-        if (false !== strpos($to, ',')) {
-            $this->to = explode(',', $to);
-        } else {
-            $this->to[] = $to;
-        }
     }
 
     /**
