@@ -120,6 +120,9 @@ final class MailtoBuilder
 
         $query = '?';
 
+        // Encode only parts of the
+
+        // TODO REFACTOR TO RECURSIVE BECAUSE IMPLODE CAN'T ENCODE SPACES!
         if(!empty($this->queryBag->getTo())) {
             if($urlEncode) {
                 $query .= '&to=' . rtrim(implode($commaEncoded, $this->queryBag->getTo()), $commaEncoded);
