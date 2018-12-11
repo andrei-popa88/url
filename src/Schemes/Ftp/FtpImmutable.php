@@ -42,6 +42,13 @@ final class FtpImmutable
     private $password = '';
 
     /**
+     * host = IP-literal / IPv4address / reg-name
+     *
+     * @var string
+     */
+    private $host = '';
+
+    /**
      * port = *DIGIT
      *
      * Ports can't be negative, -1 should be considered the default value and ignored
@@ -54,11 +61,6 @@ final class FtpImmutable
      *  in any fashion not recognized as a non-negative integer.
      *
      * @see https://www.ietf.org/rfc/rfc1413.txt
-     * @var int
-     */
-    private $host = '';
-
-    /**
      * @var int
      */
     private $port = -1;
