@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Schemes\Http;
+namespace Keppler\Url\Scheme\Schemes\Http;
 
 /**
  * Note that the following class makes no assumption regarding url encoding

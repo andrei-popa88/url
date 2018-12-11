@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Schemes\Mailto;
+namespace Keppler\Url\Scheme\Schemes\Mailto;
 
-use Keppler\Url\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
+use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
 
 /**
  * Note that the following class makes no assumption regarding url encoding

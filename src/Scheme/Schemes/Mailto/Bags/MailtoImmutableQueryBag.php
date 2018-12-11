@@ -1,16 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Schemes\Mailto\Bags;
-
-use Keppler\Url\Schemes\Interfaces\ImmutableQueryBagInterface;
+namespace Keppler\Url\Scheme\Schemes\Mailto\Bags;
 
 /**
  * Class MailtoImmutableQueryBag
  *
  * @package Keppler\Url\Schemes\MailtoImmutable\Bags
  */
-final class MailtoImmutableQueryBag implements ImmutableQueryBagInterface
+final class MailtoImmutableQueryBag
 {
     /**
      * TO recipients

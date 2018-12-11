@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Schemes\Ftp\Bags;
+namespace Keppler\Url\Scheme\Schemes\Http\Bags;
 
 /**
  * Class HttpImmutablePathBag
  * @package Keppler\Url\Schemes\Http\Bags
  */
-final class FtpImmutablePathBag
+final class HttpImmutablePathBag
 {
     /**
      *  path = path-abempty    ; begins with "/" or is empty

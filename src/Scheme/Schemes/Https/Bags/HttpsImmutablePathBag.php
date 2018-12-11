@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Schemes\Http\Bags;
+namespace Keppler\Url\Scheme\Schemes\Http\Bags;
 
 /**
  * Class HttpsImmutablePathBag
@@ -29,6 +29,8 @@ final class HttpsImmutablePathBag
      *  ; non-zero-length segment without any colon ":"
      *
      *  pchar         = unreserved / pct-encoded / sub-delims / ":" / "@
+     *
+     *
      *
      * @see https://tools.ietf.org/html/rfc3986#page-22
      *

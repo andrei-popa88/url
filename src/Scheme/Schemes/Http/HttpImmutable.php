@@ -1,31 +1,40 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Schemes\Ftp;
+namespace Keppler\Url\Scheme\Schemes\Http;
 
 /**
  * Note that the following class makes no assumption regarding url encoding
- * the ftp url is taken AS IS and will not be decoded or encoded
+ * the http url is taken AS IS and will not be decoded or encoded
  * url encoded strings WILL result in errors
  *
- * ftpurl = "ftp://" login [ "/" fpath [ ";type=" ftptype ]]
+ *  http://example.com:8042/over/there?name=ferret#nose
+ *   \_/   \______________/\_________/ \_________/ \__/
+ *    |           |            |            |       |
+ *  scheme   authority       path         query  fragment
  *
- * ftp://[user[:password]@]host[:port]/url-path
+ * @see https://tools.ietf.org/html/rfc3986#page-16
  *
- * @see https://tools.ietf.org/html/rfc1738
  *
- * Class FtpImmutable
+ * Class HttpImmutable
  *
- * @package Keppler\Url\Schemes\Ftp
+ * @package Keppler\Url\Schemes\Http
  */
-final class FtpImmutable
+final class HttpImmutable
 {
     /**
      * The default scheme for this class
      *
      * @var string
      */
-    const SCHEME_FTP = 'ftp';
+    const SCHEME_HTTP = 'http';
+
+    /**
+     * authority = [ userinfo "@" ] host [ ":" port ]
+     *
+     * @var string
+     */
+    private $authority = '';
 
     /**
      * userinfo = *( unreserved / pct-encoded / sub-delims / ":" )
@@ -65,4 +74,11 @@ final class FtpImmutable
      */
     private $port = -1;
 
+    /**
+     * fragment = *( pchar / "/" / "?" )
+     *
+     * @var string
+     */
+    private $fragment = '';
 }
+

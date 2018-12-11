@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Schemes\Http\Bags;
+namespace Keppler\Url\Scheme\Schemes\Http\Bags;
 
 /**
  * Class HttpImmutableQueryBag
