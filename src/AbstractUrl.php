@@ -28,7 +28,7 @@ abstract class AbstractUrl
     /**
      * @var array
      */
-    protected $allowedSchemas
+    protected $allowedSchemes
         = [
             'http',
             'https',
@@ -38,7 +38,7 @@ abstract class AbstractUrl
     /**
      * @var
      */
-    protected $schema = null;
+    protected $scheme = null;
 
     /**
      * @var
