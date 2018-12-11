@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Keppler\Url\Scheme\Schemes\Mailto;
 
 use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
-use Keppler\Url\Scheme\Traits\Filter;
 
 /**
  * Note that the following class makes no assumption regarding url encoding
