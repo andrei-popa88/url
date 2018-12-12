@@ -10,7 +10,7 @@ use Keppler\Url\Scheme\Schemes\AbstractImmutable;
  * Class HttpsImmutableQueryBag
  * @package Keppler\Url\Schemes\Http\Bags
  */
-final class HttpsImmutableQueryBag extends AbstractImmutable implements BagInterface
+class HttpsImmutableQueryBag extends AbstractImmutable implements BagInterface
 {
     /**
      * query = *( pchar / "/" / "?" )

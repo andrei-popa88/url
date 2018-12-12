@@ -8,7 +8,7 @@ namespace Keppler\Url\Builder\Schemes\Mailto\Bags;
  *
  * @package Keppler\Url\Builder\Schemes\Mailto\Bags
  */
-final class MailtoQueryBag
+class MailtoQueryBag
 {
     /**
      * To recipients, can be more than one as

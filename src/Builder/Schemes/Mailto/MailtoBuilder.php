@@ -11,7 +11,7 @@ use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
  *
  * @package Keppler\Url\Builder\Schemes\Mailto
  */
-final class MailtoBuilder
+class MailtoBuilder
 {
     /**
      * The default scheme for this class
@@ -21,14 +21,14 @@ final class MailtoBuilder
     const SCHEME_MAILTO = 'mailto';
 
     /**
-     * @var null
+     * @var MailtoQueryBag
      */
-    private $queryBag = null;
+    private $queryBag;
 
     /**
-     * @var string | array
+     * @var string
      */
-    private $path = null;
+    private $path = '';
 
     /**
      * MailtoBuilder constructor.
@@ -57,6 +57,8 @@ final class MailtoBuilder
             $this->queryBag->setTo($mailto->getQueryBag()->getTo());
             $this->queryBag->setSubject($mailto->getQueryBag()->getSubject());
             $this->queryBag->setBody($mailto->getQueryBag()->getBody());
+        } else {
+            $this->queryBag = new MailtoQueryBag();
         }
     }
 

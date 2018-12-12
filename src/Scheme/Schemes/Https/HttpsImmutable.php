@@ -23,7 +23,7 @@ use Keppler\Url\Scheme\Schemes\AbstractImmutable;
  *
  * @package Keppler\Url\Schemes\Https
  */
-final class HttpsImmutable extends AbstractImmutable implements SchemeInterface
+class HttpsImmutable extends AbstractImmutable implements SchemeInterface
 {
     /**
      * The default scheme for this class

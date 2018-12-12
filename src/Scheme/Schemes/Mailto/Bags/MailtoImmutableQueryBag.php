@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Mailto\Bags;
 
+use Keppler\Url\Exceptions\ComponentNotFoundException;
+use Keppler\Url\Scheme\Exceptions\ImmutableException;
 use Keppler\Url\Scheme\Interfaces\BagInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Traits\Filter;
@@ -12,7 +14,7 @@ use Keppler\Url\Scheme\Traits\Filter;
  *
  * @package Keppler\Url\Schemes\MailtoImmutable\Bags
  */
-final class MailtoImmutableQueryBag extends AbstractImmutable implements BagInterface
+class MailtoImmutableQueryBag extends AbstractImmutable implements BagInterface
 {
     use Filter;
 
@@ -53,9 +55,9 @@ final class MailtoImmutableQueryBag extends AbstractImmutable implements BagInte
     /**
      * The raw query string
      *
-     * @var string
+     * @var string | null
      */
-    private $raw = '';
+    private $raw = null;
 
     /**
      * This should be the ONLY entry point and it should accept ONLY the raw string
@@ -64,13 +66,16 @@ final class MailtoImmutableQueryBag extends AbstractImmutable implements BagInte
      *
      * @param string $raw
      */
-    public function __construct(string $raw)
+    public function __construct(string $raw = '')
     {
-        $this->raw = $raw;
+        // Leave the class with defaults if no valid raw string is provided
+        if('' !== trim($raw)) {
+            $this->raw = $raw;
 
-        $result = [];
-        parse_str($raw, $result);
-        $this->buildFromParsed($result);
+            $result = [];
+            parse_str($raw, $result);
+            $this->buildFromParsed($result);
+        }
     }
 
     /**
@@ -156,6 +161,16 @@ final class MailtoImmutableQueryBag extends AbstractImmutable implements BagInte
 ////////////////////
 /// END PRIVATE  ///
 ///////////////////
+
+    /**
+     * @param int $key
+     * @return string
+     * @throws ComponentNotFoundException
+     */
+    public function getInTo(int $key): string
+    {
+        return $this->getIn($this->to, $key);
+    }
 
     /**
      * @return array
@@ -260,11 +275,34 @@ final class MailtoImmutableQueryBag extends AbstractImmutable implements BagInte
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function raw(): string
     {
-        return $this->raw;
+        return null !== $this->raw ? $this->raw : '';
     }
 
+    /**
+     * This returns a class property instead of an array entry
+     *
+     * @param string $key
+     * @return mixed
+     * @throws ComponentNotFoundException
+     */
+    public function get(string $key)
+    {
+        if(!property_exists($this, $key)) {
+            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
+        }
+
+        return $this->$key;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function has(string $key): bool
+    {
+        return property_exists($this, $key);
+    }
 }

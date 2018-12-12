@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Mailto;
 
+use Keppler\Url\Scheme\Exceptions\ImmutableException;
 use Keppler\Url\Scheme\Interfaces\SchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
@@ -39,7 +40,7 @@ use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
  *
  * @package Keppler\Url\Schemes\Mailto
  */
-final class MailtoImmutable extends AbstractImmutable implements SchemeInterface
+class MailtoImmutable extends AbstractImmutable implements SchemeInterface
 {
     /**
      * The default scheme for this class
@@ -91,6 +92,8 @@ final class MailtoImmutable extends AbstractImmutable implements SchemeInterface
 
         if(isset($parsedUrl['query']) && !empty($parsedUrl['query'])) {
             $this->queryBag = new MailtoImmutableQueryBag($parsedUrl['query']);
+        } else {
+            $this->queryBag = new MailtoImmutableQueryBag();
         }
     }
 
@@ -123,9 +126,9 @@ final class MailtoImmutable extends AbstractImmutable implements SchemeInterface
     }
 
     /**
-     * @return MailtoImmutableQueryBag|null
+     * @return MailtoImmutableQueryBag
      */
-    public function getQueryBag(): ?MailtoImmutableQueryBag
+    public function getQueryBag(): MailtoImmutableQueryBag
     {
         return $this->queryBag;
     }

@@ -25,4 +25,11 @@ interface SchemeInterface
      * @return string
      */
     public function raw(): string;
+
+    /**
+     * Returns the scheme associated with the class
+     *
+     * @return string
+     */
+    public function getScheme();
 }

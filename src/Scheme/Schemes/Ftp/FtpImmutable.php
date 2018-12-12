@@ -21,7 +21,7 @@ use Keppler\Url\Scheme\Schemes\AbstractImmutable;
  *
  * @package Keppler\Url\Schemes\Ftp
  */
-final class FtpImmutable extends AbstractImmutable implements SchemeInterface
+class FtpImmutable extends AbstractImmutable implements SchemeInterface
 {
     /**
      * The default scheme for this class

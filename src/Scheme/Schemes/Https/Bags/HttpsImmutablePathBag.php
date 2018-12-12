@@ -10,7 +10,7 @@ use Keppler\Url\Scheme\Schemes\AbstractImmutable;
  * Class HttpsImmutablePathBag
  * @package Keppler\Url\Schemes\Http\Bags
  */
-final class HttpsImmutablePathBag extends AbstractImmutable implements BagInterface
+class HttpsImmutablePathBag extends AbstractImmutable implements BagInterface
 {
     /**
      *  path = path-abempty    ; begins with "/" or is empty
