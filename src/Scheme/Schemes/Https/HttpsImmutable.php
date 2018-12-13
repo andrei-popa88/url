@@ -224,7 +224,7 @@ class HttpsImmutable extends AbstractImmutable implements SchemeInterface
      */
     public function getPort(): ?int
     {
-        return -1 === $this->port ? null : $this->port;
+        return -1 === $this->port ? '' : $this->port;
     }
 
     /**

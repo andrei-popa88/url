@@ -97,6 +97,10 @@ class FtpImmutable extends AbstractImmutable implements SchemeInterface
         }
     }
 
+//////////////////////////
+/// GETTER FUNCTIONS  ///
+////////////////////////
+
     /**
      * @return string
      */
@@ -129,6 +133,10 @@ class FtpImmutable extends AbstractImmutable implements SchemeInterface
         return $this->port;
     }
 
+/////////////////////////////////
+/// INTERFACE IMPLEMENTATIOM  ///
+////////////////////////////////
+
     /**
      * Returns all the components of the scheme including
      *  any bags in the form of an array
@@ -142,7 +150,7 @@ class FtpImmutable extends AbstractImmutable implements SchemeInterface
             'user' => $this->user,
             'password' => $this->password,
             'host' => $this->host,
-            'port' => -1 === $this->port ? null : $this->port,
+            'port' => -1 === $this->port ? '' : $this->port,
             'path' => $this->pathBag->all(),
         ];
     }
@@ -164,8 +172,6 @@ class FtpImmutable extends AbstractImmutable implements SchemeInterface
      */
     public function getScheme()
     {
-        // TODO: Implement getScheme() method.
+        return self::SCHEME;
     }
-
-
 }
