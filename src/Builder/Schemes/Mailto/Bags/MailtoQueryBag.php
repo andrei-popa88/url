@@ -6,6 +6,7 @@ namespace Keppler\Url\Builder\Schemes\Mailto\Bags;
 use Keppler\Url\Builder\Schemes\Interfaces\BagInterface;
 use Keppler\Url\Exceptions\ComponentNotFoundException;
 use Keppler\Url\Traits\Accessor;
+use Keppler\Url\Traits\Mutator;
 
 /**
  * Class MailtoQueryBag
@@ -15,6 +16,7 @@ use Keppler\Url\Traits\Accessor;
 class MailtoQueryBag implements BagInterface
 {
     use Accessor;
+    use Mutator;
 
     /**
      * To recipients, can be more than one as
@@ -49,11 +51,6 @@ class MailtoQueryBag implements BagInterface
      * @var string
      */
     private $body = '';
-
-    /**
-     * @var string
-     */
-    private $raw = '';
 
     /**
      * @return array
@@ -230,14 +227,6 @@ class MailtoQueryBag implements BagInterface
     /**
      * @inheritDoc
      */
-    public function raw(): string
-    {
-       // TODO Implement this
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function has(string $key): bool
     {
         return property_exists($this, $key);
@@ -248,7 +237,7 @@ class MailtoQueryBag implements BagInterface
      */
     public function get(string $key)
     {
-        if(!property_exists($this, $key)) {
+        if (!$this->has($key)) {
             throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
         }
 
@@ -256,11 +245,14 @@ class MailtoQueryBag implements BagInterface
     }
 
     /**
-     * @inheritDoc
+     * @param $key
+     * @param $value
+     * @return BagInterface
+     * @throws ComponentNotFoundException
      */
     public function set($key, $value): BagInterface
     {
-        if(!$this->has($key)) {
+        if (!$this->has($key)) {
             throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
         }
 
@@ -269,5 +261,244 @@ class MailtoQueryBag implements BagInterface
         return $this;
     }
 
+    /**
+     * @param string $value
+     * @return MailtoQueryBag
+     */
+    public function appendToTo(string $value): self
+    {
+        $this->append($this->to, $value);
 
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return MailtoQueryBag
+     */
+    public function appendToCc(string $value): self
+    {
+        $this->append($this->cc, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return MailtoQueryBag
+     */
+    public function appendToBcc(string $value): self
+    {
+        $this->append($this->cc, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return MailtoQueryBag
+     */
+    public function prependToTo(string $value): self
+    {
+        $this->prepend($this->to, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return MailtoQueryBag
+     */
+    public function prependToCC(string $value): self
+    {
+        $this->prepend($this->cc, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return MailtoQueryBag
+     */
+    public function prependToBcc(string $value): self
+    {
+        $this->prepend($this->bcc, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param $keyOrValue
+     * @return $this
+     */
+    public function forgetFromTo($keyOrValue): self
+    {
+        $this->forgetKeyOrValue($this->to, $keyOrValue);
+
+        return $this;
+    }
+
+    /**
+     * @param $keyOrValue
+     * @return $this
+     */
+    public function forgetFromCc($keyOrValue): self
+    {
+        $this->forgetKeyOrValue($this->cc, $keyOrValue);
+
+        return $this;
+    }
+
+    /**
+     * @param $keyOrValue
+     * @return $this
+     */
+    public function forgetFromBcc($keyOrValue): self
+    {
+        $this->forgetKeyOrValue($this->bcc, $keyOrValue);
+
+        return $this;
+    }
+
+    /**
+     * Sets the subject to an empty string
+     *
+     * @return $this
+     */
+    public function forgetSubject(): self
+    {
+        $this->subject = '';
+
+        return $this;
+    }
+
+    /**
+     * @return MailtoQueryBag
+     */
+    public function forgetBody(): self
+    {
+        $this->body = '';
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public function toHas(string $value): bool
+    {
+        return isset(array_flip($this->to)[$value]);
+    }
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public function ccHas(string $value): bool
+    {
+        return isset(array_flip($this->cc)[$value]);
+    }
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public function bccHas(string $value): bool
+    {
+        return isset(array_flip($this->bcc)[$value]);
+    }
+
+    /**
+     * @return string
+     */
+    public function encoded(): string
+    {
+        return $this->buildQuery(true);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function raw(): string
+    {
+        return $this->buildQuery(false);
+    }
+
+    /**
+     * @param bool $urlEncode
+     * @return string
+     */
+    private function buildQuery(bool $urlEncode = false): string
+    {
+        $query = '?';
+        $encodedComma = '%2C'; // only valid encoded delimiter - encoded comma
+        $trim = $encodedComma.',';
+
+        if (!empty($this->getTo())) {
+            $query .= '&to=';
+            foreach ($this->to as $value) {
+                if ($urlEncode) {
+                    $query .= $value.$encodedComma;
+                } else {
+                    $query .= $value.',';
+                }
+            }
+
+            $query = rtrim($query, $trim);
+        }
+
+        if (!empty($this->cc)) {
+            $query .= '&cc=';
+            foreach ($this->cc as $value) {
+                if ($urlEncode) {
+                    $query .= $value.$encodedComma;
+                } else {
+                    $query .= $value.',';
+                }
+            }
+
+            $query = rtrim($query, $trim);
+        }
+
+        if (!empty($this->bcc)) {
+            $query .= '&bcc=';
+            foreach ($this->bcc as $value) {
+                if ($urlEncode) {
+                    $query .= $value.$encodedComma;
+                } else {
+                    $query .= $value.',';
+                }
+            }
+
+            $query = rtrim($query, $trim);
+        }
+
+        if ('' !== trim($this->subject)) {
+            if ($urlEncode) {
+                $query .= '&subject='.urlencode($this->subject);
+
+            } else {
+                $query .= '&subject='.$this->subject;
+            }
+        }
+
+        if ('' !== trim($this->body)) {
+            if ($urlEncode) {
+                $query .= '&body='.urlencode($this->body);
+
+            } else {
+                $query .= '&body='.$this->body;
+            }
+        }
+
+        if ('?' !== $query) {
+            $query = ltrim($query, '?&');
+            $query = '?'.$query;
+
+            return $query;
+        }
+
+        return '';
+    }
 }

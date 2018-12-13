@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Mailto\Bags;
 
-use Keppler\Url\Exceptions\ComponentNotFoundException;
 use Keppler\Url\Scheme\Interfaces\ImmutableBagInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Traits\Accessor;
@@ -56,7 +55,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
      *
      * @var string | null
      */
-    private $raw = null;
+    private $raw = '';
 
     /**
      * This should be the ONLY entry point and it should accept ONLY the raw string
@@ -68,7 +67,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     public function __construct(string $raw = '')
     {
         // Leave the class with defaults if no valid raw string is provided
-        if('' !== trim($raw)) {
+        if ('' !== trim($raw)) {
             $this->raw = $raw;
 
             $result = [];
@@ -91,28 +90,28 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
         // Some functions will check if there are multiple email addresses by
 
         // Try to set $to
-        if (isset($parsed['to']) && ! empty(trim($parsed['to']))) {
+        if (isset($parsed['to']) && !empty(trim($parsed['to']))) {
             $this->setTo($parsed['to']);
         }
 
         // Try to set $cc
-        if (isset($parsed['cc']) && ! empty(trim($parsed['cc']))) {
+        if (isset($parsed['cc']) && !empty(trim($parsed['cc']))) {
             $this->setCc($parsed['cc']);
         }
 
         // Try to set $bcc
-        if (isset($parsed['bcc']) && ! empty(trim($parsed['bcc']))) {
+        if (isset($parsed['bcc']) && !empty(trim($parsed['bcc']))) {
             $this->setBcc($parsed['bcc']);
         }
 
         // Try to set $subject
-        if (isset($parsed['subject']) && ! empty(trim($parsed['subject']))
+        if (isset($parsed['subject']) && !empty(trim($parsed['subject']))
         ) {
             $this->subject = $parsed['subject'];
         }
 
         // Try to set $body
-        if (isset($parsed['body']) && ! empty(trim($parsed['body']))) {
+        if (isset($parsed['body']) && !empty(trim($parsed['body']))) {
             $this->body = $parsed['body'];
         }
     }
@@ -161,62 +160,34 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
 /// END PRIVATE  ///
 ///////////////////
 
+
+/////////////////////
+/// TO FUNCTIONS  ///
+////////////////////
+
     /**
-     * @param int $key
+     * @param string $value
+     * @return bool
+     */
+    public function hasInTo(string $value): bool
+    {
+        return $this->hasValueIn($this->to, $value);
+    }
+
+    /**
      * @return string
-     * @throws ComponentNotFoundException
      */
-    public function getInTo(int $key): string
-    {
-        return $this->getIn($this->to, $key);
-    }
-
-    /**
-     * @return array
-     */
-    public function firstInCc(): array
-    {
-        return $this->firstIn($this->cc);
-    }
-
-    /**
-     * @return array
-     */
-    public function lastInCc(): array
-    {
-        return $this->lastIn($this->cc);
-    }
-
-    /**
-     * @return array
-     */
-    public function firstInTo(): array
+    public function firstInTo(): string
     {
         return $this->firstIn($this->to);
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function lastInTo(): array
+    public function lastInTo(): string
     {
         return $this->lastIn($this->cc);
-    }
-
-    /**
-     * @return array
-     */
-    public function firstInBcc(): array
-    {
-        return $this->firstIn($this->bcc);
-    }
-
-    /**
-     * @return array
-     */
-    public function lastInBcc(): array
-    {
-        return $this->lastIn($this->bcc);
     }
 
     /**
@@ -227,12 +198,70 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
         return $this->to;
     }
 
+/////////////////////
+/// CC FUNCTIONS  ///
+////////////////////
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public function hasInCc(string $value): bool
+    {
+        return $this->hasValueIn($this->cc, $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function firstInCc(): string
+    {
+        return $this->firstIn($this->cc);
+    }
+
+    /**
+     * @return string
+     */
+    public function lastInCc(): string
+    {
+        return $this->lastIn($this->cc);
+    }
+
     /**
      * @return array
      */
     public function getCc(): array
     {
         return $this->cc;
+    }
+
+//////////////////////
+/// BCC FUNCTIONS  ///
+/////////////////////
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public function hasInBcc(string $value): bool
+    {
+        return $this->hasValueIn($this->bcc, $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function firstInBcc(): string
+    {
+        return $this->firstIn($this->bcc);
+    }
+
+    /**
+     * @return string
+     */
+    public function lastInBcc(): string
+    {
+        return $this->lastIn($this->bcc);
     }
 
     /**
@@ -242,6 +271,10 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     {
         return $this->bcc;
     }
+
+////////////////////////
+/// OTHER FUNCTIONS  ///
+///////////////////////
 
     /**
      * @return string
@@ -258,6 +291,10 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     {
         return $this->body;
     }
+
+/////////////////////////////////
+/// INTERFACE IMPLEMENTATION  ///
+/////////////////////////////////
 
     /**
      * @inheritDoc
@@ -278,30 +315,6 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
      */
     public function raw(): string
     {
-        return null !== $this->raw ? $this->raw : '';
-    }
-
-    /**
-     * This returns a class property instead of an array entry
-     *
-     * @param string $key
-     * @return mixed
-     * @throws ComponentNotFoundException
-     */
-    public function get(string $key)
-    {
-        if(!property_exists($this, $key)) {
-            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
-        }
-
-        return $this->$key;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function has(string $key): bool
-    {
-        return property_exists($this, $key);
+        return $this->raw;
     }
 }

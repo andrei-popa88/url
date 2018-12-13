@@ -6,6 +6,7 @@ namespace Keppler\Url\Scheme\Schemes\Mailto;
 use Keppler\Url\Scheme\Interfaces\ImmutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQuery;
+use Keppler\Url\Traits\Accessor;
 
 /**
  * Note that the following class makes no assumption regarding url encoding
@@ -39,6 +40,8 @@ use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQuery;
  */
 class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterface
 {
+    use Accessor;
+
     /**
      * The default scheme for this class
      *
@@ -94,6 +97,42 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
         }
     }
 
+
+    /**
+     * @return string
+     */
+    public function firstInPath(): string
+    {
+        if(is_array($this->path)) {
+            return $this->firstIn($this->path);
+        }
+
+        return $this->path;
+    }
+
+    /**
+     * @return string
+     */
+    public function lastInPath()
+    {
+        if(is_array($this->path)) {
+            return $this->lastIn($this->path);
+        }
+
+        return $this->path;
+    }
+
+    /**
+     * @return string | array
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+/////////////////////////////////
+/// INTERFACE IMPLEMENTATION  ///
+/////////////////////////////////
     /**
      * @inheritdoc
      */
@@ -128,21 +167,5 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
     public function getQueryBag(): MailtoImmutableQuery
     {
         return $this->queryBag;
-    }
-
-    /**
-     * @return string | array
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRaw(): string
-    {
-        return $this->raw;
     }
 }

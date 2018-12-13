@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Builder\Schemes\Interfaces;
 
+use Keppler\Url\Exceptions\ComponentNotFoundException;
+
 /**
  * Interface BagInterface
  * @package Keppler\Url\Builder\Schemes\Interfaces
@@ -24,6 +26,13 @@ interface BagInterface
     public function raw(): string;
 
     /**
+     * Returns the encoded query or path string
+     *
+     * @return string
+     */
+    public function encoded(): string;
+
+    /**
      * Checks weather a given bag or path has a certain key
      *
      * @param string $key
@@ -38,6 +47,7 @@ interface BagInterface
      * for example MailtoImmutableQuery
      *
      * @param string $key
+     * @throws ComponentNotFoundException
      * @return mixed
      */
     public function get(string $key);
@@ -49,6 +59,7 @@ interface BagInterface
      *
      * @param $key
      * @param $value
+     * @throws ComponentNotFoundException
      * @return BagInterface
      */
     public function set($key, $value): self;

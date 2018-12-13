@@ -12,14 +12,12 @@ use Keppler\Url\Exceptions\ComponentNotFoundException;
 trait Accessor
 {
     /**
-     * Returns the first key => value pair of an array
-     *
      * @param array $array
-     * @return array
+     * @return string
      */
-    protected function firstIn(array $array): array
+    protected function firstIn(array $array): string
     {
-        return empty($array) ? [] : [key($array) => reset($array)];
+        return false !== reset($array) ? (string)reset($array) : '';
     }
 
     /**
@@ -33,22 +31,58 @@ trait Accessor
      */
     protected function getIn($in, $key)
     {
-        if(!array_key_exists($key, $in)) {
-            throw new ComponentNotFoundException(sprintf('Component with index "%s" does not exist in %s', $key, __CLASS__));
+        if (!array_key_exists($key, $in)) {
+            throw new ComponentNotFoundException(sprintf('Component with index "%s" does not exist in %s', $key,
+                __CLASS__));
         }
 
         return $in[$key];
     }
 
     /**
+     * @param array $in
+     * @param $value
+     * @return bool
+     */
+    protected function hasValueIn(array $in, $value): bool
+    {
+        return array_key_exists($value, array_flip($in));
+    }
+
+    /**
+     * @param $in
+     * @param $key
+     * @return bool
+     */
+    protected function hasKeyIn(array $in, $key): bool
+    {
+        return array_key_exists($key, $in);
+    }
+
+    /**
      * Returns the last key => value pair of an array
      *
      * @param array $array
-     * @return array
+     * @return string
      */
-    protected function lastIn(array $array): array
+    protected function lastIn(array $array): string
     {
         $array_revers = array_reverse($array);
-        return empty($array) ? [] : [key($array_revers) => reset($array_revers)];
+
+        return false !== reset($array_revers) ? (string)reset($array_revers) : '';
+    }
+
+    /**
+     * Recursively walks the array without breaking the iteration with return
+     *
+     * @param $array
+     *
+     * @return \Generator
+     */
+    protected function walkRecursive(array $array): \Generator
+    {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array)) as $key => $value) {
+            yield $key => $value;
+        }
     }
 }
