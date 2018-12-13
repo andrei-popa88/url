@@ -5,6 +5,7 @@ namespace Keppler\Url\Builder\Schemes\Mailto\Bags;
 
 use Keppler\Url\Builder\Schemes\Interfaces\BagInterface;
 use Keppler\Url\Exceptions\ComponentNotFoundException;
+use Keppler\Url\Exceptions\InvalidComponentsException;
 use Keppler\Url\Traits\Accessor;
 use Keppler\Url\Traits\Mutator;
 
@@ -98,20 +99,30 @@ class MailtoQueryBag implements BagInterface
         return $this->getIn($this->to, $key);
     }
 
-//    public function getInCc(int $key):
+    /**
+     * @return string
+     */
+    public function getBody(): string
+    {
+        return $this->body;
+    }
 
 /////////////////////////
-/// Setter FUNCTIONS  ///
+/// SETTER FUNCTIONS  ///
 ////////////////////////
 
     /**
      * @param array $to
-     *
      * @return MailtoQueryBag
+     * @throws InvalidComponentsException
      */
     public function setTo(array $to): MailtoQueryBag
     {
-        $this->to = $to;
+        if(count($to) !== count($to, COUNT_RECURSIVE)){
+            throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $to component in %s', __CLASS__));
+        }
+
+        $this->to = array_values($to);
 
         return $this;
     }
@@ -130,32 +141,32 @@ class MailtoQueryBag implements BagInterface
 
     /**
      * @param array $cc
-     *
      * @return MailtoQueryBag
+     * @throws InvalidComponentsException
      */
     public function setCc(array $cc): MailtoQueryBag
     {
-        $this->cc = $cc;
+        if(count($cc) !== count($cc, COUNT_RECURSIVE)){
+            throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $cc component in %s', __CLASS__));
+        }
+
+        $this->cc = array_values($cc);
 
         return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getBody(): string
-    {
-        return $this->body;
-    }
-
-    /**
      * @param array $bcc
-     *
      * @return MailtoQueryBag
+     * @throws InvalidComponentsException
      */
     public function setBcc(array $bcc): MailtoQueryBag
     {
-        $this->bcc = $bcc;
+        if(count($bcc) !== count($bcc, COUNT_RECURSIVE)){
+            throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $bcc component in %s', __CLASS__));
+        }
+
+        $this->bcc = array_values($bcc);
 
         return $this;
     }
@@ -172,103 +183,56 @@ class MailtoQueryBag implements BagInterface
         return $this;
     }
 
+//////////////////////////
+/// MUTATOR FUNCTIONS  ///
+/////////////////////////
+
     /**
-     * @return array
+     * @return string
      */
-    public function firstInCc(): array
+    public function firstInCc(): string
     {
         return $this->firstIn($this->cc);
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function lastInCc(): array
+    public function lastInCc(): string
     {
         return $this->lastIn($this->cc);
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function firstInTo(): array
+    public function firstInTo(): string
     {
         return $this->firstIn($this->to);
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function lastInTo(): array
+    public function lastInTo(): string
     {
         return $this->lastIn($this->cc);
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function firstInBcc(): array
+    public function firstInBcc(): string
     {
         return $this->firstIn($this->bcc);
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function lastInBcc(): array
+    public function lastInBcc(): string
     {
         return $this->lastIn($this->bcc);
-    }
-
-    /**
-     * @return array
-     */
-    public function all(): array
-    {
-        return [
-            'to' => $this->to,
-            'cc' => $this->cc,
-            'bcc' => $this->bcc,
-            'subject' => $this->subject,
-            'body' => $this->body,
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function has(string $key): bool
-    {
-        return property_exists($this, $key);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function get(string $key)
-    {
-        if (!$this->has($key)) {
-            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
-        }
-
-        return $this->$key;
-    }
-
-    /**
-     * @param $key
-     * @param $value
-     * @return BagInterface
-     * @throws ComponentNotFoundException
-     */
-    public function set($key, $value): BagInterface
-    {
-        if (!$this->has($key)) {
-            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
-        }
-
-        $this->$key = $value;
-
-        return $this;
     }
 
     /**
@@ -419,6 +383,75 @@ class MailtoQueryBag implements BagInterface
         return isset(array_flip($this->bcc)[$value]);
     }
 
+////////////////////////////////
+/// INTEFACE IMPLEMENTATION  ///
+///////////////////////////////
+
+    /**
+     * @return array
+     */
+    public function all(): array
+    {
+        return [
+            'to' => $this->to,
+            'cc' => $this->cc,
+            'bcc' => $this->bcc,
+            'subject' => $this->subject,
+            'body' => $this->body,
+        ];
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function has(string $key): bool
+    {
+        return property_exists($this, $key);
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     * @throws ComponentNotFoundException
+     */
+    public function get(string $key)
+    {
+        if (!$this->has($key)) {
+            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
+        }
+
+        return $this->$key;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return BagInterface
+     * @throws ComponentNotFoundException
+     * @throws InvalidComponentsException
+     */
+    public function set($key, $value): BagInterface
+    {
+        if (!$this->has($key)) {
+            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
+        }
+
+        if(is_array($this->$key)) {
+            if(count($value) !== count($value, COUNT_RECURSIVE)){
+                throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for %s component in %s', $key,__CLASS__));
+            }
+
+            $this->$key = array_values($value);
+
+            return $this;
+        }
+
+        $this->$key = $value;
+
+        return $this;
+    }
+
     /**
      * @return string
      */
@@ -434,6 +467,10 @@ class MailtoQueryBag implements BagInterface
     {
         return $this->buildQuery(false);
     }
+
+////////////////////////
+/// OTHER FUNCTIONS ///
+///////////////////////
 
     /**
      * @param bool $urlEncode

@@ -5,6 +5,7 @@ namespace Keppler\Url\Builder\Schemes\Mailto;
 
 use Keppler\Url\Builder\Schemes\Interfaces\SchemeInterface;
 use Keppler\Url\Builder\Schemes\Mailto\Bags\MailtoQueryBag;
+use Keppler\Url\Exceptions\InvalidComponentsException;
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 use Keppler\Url\Traits\Accessor;
 use Keppler\Url\Traits\Mutator;
@@ -71,14 +72,6 @@ class MailtoBuilder implements SchemeInterface
 /////////////////////////
 /// GETTER FUNCTIONS  ///
 ////////////////////////
-
-    /**
-     * @return string
-     */
-    public function getScheme(): string
-    {
-        return self::SCHEME_MAILTO;
-    }
 
     /**
      * @return MailtoQueryBag|null
@@ -209,12 +202,18 @@ class MailtoBuilder implements SchemeInterface
 /////////////////////////
 
     /**
-     * @param array|string $path
-     *
-     * @return MailtoBuilder
+     * @param $path array|string
+     * @return $this
+     * @throws InvalidComponentsException
      */
-    public function setPath($path)
+    public function setPath($path): self
     {
+        if(is_array($path)) {
+            if(count($path) !== count($path, COUNT_RECURSIVE)){
+                throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $path component in %s', __CLASS__));
+            }
+        }
+
         $this->path = $path;
 
         return $this;
@@ -264,6 +263,10 @@ class MailtoBuilder implements SchemeInterface
         return $url;
     }
 
+/////////////////////////////////
+/// INTERFACE IMPLEMENTATION  ///
+/////////////////////////////////
+
     /**
      * @return array
      */
@@ -282,5 +285,13 @@ class MailtoBuilder implements SchemeInterface
     public function raw(): string
     {
         return $this->build(false);
+    }
+
+    /**
+     * @return string
+     */
+    public function getScheme(): string
+    {
+        return self::SCHEME_MAILTO;
     }
 }
