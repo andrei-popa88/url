@@ -97,6 +97,9 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
         }
     }
 
+///////////////////////
+/// PATH FUNCTIONS  ///
+///////////////////////
 
     /**
      * @return string
@@ -113,7 +116,7 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
     /**
      * @return string
      */
-    public function lastInPath()
+    public function lastInPath(): string
     {
         if(is_array($this->path)) {
             return $this->lastIn($this->path);
@@ -123,6 +126,23 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
     }
 
     /**
+     * @param string $value
+     * @return bool
+     */
+    public function hasInPath(string $value): bool
+    {
+        if(is_array($this->path)){
+            return $this->hasValueIn($this->path, $value);
+        }
+
+        return $value === $this->path;
+    }
+
+/////////////////////////
+/// GETTER FUNCTIONS  ///
+////////////////////////
+
+    /**
      * @return string | array
      */
     public function getPath()
@@ -130,9 +150,18 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
         return $this->path;
     }
 
+    /**
+     * @return MailtoImmutableQuery
+     */
+    public function getQueryBag(): MailtoImmutableQuery
+    {
+        return $this->queryBag;
+    }
+
 /////////////////////////////////
 /// INTERFACE IMPLEMENTATION  ///
 /////////////////////////////////
+
     /**
      * @inheritdoc
      */
@@ -159,13 +188,5 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
     public function getScheme(): string
     {
         return self::SCHEME_MAILTO;
-    }
-
-    /**
-     * @return MailtoImmutableQuery
-     */
-    public function getQueryBag(): MailtoImmutableQuery
-    {
-        return $this->queryBag;
     }
 }

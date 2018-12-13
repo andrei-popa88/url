@@ -190,14 +190,6 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
         return $this->lastIn($this->cc);
     }
 
-    /**
-     * @return array
-     */
-    public function getTo(): array
-    {
-        return $this->to;
-    }
-
 /////////////////////
 /// CC FUNCTIONS  ///
 ////////////////////
@@ -225,14 +217,6 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     public function lastInCc(): string
     {
         return $this->lastIn($this->cc);
-    }
-
-    /**
-     * @return array
-     */
-    public function getCc(): array
-    {
-        return $this->cc;
     }
 
 //////////////////////
@@ -264,17 +248,9 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
         return $this->lastIn($this->bcc);
     }
 
-    /**
-     * @return array
-     */
-    public function getBcc(): array
-    {
-        return $this->bcc;
-    }
-
+/////////////////////////
+/// GETTER FUNCTIONS  ///
 ////////////////////////
-/// OTHER FUNCTIONS  ///
-///////////////////////
 
     /**
      * @return string
@@ -290,6 +266,30 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBcc(): array
+    {
+        return $this->bcc;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCc(): array
+    {
+        return $this->cc;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTo(): array
+    {
+        return $this->to;
     }
 
 /////////////////////////////////
