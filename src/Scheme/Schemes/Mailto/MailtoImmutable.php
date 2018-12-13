@@ -79,18 +79,18 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
 
         $parsedUrl = parse_url($url);
 
-        if(isset($parsedUrl['path']) && !empty(trim($parsedUrl['path']))){
+        if (isset($parsedUrl['path']) && !empty(trim($parsedUrl['path']))) {
             // If a comma is present assume that the url contains more than one email address
             // Also assume that the url isn't malformed in some way
             // No validation of emails will occur, it's the job of the caller to do that
-            if(false !== strpos($parsedUrl['path'], ',')) {
+            if (false !== strpos($parsedUrl['path'], ',')) {
                 $this->path = explode(',', $parsedUrl['path']);
-            }else {
+            } else {
                 $this->path = $parsedUrl['path'];
             }
         }
 
-        if(isset($parsedUrl['query']) && !empty($parsedUrl['query'])) {
+        if (isset($parsedUrl['query']) && !empty($parsedUrl['query'])) {
             $this->queryBag = new MailtoImmutableQuery($parsedUrl['query']);
         } else {
             $this->queryBag = new MailtoImmutableQuery();
@@ -106,7 +106,7 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
      */
     public function firstInPath(): string
     {
-        if(is_array($this->path)) {
+        if (is_array($this->path)) {
             return $this->firstIn($this->path);
         }
 
@@ -118,7 +118,7 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
      */
     public function lastInPath(): string
     {
-        if(is_array($this->path)) {
+        if (is_array($this->path)) {
             return $this->lastIn($this->path);
         }
 
@@ -131,7 +131,7 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
      */
     public function hasInPath(string $value): bool
     {
-        if(is_array($this->path)){
+        if (is_array($this->path)) {
             return $this->hasValueIn($this->path, $value);
         }
 

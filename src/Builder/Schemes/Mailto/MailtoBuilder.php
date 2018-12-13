@@ -208,9 +208,10 @@ class MailtoBuilder implements SchemeInterface
      */
     public function setPath($path): self
     {
-        if(is_array($path)) {
-            if(count($path) !== count($path, COUNT_RECURSIVE)){
-                throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $path component in %s', __CLASS__));
+        if (is_array($path)) {
+            if (count($path) !== count($path, COUNT_RECURSIVE)) {
+                throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $path component in %s',
+                    __CLASS__));
             }
         }
 

@@ -118,8 +118,9 @@ class MailtoQueryBag implements BagInterface
      */
     public function setTo(array $to): MailtoQueryBag
     {
-        if(count($to) !== count($to, COUNT_RECURSIVE)){
-            throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $to component in %s', __CLASS__));
+        if (count($to) !== count($to, COUNT_RECURSIVE)) {
+            throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $to component in %s',
+                __CLASS__));
         }
 
         $this->to = array_values($to);
@@ -146,8 +147,9 @@ class MailtoQueryBag implements BagInterface
      */
     public function setCc(array $cc): MailtoQueryBag
     {
-        if(count($cc) !== count($cc, COUNT_RECURSIVE)){
-            throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $cc component in %s', __CLASS__));
+        if (count($cc) !== count($cc, COUNT_RECURSIVE)) {
+            throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $cc component in %s',
+                __CLASS__));
         }
 
         $this->cc = array_values($cc);
@@ -162,8 +164,9 @@ class MailtoQueryBag implements BagInterface
      */
     public function setBcc(array $bcc): MailtoQueryBag
     {
-        if(count($bcc) !== count($bcc, COUNT_RECURSIVE)){
-            throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $bcc component in %s', __CLASS__));
+        if (count($bcc) !== count($bcc, COUNT_RECURSIVE)) {
+            throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $bcc component in %s',
+                __CLASS__));
         }
 
         $this->bcc = array_values($bcc);
@@ -437,9 +440,10 @@ class MailtoQueryBag implements BagInterface
             throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
         }
 
-        if(is_array($this->$key)) {
-            if(count($value) !== count($value, COUNT_RECURSIVE)){
-                throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for %s component in %s', $key,__CLASS__));
+        if (is_array($this->$key)) {
+            if (count($value) !== count($value, COUNT_RECURSIVE)) {
+                throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for %s component in %s',
+                    $key, __CLASS__));
             }
 
             $this->$key = array_values($value);
