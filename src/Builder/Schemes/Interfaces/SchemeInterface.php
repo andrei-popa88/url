@@ -30,5 +30,5 @@ interface SchemeInterface
      *
      * @return string
      */
-    public function getScheme();
+    public function getScheme(): string;
 }

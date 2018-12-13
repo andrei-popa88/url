@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Builder\Schemes\Mailto;
 
+use Keppler\Url\Builder\Schemes\Interfaces\SchemeInterface;
 use Keppler\Url\Builder\Schemes\Mailto\Bags\MailtoQueryBag;
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 use Keppler\Url\Traits\Accessor;
@@ -13,7 +14,7 @@ use Keppler\Url\Traits\Mutator;
  *
  * @package Keppler\Url\Builder\Schemes\Mailto
  */
-class MailtoBuilder
+class MailtoBuilder implements SchemeInterface
 {
     use Mutator;
     use Accessor;
@@ -56,7 +57,7 @@ class MailtoBuilder
         // The $mailto may not have any queries at all
         // Which is quite a common case thus the
         // Bag may not exist to begin with
-        if(null !== $mailto->getQueryBag()) {
+        if (null !== $mailto->getQueryBag()) {
             $this->queryBag->setCc($mailto->getQueryBag()->getCc());
             $this->queryBag->setBcc($mailto->getQueryBag()->getBcc());
             $this->queryBag->setTo($mailto->getQueryBag()->getTo());
@@ -67,16 +68,48 @@ class MailtoBuilder
         }
     }
 
+/////////////////////////
+/// GETTER FUNCTIONS  ///
+////////////////////////
+
+    /**
+     * @return string
+     */
+    public function getScheme(): string
+    {
+        return self::SCHEME_MAILTO;
+    }
+
+    /**
+     * @return MailtoQueryBag|null
+     */
+    public function getQueryBag()
+    {
+        return $this->queryBag;
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+//////////////////////////
+/// MUTATOR FUNCTIONS  ///
+/////////////////////////
+
     /**
      * @param string $value
      * @return MailtoBuilder
      */
     public function appendToPath(string $value): self
     {
-        if(!is_array($this->path)) {
-            if('' !== $this->path) {
+        if (!is_array($this->path)) {
+            if ('' !== $this->path) {
                 $this->path[] = $this->path;
-            }else {
+            } else {
                 $this->path = [];
             }
         }
@@ -92,10 +125,10 @@ class MailtoBuilder
      */
     public function prependToPath(string $value): self
     {
-        if(!is_array($this->path)) {
-            if('' !== $this->path) {
+        if (!is_array($this->path)) {
+            if ('' !== $this->path) {
                 $this->path[] = $this->path;
-            }else {
+            } else {
                 $this->path = [];
             }
         }
@@ -110,7 +143,7 @@ class MailtoBuilder
      */
     public function firstInPath()
     {
-        if(is_array($this->path)) {
+        if (is_array($this->path)) {
             return $this->firstIn($this->path);
         }
 
@@ -122,7 +155,7 @@ class MailtoBuilder
      */
     public function lastInPath()
     {
-        if(is_array($this->path)) {
+        if (is_array($this->path)) {
             return $this->lastIn($this->path);
         }
 
@@ -135,7 +168,7 @@ class MailtoBuilder
      */
     public function hasInPath(string $key): bool
     {
-        if(is_array($this->path)) {
+        if (is_array($this->path)) {
             return $this->hasKeyIn($this->path, $key);
         }
 
@@ -148,13 +181,13 @@ class MailtoBuilder
      */
     public function forgetInPath($keyOrValue): self
     {
-        if(is_array($this->path)) {
+        if (is_array($this->path)) {
             $this->forgetKeyOrValue($this->path, $keyOrValue);
 
             return $this;
         }
 
-        if($keyOrValue === $this->path) {
+        if ($keyOrValue === $this->path) {
             $this->path = '';
         }
 
@@ -171,20 +204,9 @@ class MailtoBuilder
         return $this;
     }
 
-    /**
-     * @return MailtoQueryBag|null
-     */
-    public function getQueryBag() {
-        return $this->queryBag;
-    }
-
-    /**
-     * @return array|string
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
+/////////////////////////
+/// SETTER FUNCTIONS  ///
+/////////////////////////
 
     /**
      * @param array|string $path
@@ -198,17 +220,9 @@ class MailtoBuilder
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function all(): array
-    {
-        return [
-            'scheme' => self::SCHEME_MAILTO,
-            'path' => $this->path,
-            'query' => $this->getQueryBag()->all(),
-        ];
-    }
+////////////////////////
+/// OTHER FUNCTIONS  ///
+////////////////////////
 
     /**
      * @param bool $urlEncode
@@ -224,30 +238,49 @@ class MailtoBuilder
         // hname      =  *urlc
         // hvalue     =  *urlc
 
-        $url = self::SCHEME_MAILTO . ':';
+        $url = self::SCHEME_MAILTO.':';
         $commaEncoded = '%2C';
 
         // The path ca be either a single string value or an array of values
-        if(is_array($this->path)) {
-            foreach($this->path as $email) {
-                if($urlEncode) {
-                    $url .= $email . $commaEncoded;
-                }else{
-                    $url .= $email . ',';
+        if (is_array($this->path)) {
+            foreach ($this->path as $email) {
+                if ($urlEncode) {
+                    $url .= $email.$commaEncoded;
+                } else {
+                    $url .= $email.',';
                 }
             }
             $url = rtrim($url, ',');
-        }else {
+        } else {
             $url .= $this->path;
         }
 
-        if($urlEncode) {
+        if ($urlEncode) {
             $url .= $this->queryBag->encoded();
-        }else {
+        } else {
             $url .= $this->queryBag->raw();
         }
 
         return $url;
     }
 
+    /**
+     * @return array
+     */
+    public function all(): array
+    {
+        return [
+            'scheme' => self::SCHEME_MAILTO,
+            'path' => $this->path,
+            'query' => $this->getQueryBag()->all(),
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function raw(): string
+    {
+        return $this->build(false);
+    }
 }
