@@ -32,7 +32,7 @@ class HttpImmutable extends AbstractImmutable implements SchemeInterface
      *
      * @var string
      */
-    const SCHEME = 'https';
+    const SCHEME = 'http';
 
     /**
      * authority = [ userinfo "@" ] host [ ":" port ]
