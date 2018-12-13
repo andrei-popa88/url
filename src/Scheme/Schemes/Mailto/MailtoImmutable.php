@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Mailto;
 
-use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
+use Keppler\Url\Interfaces\SchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQuery;
 use Keppler\Url\Traits\Accessor;
@@ -36,9 +36,9 @@ use Keppler\Url\Traits\Accessor;
  * @see https://tools.ietf.org/html/rfc6068
  *
  * Class MailtoImmutable
- * @package Keppler\Url\Scheme\Schemes\Mailto
+ * @package Keppler\Url\Scheme\Schemes\MailtoImmutable
  */
-class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterface
+class MailtoImmutable extends AbstractImmutable implements SchemeInterface
 {
     use Accessor;
 

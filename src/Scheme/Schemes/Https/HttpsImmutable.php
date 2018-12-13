@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Https;
 
-use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
+use Keppler\Url\Interfaces\SchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Schemes\Https\Bags\HttpsImmutablePath;
 use Keppler\Url\Scheme\Schemes\Https\Bags\HttpsImmutableQuery;
@@ -24,9 +24,9 @@ use Keppler\Url\Scheme\Schemes\Https\Bags\HttpsImmutableQuery;
  *
  * Class HttpsImmutable
  *
- * @package Keppler\Url\Schemes\Https
+ * @package Keppler\Url\Schemes\HttpsImmutable
  */
-class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterface
+class HttpsImmutable extends AbstractImmutable implements SchemeInterface
 {
     /**
      * The default scheme for this class
@@ -126,6 +126,7 @@ class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterfa
         $parsedUrl = parse_url($url);
 
         $this->setAuthority($parsedUrl);
+
         if(isset($parsedUrl['fragment'])) {
             if(false !== strpos($parsedUrl['fragment'], '#')) {
                 // get only the first fragment
@@ -182,6 +183,73 @@ class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterfa
         $this->authority = $authority;
     }
 
+//////////////////////////
+/// GETTER FUNCTIONS  ///
+////////////////////////
+
+    /**
+     * @return string
+     */
+    public function getAuthority(): string
+    {
+        return $this->authority;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUser(): string
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPort(): ?int
+    {
+        return -1 === $this->port ? null : $this->port;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFragment(): string
+    {
+        return $this->fragment;
+    }
+
+    /**
+     * @return HttpsImmutableQuery
+     */
+    public function getQueryBag(): HttpsImmutableQuery
+    {
+        return $this->queryBag;
+    }
+
+    /**
+     * @return HttpsImmutablePath
+     */
+    public function getPathBag(): HttpsImmutablePath
+    {
+        return $this->pathBag;
+    }
 
 /////////////////////////////////
 /// INTERFACE IMPLEMENTATION  ///
@@ -228,4 +296,3 @@ class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterfa
         return self::SCHEME;
     }
 }
-

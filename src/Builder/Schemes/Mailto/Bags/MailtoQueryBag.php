@@ -12,7 +12,7 @@ use Keppler\Url\Traits\Mutator;
 /**
  * Class MailtoQueryBag
  *
- * @package Keppler\Url\Builder\Schemes\Mailto\Bags
+ * @package Keppler\Url\Builder\Schemes\MailtoImmutable\Bags
  */
 class MailtoQueryBag implements BagInterface
 {

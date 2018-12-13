@@ -5,6 +5,7 @@ namespace Keppler\Url\Scheme\Schemes\Https\Bags;
 
 use Keppler\Url\Interfaces\Immutable\ImmutableBagInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
+use Keppler\Url\Traits\Accessor;
 
 /**
  * Class HttpsImmutablePath
@@ -12,6 +13,8 @@ use Keppler\Url\Scheme\Schemes\AbstractImmutable;
  */
 class HttpsImmutablePath extends AbstractImmutable implements ImmutableBagInterface
 {
+    use Accessor;
+
     /**
      *  path = path-abempty    ; begins with "/" or is empty
      *
@@ -32,8 +35,6 @@ class HttpsImmutablePath extends AbstractImmutable implements ImmutableBagInterf
      *  ; non-zero-length segment without any colon ":"
      *
      *  pchar         = unreserved / pct-encoded / sub-delims / ":" / "@
-     *
-     *
      *
      * @see https://tools.ietf.org/html/rfc3986#page-22
      *
@@ -59,12 +60,60 @@ class HttpsImmutablePath extends AbstractImmutable implements ImmutableBagInterf
         if ('' !== trim($raw)) {
             $this->raw = $raw;
 
-            $result = [];
-            parse_str($raw, $result);
-//            $this->buildFromParsed($result);
+            // explode by /
+            $this->path = explode('/', trim($raw, '/'));
         }
     }
 
+//////////////////////////
+/// GETTER FUNCTIONS  ///
+////////////////////////
+
+    /**
+     * @return array
+     */
+    public function getPath(): array
+    {
+        return $this->path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirst(): string
+    {
+        return $this->firstIn($this->path);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLast(): string
+    {
+        return $this->lastIn($this->path);
+    }
+
+    /**
+     * @param int $key
+     * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
+     */
+    public function get(int $key)
+    {
+        $this->getIn($this->path, $key);
+    }
+
+    /**
+     * @param int $key
+     * @return bool
+     */
+    public function has(int $key): bool
+    {
+        return $this->hasKeyIn($this->path, $key);
+    }
+
+/////////////////////////////////
+/// INTERFACE IMPLEMENTATION ///
+///////////////////////////////
     /**
      * Returns all the components of the query or path
      *
@@ -72,7 +121,7 @@ class HttpsImmutablePath extends AbstractImmutable implements ImmutableBagInterf
      */
     public function all(): array
     {
-        // TODO: Implement all() method.
+        return $this->path;
     }
 
     /**
@@ -82,8 +131,6 @@ class HttpsImmutablePath extends AbstractImmutable implements ImmutableBagInterf
      */
     public function raw(): string
     {
-        // TODO: Implement raw() method.
+        return $this->raw;
     }
-
-
 }

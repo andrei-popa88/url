@@ -13,7 +13,7 @@ use Keppler\Url\Traits\Mutator;
 /**
  * Class MailtoBuilder
  *
- * @package Keppler\Url\Builder\Schemes\Mailto
+ * @package Keppler\Url\Builder\Schemes\MailtoImmutable
  */
 class MailtoBuilder implements SchemeInterface
 {

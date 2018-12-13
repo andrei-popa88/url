@@ -5,6 +5,7 @@ namespace Keppler\Url\Scheme\Schemes\Https\Bags;
 
 use Keppler\Url\Interfaces\Immutable\ImmutableBagInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
+use Keppler\Url\Traits\Accessor;
 
 /**
  * Class HttpsImmutableQuery
@@ -12,6 +13,8 @@ use Keppler\Url\Scheme\Schemes\AbstractImmutable;
  */
 class HttpsImmutableQuery extends AbstractImmutable implements ImmutableBagInterface
 {
+    use Accessor;
+
     /**
      * query = *( pchar / "/" / "?" )
      *
@@ -39,27 +42,65 @@ class HttpsImmutableQuery extends AbstractImmutable implements ImmutableBagInter
 
             $result = [];
             parse_str($raw, $result);
-//            $this->buildFromParsed($result);
+            $this->buildFromParsed($result);
         }
     }
 
+///////////////////////////
+/// PRIVATE FUNCTIONS  ///
+/////////////////////////
+
     /**
-     * Returns all the components of the query or path
+     * @param $result
+     */
+    private function buildFromParsed($result)
+    {
+        $this->query = $result;
+    }
+
+//////////////////////////
+/// GETTER FUNCTIONS  ///
+////////////////////////
+
+    /**
+     * @param $key
+     * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
+     */
+    public function get($key)
+    {
+        $this->getIn($this->query, $key);
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    public function has($key): bool
+    {
+        return $this->hasKeyIn($this->query, $key);
+    }
+
+/////////////////////////////////
+/// INTERFACE IMPLEMENTATION  ///
+////////////////////////////////
+
+    /**
+     * Returns all the components of the query
      *
      * @return array
      */
     public function all(): array
     {
-        // TODO: Implement all() method.
+        return $this->query;
     }
 
     /**
-     * Return the raw unaltered query or path
+     * Return the raw unaltered query
      *
      * @return string
      */
     public function raw(): string
     {
-        // TODO: Implement raw() method.
+        return $this->raw;
     }
 }

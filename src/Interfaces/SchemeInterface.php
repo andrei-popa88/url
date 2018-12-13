@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Interfaces\Immutable;
+namespace Keppler\Url\Interfaces;
 
 /**
- * Interface ImmutableSchemeInterface
+ * Interface SchemeInterface
  *
  * @package Keppler\Url\Scheme\Interfaces
  */
-interface ImmutableSchemeInterface
+interface SchemeInterface
 {
 
     /**
