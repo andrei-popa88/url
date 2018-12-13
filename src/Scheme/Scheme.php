@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme;
 
+use Keppler\Url\Scheme\Schemes\Https\HttpsImmutable;
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 
 /**
@@ -23,6 +24,38 @@ class Scheme
      */
     public static function mailto(string $url)
     {
+        $parsed = self::parse($url);
+
+        if (MailtoImmutable::SCHEME === $parsed['scheme']) {
+            return new MailtoImmutable($url);
+        }
+
+        throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',
+            MailtoImmutable::class, MailtoImmutable::SCHEME, $parsed['scheme']));
+    }
+
+    /**
+     * @param string $url
+     * @return HttpsImmutable
+     */
+    public static function https(string $url)
+    {
+        $parsed = self::parse($url);
+
+        if (HttpsImmutable::SCHEME === $parsed['scheme']) {
+            return new HttpsImmutable($url);
+        }
+
+        throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',
+            HttpsImmutable::class, HttpsImmutable::SCHEME, $parsed['scheme']));
+    }
+
+    /**
+     * @param $url
+     * @return mixed
+     */
+    private static function parse(string $url)
+    {
         $parsed = parse_url($url);
 
         if (false === $parsed) {
@@ -33,11 +66,6 @@ class Scheme
             throw new \InvalidArgumentException(sprintf('Unable to determine scheme for %s', $url));
         }
 
-        if (MailtoImmutable::SCHEME_MAILTO === $parsed['scheme']) {
-            return new MailtoImmutable($url);
-        }
-
-        throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',
-            MailtoImmutable::class, MailtoImmutable::SCHEME_MAILTO, $parsed['scheme']));
+        return $parsed;
     }
 }

@@ -25,7 +25,7 @@ class MailtoBuilder implements SchemeInterface
      *
      * @var string
      */
-    const SCHEME_MAILTO = 'mailto';
+    const SCHEME = 'mailto';
 
     /**
      * @var MailtoQueryBag
@@ -238,7 +238,7 @@ class MailtoBuilder implements SchemeInterface
         // hname      =  *urlc
         // hvalue     =  *urlc
 
-        $url = self::SCHEME_MAILTO.':';
+        $url = self::SCHEME.':';
         $commaEncoded = '%2C';
 
         // The path ca be either a single string value or an array of values
@@ -274,7 +274,7 @@ class MailtoBuilder implements SchemeInterface
     public function all(): array
     {
         return [
-            'scheme' => self::SCHEME_MAILTO,
+            'scheme' => self::SCHEME,
             'path' => $this->path,
             'query' => $this->getQueryBag()->all(),
         ];
@@ -293,6 +293,6 @@ class MailtoBuilder implements SchemeInterface
      */
     public function getScheme(): string
     {
-        return self::SCHEME_MAILTO;
+        return self::SCHEME;
     }
 }

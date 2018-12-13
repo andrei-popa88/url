@@ -47,7 +47,7 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
      *
      * @var string
      */
-    const SCHEME_MAILTO = 'mailto';
+    const SCHEME = 'mailto';
 
     /**
      * @var MailtoImmutableQuery
@@ -168,7 +168,7 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
     public function all(): array
     {
         return [
-            'scheme' => self::SCHEME_MAILTO,
+            'scheme' => self::SCHEME,
             'path' => $this->path,
             'query' => $this->queryBag->all(),
         ];
@@ -187,6 +187,6 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
      */
     public function getScheme(): string
     {
-        return self::SCHEME_MAILTO;
+        return self::SCHEME;
     }
 }
