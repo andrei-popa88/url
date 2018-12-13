@@ -10,16 +10,16 @@ use Keppler\Url\Scheme\Schemes\Http\Bags\HttpImmutableQuery;
 
 /**
  * Note that the following class makes no assumption regarding url encoding
- * the http url is taken AS IS and will not be decoded or encoded
+ * the https url is taken AS IS and will not be decoded or encoded
  * url encoded strings WILL result in errors
  *
- *  http://example.com:8042/over/there?name=ferret#nose
- *   \_/   \______________/\_________/ \_________/ \__/
- *    |           |            |            |       |
- *  scheme   authority       path         query  fragment
+ *  userinfo     host        port
+ * ┌─┴────┐ ┌────┴────────┐ ┌┴┐
+ *  https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top
+ *  └─┬─┘ └───────┬────────────────────┘└─┬─────────────┘└──┬───────────────────────┘└┬─┘
+ * scheme     authority                 path              query                      fragment
  *
  * @see https://tools.ietf.org/html/rfc3986#page-16
- *
  *
  * Class HttpImmutable
  *
