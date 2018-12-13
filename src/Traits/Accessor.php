@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Scheme\Traits;
+namespace Keppler\Url\Traits;
 
 use Keppler\Url\Exceptions\ComponentNotFoundException;
 
 /**
- * Trait Filter
+ * Trait Accessor
  * @package Keppler\Url\Scheme\Traits
  */
-trait Filter
+trait Accessor
 {
     /**
      * Returns the first key => value pair of an array

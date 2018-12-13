@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url;
+namespace Keppler\Url\Scheme;
 
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 

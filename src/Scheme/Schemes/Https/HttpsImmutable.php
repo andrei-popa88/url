@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Http;
 
-use Keppler\Url\Scheme\Interfaces\SchemeInterface;
+use Keppler\Url\Scheme\Interfaces\ImmutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 
 /**
@@ -23,7 +23,7 @@ use Keppler\Url\Scheme\Schemes\AbstractImmutable;
  *
  * @package Keppler\Url\Schemes\Https
  */
-class HttpsImmutable extends AbstractImmutable implements SchemeInterface
+class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterface
 {
     /**
      * The default scheme for this class

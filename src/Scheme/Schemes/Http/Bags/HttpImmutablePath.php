@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Http\Bags;
 
-use Keppler\Url\Scheme\Interfaces\BagInterface;
+use Keppler\Url\Scheme\Interfaces\ImmutableBagInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 
 /**
- * Class HttpsImmutablePathBag
+ * Class HttpImmutablePath
  * @package Keppler\Url\Schemes\Http\Bags
  */
-class HttpsImmutablePathBag extends AbstractImmutable implements BagInterface
+class HttpImmutablePath extends AbstractImmutable implements ImmutableBagInterface
 {
     /**
      *  path = path-abempty    ; begins with "/" or is empty
@@ -32,8 +32,6 @@ class HttpsImmutablePathBag extends AbstractImmutable implements BagInterface
      *  ; non-zero-length segment without any colon ":"
      *
      *  pchar         = unreserved / pct-encoded / sub-delims / ":" / "@
-     *
-     *
      *
      * @see https://tools.ietf.org/html/rfc3986#page-22
      *

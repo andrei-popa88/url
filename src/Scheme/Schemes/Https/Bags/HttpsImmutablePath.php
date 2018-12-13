@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Scheme\Schemes\Ftp\Bags;
+namespace Keppler\Url\Scheme\Schemes\Http\Bags;
 
-use Keppler\Url\Scheme\Interfaces\BagInterface;
+use Keppler\Url\Scheme\Interfaces\ImmutableBagInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 
 /**
- * Class HttpImmutablePathBag
+ * Class HttpsImmutablePath
  * @package Keppler\Url\Schemes\Http\Bags
  */
-class FtpImmutablePathBag extends AbstractImmutable implements BagInterface
+class HttpsImmutablePath extends AbstractImmutable implements ImmutableBagInterface
 {
     /**
      *  path = path-abempty    ; begins with "/" or is empty
@@ -32,6 +32,8 @@ class FtpImmutablePathBag extends AbstractImmutable implements BagInterface
      *  ; non-zero-length segment without any colon ":"
      *
      *  pchar         = unreserved / pct-encoded / sub-delims / ":" / "@
+     *
+     *
      *
      * @see https://tools.ietf.org/html/rfc3986#page-22
      *

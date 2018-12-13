@@ -1,19 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Scheme\Interfaces;
+namespace Keppler\Url\Builder\Schemes\Interfaces;
 
 /**
  * Interface SchemeInterface
- *
- * @package Keppler\Url\Scheme\Interfaces
+ * @package Keppler\Url\Builder\Schemes\Interfaces
  */
 interface SchemeInterface
 {
 
     /**
      * Returns all the components of the scheme including
-     *  any bags in the form of an array
+     * any bags in the form of an array
      *
      * @return array
      */

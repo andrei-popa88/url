@@ -4,19 +4,18 @@ declare(strict_types=1);
 namespace Keppler\Url\Scheme\Schemes\Mailto\Bags;
 
 use Keppler\Url\Exceptions\ComponentNotFoundException;
-use Keppler\Url\Scheme\Exceptions\ImmutableException;
-use Keppler\Url\Scheme\Interfaces\BagInterface;
+use Keppler\Url\Scheme\Interfaces\ImmutableBagInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
-use Keppler\Url\Scheme\Traits\Filter;
+use Keppler\Url\Traits\Accessor;
 
 /**
- * Class MailtoImmutableQueryBag
+ * Class MailtoImmutableQuery
  *
  * @package Keppler\Url\Schemes\MailtoImmutable\Bags
  */
-class MailtoImmutableQueryBag extends AbstractImmutable implements BagInterface
+class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInterface
 {
-    use Filter;
+    use Accessor;
 
     /**
      * To recipients, can be more than one as
@@ -62,7 +61,7 @@ class MailtoImmutableQueryBag extends AbstractImmutable implements BagInterface
     /**
      * This should be the ONLY entry point and it should accept ONLY the raw string
      *
-     * MailtoImmutableQueryBag constructor.
+     * MailtoImmutableQuery constructor.
      *
      * @param string $raw
      */

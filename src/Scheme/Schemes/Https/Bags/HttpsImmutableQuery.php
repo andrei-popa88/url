@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Http\Bags;
 
-use Keppler\Url\Scheme\Interfaces\BagInterface;
+use Keppler\Url\Scheme\Interfaces\ImmutableBagInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 
 /**
- * Class HttpImmutableQueryBag
+ * Class HttpsImmutableQuery
  * @package Keppler\Url\Schemes\Http\Bags
  */
-class HttpImmutableQueryBag extends AbstractImmutable implements BagInterface
+class HttpsImmutableQuery extends AbstractImmutable implements ImmutableBagInterface
 {
     /**
      * query = *( pchar / "/" / "?" )

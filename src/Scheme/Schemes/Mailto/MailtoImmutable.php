@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Mailto;
 
-use Keppler\Url\Scheme\Exceptions\ImmutableException;
-use Keppler\Url\Scheme\Interfaces\SchemeInterface;
+use Keppler\Url\Scheme\Interfaces\ImmutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
-use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
+use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQuery;
 
 /**
  * Note that the following class makes no assumption regarding url encoding
@@ -35,12 +34,10 @@ use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQueryBag;
  *
  * @see https://tools.ietf.org/html/rfc6068
  *
- *
  * Class MailtoImmutable
- *
- * @package Keppler\Url\Schemes\Mailto
+ * @package Keppler\Url\Scheme\Schemes\Mailto
  */
-class MailtoImmutable extends AbstractImmutable implements SchemeInterface
+class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterface
 {
     /**
      * The default scheme for this class
@@ -50,9 +47,9 @@ class MailtoImmutable extends AbstractImmutable implements SchemeInterface
     const SCHEME_MAILTO = 'mailto';
 
     /**
-     * @var MailtoImmutableQueryBag | null
+     * @var MailtoImmutableQuery
      */
-    private $queryBag = null;
+    private $queryBag;
 
     /**
      * The path can be either a string or a comma separated value of strings
@@ -91,9 +88,9 @@ class MailtoImmutable extends AbstractImmutable implements SchemeInterface
         }
 
         if(isset($parsedUrl['query']) && !empty($parsedUrl['query'])) {
-            $this->queryBag = new MailtoImmutableQueryBag($parsedUrl['query']);
+            $this->queryBag = new MailtoImmutableQuery($parsedUrl['query']);
         } else {
-            $this->queryBag = new MailtoImmutableQueryBag();
+            $this->queryBag = new MailtoImmutableQuery();
         }
     }
 
@@ -105,7 +102,7 @@ class MailtoImmutable extends AbstractImmutable implements SchemeInterface
         return [
             'scheme' => self::SCHEME_MAILTO,
             'path' => $this->path,
-            'query' => null !== $this->queryBag ? $this->queryBag->all() : [],
+            'query' => $this->queryBag->all(),
         ];
     }
 
@@ -126,9 +123,9 @@ class MailtoImmutable extends AbstractImmutable implements SchemeInterface
     }
 
     /**
-     * @return MailtoImmutableQueryBag
+     * @return MailtoImmutableQuery
      */
-    public function getQueryBag(): MailtoImmutableQueryBag
+    public function getQueryBag(): MailtoImmutableQuery
     {
         return $this->queryBag;
     }
