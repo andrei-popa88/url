@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Ftp;
 
-use Keppler\Url\Scheme\Interfaces\ImmutableSchemeInterface;
+use Keppler\Url\Interfaces\SchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
+use Keppler\Url\Scheme\Schemes\Ftp\Bags\FtpImmutablePath;
 
 /**
  * Note that the following class makes no assumption regarding url encoding
@@ -21,14 +22,14 @@ use Keppler\Url\Scheme\Schemes\AbstractImmutable;
  *
  * @package Keppler\Url\Schemes\Ftp
  */
-class FtpImmutable extends AbstractImmutable implements ImmutableSchemeInterface
+class FtpImmutable extends AbstractImmutable implements SchemeInterface
 {
     /**
      * The default scheme for this class
      *
      * @var string
      */
-    const SCHEME_FTP = 'ftp';
+    const SCHEME = 'ftp';
 
     /**
      * userinfo = *( unreserved / pct-encoded / sub-delims / ":" )
@@ -67,5 +68,104 @@ class FtpImmutable extends AbstractImmutable implements ImmutableSchemeInterface
      * @var int
      */
     private $port = -1;
+
+    /**
+     * @var FtpImmutablePath
+     */
+    private $pathBag;
+
+    /**
+     * @var string
+     */
+    private $raw;
+
+    /**
+     * MailtoImmutable constructor.
+     * @param $url
+     */
+    public function __construct(string $url)
+    {
+        $this->raw = $url;
+
+        $parsedUrl = parse_url($url);
+
+
+        if (isset($parsedUrl['path']) && !empty($parsedUrl['path'])) {
+            $this->pathBag = new FtpImmutablePath($parsedUrl['path']);
+        } else {
+            $this->pathBag = new FtpImmutablePath();
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getUser(): string
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPort(): int
+    {
+        return $this->port;
+    }
+
+    /**
+     * Returns all the components of the scheme including
+     *  any bags in the form of an array
+     *
+     * @return array
+     */
+    public function all(): array
+    {
+        return [
+            'scheme' => self::SCHEME,
+            'user' => $this->user,
+            'password' => $this->password,
+            'host' => $this->host,
+            'port' => -1 === $this->port ? null : $this->port,
+            'path' => $this->pathBag->all(),
+        ];
+    }
+
+    /**
+     * Return the raw unaltered url
+     *
+     * @return string
+     */
+    public function raw(): string
+    {
+        return $this->raw;
+    }
+
+    /**
+     * Returns the scheme associated with the class
+     *
+     * @return string
+     */
+    public function getScheme()
+    {
+        // TODO: Implement getScheme() method.
+    }
+
 
 }

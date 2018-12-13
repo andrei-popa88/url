@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme;
 
+use Keppler\Url\Scheme\Schemes\Ftp\FtpImmutable;
+use Keppler\Url\Scheme\Schemes\Http\HttpImmutable;
 use Keppler\Url\Scheme\Schemes\Https\HttpsImmutable;
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 
@@ -48,6 +50,38 @@ class Scheme
 
         throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',
             HttpsImmutable::class, HttpsImmutable::SCHEME, $parsed['scheme']));
+    }
+
+    /**
+     * @param string $url
+     * @return HttpImmutable
+     */
+    public static function http(string $url)
+    {
+        $parsed = self::parse($url);
+
+        if (HttpImmutable::SCHEME === $parsed['scheme']) {
+            return new HttpImmutable($url);
+        }
+
+        throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',
+            HttpImmutable::class, HttpImmutable::SCHEME, $parsed['scheme']));
+    }
+
+    /**
+     * @param string $url
+     * @return FtpImmutable
+     */
+    public static function ftp(string $url)
+    {
+        $parsed = self::parse($url);
+
+        if (FtpImmutable::SCHEME === $parsed['scheme']) {
+            return new FtpImmutable($url);
+        }
+
+        throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',
+            FtpImmutable::class, FtpImmutable::SCHEME, $parsed['scheme']));
     }
 
     /**

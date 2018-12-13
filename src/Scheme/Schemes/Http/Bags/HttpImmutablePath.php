@@ -50,7 +50,7 @@ class HttpImmutablePath extends AbstractImmutable implements ImmutableBagInterfa
     /**
      * This should be the ONLY entry point and it should accept ONLY the raw string
      *
-     * MailtoImmutableQuery constructor.
+     * HttpImmutablePath constructor.
      *
      * @param string $raw
      */
@@ -114,6 +114,7 @@ class HttpImmutablePath extends AbstractImmutable implements ImmutableBagInterfa
 /////////////////////////////////
 /// INTERFACE IMPLEMENTATION ///
 ///////////////////////////////
+
     /**
      * Returns all the components of the query or path
      *

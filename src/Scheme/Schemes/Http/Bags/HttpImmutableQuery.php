@@ -30,7 +30,7 @@ class HttpImmutableQuery extends AbstractImmutable implements ImmutableBagInterf
     /**
      * This should be the ONLY entry point and it should accept ONLY the raw string
      *
-     * MailtoImmutableQuery constructor.
+     * HttpImmutableQuery constructor.
      *
      * @param string $raw
      */

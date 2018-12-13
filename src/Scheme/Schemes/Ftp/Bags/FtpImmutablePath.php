@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Ftp\Bags;
 
-use Keppler\Url\Scheme\Interfaces\ImmutableBagInterface;
+use Keppler\Url\Interfaces\Immutable\ImmutableBagInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
+use Keppler\Url\Traits\Accessor;
 
 /**
  * Class HttpImmutablePath
@@ -12,6 +13,8 @@ use Keppler\Url\Scheme\Schemes\AbstractImmutable;
  */
 class FtpImmutablePath extends AbstractImmutable implements ImmutableBagInterface
 {
+    use Accessor;
+
     /**
      *  path = path-abempty    ; begins with "/" or is empty
      *
@@ -38,4 +41,97 @@ class FtpImmutablePath extends AbstractImmutable implements ImmutableBagInterfac
      * @var array
      */
     private $path = [];
+
+    /**
+     * @var string
+     */
+    private $raw = '';
+
+    /**
+     * This should be the ONLY entry point and it should accept ONLY the raw string
+     *
+     * FtpImmutablePath constructor.
+     *
+     * @param string $raw
+     */
+    public function __construct(string $raw = '')
+    {
+        // Leave the class with defaults if no valid raw string is provided
+        if ('' !== trim($raw)) {
+            $this->raw = $raw;
+
+            // explode by /
+            $this->path = explode('/', trim($raw, '/'));
+        }
+    }
+
+//////////////////////////
+/// GETTER FUNCTIONS  ///
+////////////////////////
+
+    /**
+     * @return array
+     */
+    public function getPath(): array
+    {
+        return $this->path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirst(): string
+    {
+        return $this->firstIn($this->path);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLast(): string
+    {
+        return $this->lastIn($this->path);
+    }
+
+    /**
+     * @param int $key
+     * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
+     */
+    public function get(int $key)
+    {
+        $this->getIn($this->path, $key);
+    }
+
+    /**
+     * @param int $key
+     * @return bool
+     */
+    public function has(int $key): bool
+    {
+        return $this->hasKeyIn($this->path, $key);
+    }
+
+/////////////////////////////////
+/// INTERFACE IMPLEMENTATION ///
+///////////////////////////////
+
+    /**
+     * Returns all the components of the query or path
+     *
+     * @return array
+     */
+    public function all(): array
+    {
+        return $this->path;
+    }
+
+    /**
+     * Return the raw unaltered query or path
+     *
+     * @return string
+     */
+    public function raw(): string
+    {
+        return $this->raw;
+    }
 }
