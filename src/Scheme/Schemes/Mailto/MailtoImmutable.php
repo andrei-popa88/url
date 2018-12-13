@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Mailto;
 
-use Keppler\Url\Scheme\Interfaces\ImmutableSchemeInterface;
+use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQuery;
 use Keppler\Url\Traits\Accessor;

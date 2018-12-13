@@ -52,24 +52,16 @@ class MailtoQueryBag implements BagInterface
      */
     private $body = '';
 
+/////////////////////////
+/// GETTER FUNCTIONS  ///
+////////////////////////
+
     /**
      * @return array
      */
     public function getTo(): array
     {
         return $this->to;
-    }
-
-    /**
-     * @param array $to
-     *
-     * @return MailtoQueryBag
-     */
-    public function setTo(array $to): MailtoQueryBag
-    {
-        $this->to = $to;
-
-        return $this;
     }
 
     /**
@@ -81,35 +73,11 @@ class MailtoQueryBag implements BagInterface
     }
 
     /**
-     * @param array $cc
-     *
-     * @return MailtoQueryBag
-     */
-    public function setCc(array $cc): MailtoQueryBag
-    {
-        $this->cc = $cc;
-
-        return $this;
-    }
-
-    /**
      * @return array
      */
     public function getBcc(): array
     {
         return $this->bcc;
-    }
-
-    /**
-     * @param array $bcc
-     *
-     * @return MailtoQueryBag
-     */
-    public function setBcc(array $bcc): MailtoQueryBag
-    {
-        $this->bcc = $bcc;
-
-        return $this;
     }
 
     /**
@@ -121,23 +89,31 @@ class MailtoQueryBag implements BagInterface
     }
 
     /**
-     * @param string $subject
+     * @param int $key
+     * @return string
+     * @throws ComponentNotFoundException
+     */
+    public function getInTo(int $key): string
+    {
+        return $this->getIn($this->to, $key);
+    }
+
+//    public function getInCc(int $key):
+
+/////////////////////////
+/// Setter FUNCTIONS  ///
+////////////////////////
+
+    /**
+     * @param array $to
      *
      * @return MailtoQueryBag
      */
-    public function setSubject(string $subject): MailtoQueryBag
+    public function setTo(array $to): MailtoQueryBag
     {
-        $this->subject = $subject;
+        $this->to = $to;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBody(): string
-    {
-        return $this->body;
     }
 
     /**
@@ -153,13 +129,47 @@ class MailtoQueryBag implements BagInterface
     }
 
     /**
-     * @param int $key
-     * @return string
-     * @throws ComponentNotFoundException
+     * @param array $cc
+     *
+     * @return MailtoQueryBag
      */
-    public function getInTo(int $key): string
+    public function setCc(array $cc): MailtoQueryBag
     {
-        return $this->getIn($this->to, $key);
+        $this->cc = $cc;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBody(): string
+    {
+        return $this->body;
+    }
+
+    /**
+     * @param array $bcc
+     *
+     * @return MailtoQueryBag
+     */
+    public function setBcc(array $bcc): MailtoQueryBag
+    {
+        $this->bcc = $bcc;
+
+        return $this;
+    }
+
+    /**
+     * @param string $subject
+     *
+     * @return MailtoQueryBag
+     */
+    public function setSubject(string $subject): MailtoQueryBag
+    {
+        $this->subject = $subject;
+
+        return $this;
     }
 
     /**

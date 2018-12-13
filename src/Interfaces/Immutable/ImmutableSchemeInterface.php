@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Scheme\Interfaces;
+namespace Keppler\Url\Interfaces\Immutable;
 
 /**
  * Interface ImmutableSchemeInterface

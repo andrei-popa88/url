@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Mailto\Bags;
 
-use Keppler\Url\Scheme\Interfaces\ImmutableBagInterface;
+use Keppler\Url\Interfaces\Immutable\ImmutableBagInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Traits\Accessor;
 
@@ -155,11 +155,6 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
             $this->to[] = $to;
         }
     }
-
-////////////////////
-/// END PRIVATE  ///
-///////////////////
-
 
 /////////////////////
 /// TO FUNCTIONS  ///

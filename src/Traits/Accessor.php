@@ -21,6 +21,19 @@ trait Accessor
     }
 
     /**
+     * Returns the last key => value pair of an array
+     *
+     * @param array $array
+     * @return string
+     */
+    protected function lastIn(array $array): string
+    {
+        $array_revers = array_reverse($array);
+
+        return false !== reset($array_revers) ? (string)reset($array_revers) : '';
+    }
+
+    /**
      * This sort of function could have easily been implemented in
      * each class but the single entry point is nice to have
      *
@@ -57,19 +70,6 @@ trait Accessor
     protected function hasKeyIn(array $in, $key): bool
     {
         return array_key_exists($key, $in);
-    }
-
-    /**
-     * Returns the last key => value pair of an array
-     *
-     * @param array $array
-     * @return string
-     */
-    protected function lastIn(array $array): string
-    {
-        $array_revers = array_reverse($array);
-
-        return false !== reset($array_revers) ? (string)reset($array_revers) : '';
     }
 
     /**
