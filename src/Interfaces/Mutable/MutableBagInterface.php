@@ -1,30 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Builder\Schemes\Interfaces;
+namespace Keppler\Url\Interfaces\Mutable;
 
 use Keppler\Url\Exceptions\ComponentNotFoundException;
+use Keppler\Url\Interfaces\Immutable\ImmutableBagInterface;
 
 /**
- * Interface BagInterface
+ * Interface MutableBagInterface
  * @package Keppler\Url\Builder\Schemes\Interfaces
  */
-interface BagInterface
+interface MutableBagInterface extends ImmutableBagInterface
 {
-    /**
-     * Returns all the components of the query or path
-     *
-     * @return array
-     */
-    public function all(): array;
-
-    /**
-     * Return the raw unaltered query or path
-     *
-     * @return string
-     */
-    public function raw(): string;
-
     /**
      * Returns the encoded query or path string
      *
@@ -60,7 +47,7 @@ interface BagInterface
      * @param $key
      * @param $value
      * @throws ComponentNotFoundException
-     * @return BagInterface
+     * @return MutableBagInterface
      */
     public function set($key, $value): self;
 }
