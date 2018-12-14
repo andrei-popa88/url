@@ -44,11 +44,6 @@ class HttpsMutablePath implements  MutableBagInterface
      */
     private $path = [];
 
-    /**
-     * @var string
-     */
-    private $raw = '';
-
 //////////////////////////
 /// GETTER FUNCTIONS  ///
 ////////////////////////
@@ -64,7 +59,7 @@ class HttpsMutablePath implements  MutableBagInterface
     /**
      * @return string
      */
-    public function getFirst(): string
+    public function first(): string
     {
         return $this->firstIn($this->path);
     }
@@ -72,9 +67,138 @@ class HttpsMutablePath implements  MutableBagInterface
     /**
      * @return string
      */
-    public function getLast(): string
+    public function last(): string
     {
         return $this->lastIn($this->path);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return HttpsMutablePath
+     */
+    public function append(string $value): self
+    {
+        $this->mutatorAppend($this->path, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return HttpsMutablePath
+     */
+    public function prepend(string $value): self
+    {
+        $this->mutatorPrepend($this->path, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string      $value
+     * @param string|null $first
+     * @param string|null $last
+     *
+     * @return HttpsMutablePath
+     * @throws ComponentNotFoundException
+     */
+    public function putInBetween(string $value, string $first = null, string $last = null): self
+    {
+        if(null === $first && null === $last) {
+            throw new \LogicException('Cannot put value if neither first or last is defined');
+        }
+
+        if(!$this->hasValueIn($this->path, $first) && !$this->hasValueIn($this->path, $last)) {
+            throw new ComponentNotFoundException(sprintf('No component found matching either %s  %s',$first, $last));
+        }
+
+        $this->mutatorPutInBetweenKeys($this->path, $value, $first, $last);
+
+        return $this;
+    }
+
+    /**
+     * @param string $before
+     * @param string $value
+     *
+     * @return HttpsMutablePath
+     * @throws \LogicException
+     */
+    public function putBefore(string $before, string $value) : self
+    {
+        if(!$this->hasValueIn($this->path, $before)) {
+            throw new \LogicException(sprintf('Cannot put value %s before %s as %s does not exist', $value, $before, $before));
+        }
+
+        $this->path = $this->mutatorPutBeforeValue($this->path, $before, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string $after
+     * @param string $value
+     *
+     * @return HttpsMutablePath
+     * @throws \LogicException
+     */
+    public function putAfter(string $after, string $value): self
+    {
+        if(!$this->hasValueIn($this->path, $after)) {
+            throw new \LogicException(sprintf('Cannot put value %s after %s as %s does not exist', $value, $after, $after));
+        }
+
+        $this->path = $this->mutatorPutAfterValue($this->path, $after, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string ...$args
+     *
+     * @return HttpsMutablePath
+     */
+    public function forget(string ...$args): self
+    {
+        foreach($args as $item) {
+            if(!$this->hasValueIn($this->path, $item)) {
+                throw new \LogicException(sprintf('Cannot forget %s as it does not exist', $item));
+            }
+
+            $this->mutatorForgetKeyOrValue($this->path, $item);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return HttpsMutablePath
+     */
+    public function forgetAll(): self
+    {
+        $this->path = [];
+
+        return $this;
+    }
+
+    /**
+     * @param string ...$args
+     *
+     * @return HttpsMutablePath
+     */
+    public function only(string ...$args): self
+    {
+        foreach($args as $item) {
+            if(!$this->hasValueIn($this->path, $item)) {
+                throw new \LogicException(sprintf('Cannot forget %s as it does not exist', $item));
+            }
+        }
+
+        $this->path = $this->mutatorOnlyValues($this->path, $args);
+
+        return $this;
     }
 
 /////////////////////////////////
@@ -82,7 +206,7 @@ class HttpsMutablePath implements  MutableBagInterface
 ///////////////////////////////
 
     /**
-     * @param $key
+     * @param int $key
      * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
      */
     public function get($key)

@@ -25,14 +25,8 @@ class MailtoPathMutable implements MutableBagInterface
     private $path = [];
 
     /**
-     * @var string
-     */
-    private $raw = '';
-
-
-    /**
      * @param $path array|string
-     * @return $this
+     * @return MailtoPathMutable
      * @throws InvalidComponentsException
      */
     public function setPath(array $path): self
@@ -62,9 +56,9 @@ class MailtoPathMutable implements MutableBagInterface
      *
      * @return MailtoPathMutable
      */
-    public function appendToPath(string $value): self
+    public function append(string $value): self
     {
-        $this->mutatorPrepend($this->path, $value);
+        $this->mutatorAppend($this->path, $value);
 
         return $this;
     }
@@ -74,37 +68,84 @@ class MailtoPathMutable implements MutableBagInterface
      *
      * @return MailtoPathMutable
      */
-    public function prependToPath(string $value): self
+    public function prepend(string $value): self
     {
-        $this->mutatorAppend($this->path, $value);
+        $this->mutatorPrepend($this->path, $value);
 
         return $this;
     }
 
     /**
-     * @return array|string
+     * @param string      $value
+     * @param string|null $first
+     * @param string|null $last
+     *
+     * @return MailtoPathMutable
+     * @throws ComponentNotFoundException
      */
-    public function firstInPath()
+    public function putInBetween(string $value, string $first = null, string $last = null): self
     {
-        return $this->firstIn($this->path);
+        if(null === $first && null === $last) {
+            throw new \LogicException('Cannot put value if neither first or last is defined');
+        }
+
+        if(!$this->hasValueIn($this->path, $first) && !$this->hasValueIn($this->path, $last)) {
+            throw new ComponentNotFoundException(sprintf('No component found matching either %s  %s',$first, $last));
+        }
+
+        $this->mutatorPutInBetweenKeys($this->path, $value, $first, $last);
+
+        return $this;
     }
 
     /**
-     * @return array|string
-     */
-    public function lastInPath()
-    {
-        return $this->lastIn($this->path);
-    }
-
-    /**
-     * @param $keyOrValue
+     * @param string $before
+     * @param string $value
      *
      * @return MailtoPathMutable
      */
-    public function forgetInPath($keyOrValue): self
+    public function putBefore(string $before, string $value) : self
     {
-        $this->mutatorForgetKeyOrValue($this->path, $keyOrValue);
+        if(!$this->hasValueIn($this->path, $before)) {
+            throw new \LogicException(sprintf('Cannot put value %s before %s as %s does not exist', $value, $before, $before));
+        }
+
+        $this->path = $this->mutatorPutBeforeValue($this->path, $before, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string $after
+     * @param string $value
+     *
+     * @return MailtoPathMutable
+     */
+    public function putAfter(string $after, string $value): self
+    {
+        if(!$this->hasValueIn($this->path, $after)) {
+            throw new \LogicException(sprintf('Cannot put value %s after %s as %s does not exist', $value, $after, $after));
+        }
+
+        $this->path = $this->mutatorPutAfterValue($this->path, $after, $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string ...$args
+     *
+     * @return MailtoPathMutable
+     */
+    public function forget(string ...$args): self
+    {
+        foreach($args as $item) {
+            if(!$this->hasValueIn($this->path, $item)) {
+                throw new \LogicException(sprintf('Cannot forget %s as it does not exist', $item));
+            }
+
+            $this->mutatorForgetKeyOrValue($this->path, $item);
+        }
 
         return $this;
     }
@@ -112,9 +153,27 @@ class MailtoPathMutable implements MutableBagInterface
     /**
      * @return MailtoPathMutable
      */
-    public function forgetPath(): self
+    public function forgetAll(): self
     {
-        $this->path = '';
+        $this->path = [];
+
+        return $this;
+    }
+
+    /**
+     * @param string ...$args
+     *
+     * @return MailtoPathMutable
+     */
+    public function only(string ...$args): self
+    {
+        foreach($args as $item) {
+            if(!$this->hasValueIn($this->path, $item)) {
+                throw new \LogicException(sprintf('Cannot forget %s as it does not exist', $item));
+            }
+        }
+
+        $this->path = $this->mutatorOnlyValues($this->path, $args);
 
         return $this;
     }
@@ -136,7 +195,16 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function raw(): string
     {
-        return $this->raw;
+        if(empty($this->path)) {
+            return '';
+        }
+
+        $path = '/';
+        foreach($this->path as $element) {
+            $path .= ($element) . '/';
+        }
+
+        return $path;
     }
 
     /**

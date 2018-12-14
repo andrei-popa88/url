@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Builder\Schemes\Https\Bags;
 
-use Keppler\Url\Exceptions\ComponentNotFoundException;
 use Keppler\Url\Interfaces\Mutable\MutableBagInterface;
 use Keppler\Url\Traits\Accessor;
 use Keppler\Url\Traits\Mutator;
@@ -24,18 +23,14 @@ class HttpsMutableQuery implements MutableBagInterface
      */
     private $query = [];
 
-    /**
-     * @var string
-     */
-    private $raw = '';
-
-
 /////////////////////////////////
 /// INTERFACE IMPLEMENTATION  ///
 ////////////////////////////////
 
     /**
      * @param $key
+     *
+     * @return mixed|void
      * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
      */
     public function get($key)
