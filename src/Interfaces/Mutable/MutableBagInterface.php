@@ -25,7 +25,7 @@ interface MutableBagInterface extends ImmutableBagInterface
      * @param string $key
      * @return bool
      */
-    public function has(string $key): bool;
+    public function has($key): bool;
 
     /**
      * Gets a given key from the query or path
@@ -33,11 +33,11 @@ interface MutableBagInterface extends ImmutableBagInterface
      * If the given bag has predefined set of values
      * for example MailtoImmutableQuery
      *
-     * @param string $key
+     * @param $key
      * @throws ComponentNotFoundException
      * @return mixed
      */
-    public function get(string $key);
+    public function get($key);
 
     /**
      * Sets a given key => value to the query or path

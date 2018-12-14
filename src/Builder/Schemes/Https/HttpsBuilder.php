@@ -1,32 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Scheme\Schemes\Https;
+namespace Keppler\Url\Builder\Schemes\Https;
 
-use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
-use Keppler\Url\Scheme\Schemes\AbstractImmutable;
-use Keppler\Url\Scheme\Schemes\Https\Bags\HttpsImmutablePath;
-use Keppler\Url\Scheme\Schemes\Https\Bags\HttpsImmutableQuery;
+use Keppler\Url\Builder\Schemes\Https\Bags\HttpsMutablePath;
+use Keppler\Url\Builder\Schemes\Https\Bags\HttpsMutableQuery;
+use Keppler\Url\Interfaces\Mutable\MutableSchemeInterface;
 
 /**
- * Note that the following class makes no assumption regarding url encoding
- * the https url is taken AS IS and will not be decoded or encoded
- * url encoded strings WILL result in errors
- *
- *  userinfo     host        port
- * ┌─┴────┐ ┌────┴────────┐ ┌┴┐
- *  https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top
- *  └─┬─┘ └───────┬────────────────────┘└─┬─────────────┘└──┬───────────────────────┘└┬─┘
- * scheme     authority                 path              query                      fragment
- *
- * @see https://tools.ietf.org/html/rfc3986#page-16
- *
- *
- * Class HttpsImmutable
- *
- * @package Keppler\Url\Schemes\HttpsImmutable
+ * Class HttpsBuilder
+ * @package Keppler\Url\Builder\Schemes\Https
  */
-class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterface
+class HttpsBuilder implements MutableSchemeInterface
 {
     /**
      * The default scheme for this class
@@ -101,12 +86,12 @@ class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterfa
     private $fragment = '';
 
     /**
-     * @var HttpsImmutableQuery
+     * @var HttpsMutableQuery
      */
     private $queryBag;
 
     /**
-     * @var HttpsImmutablePath
+     * @var HttpsMutablePath
      */
     private $pathBag;
 
@@ -125,27 +110,27 @@ class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterfa
 
         $parsedUrl = parse_url($url);
 
-        $this->setAuthority($parsedUrl);
+        $this->setInitialAuthority($parsedUrl);
 
-        if(isset($parsedUrl['fragment'])) {
-            if(false !== strpos($parsedUrl['fragment'], '#')) {
+        if (isset($parsedUrl['fragment'])) {
+            if (false !== strpos($parsedUrl['fragment'], '#')) {
                 // get only the first fragment
                 $this->fragment = explode('#', $parsedUrl['fragment'])[0];
-            }else {
+            } else {
                 $this->fragment = $parsedUrl['fragment'];
             }
         }
 
         if (isset($parsedUrl['query']) && !empty($parsedUrl['query'])) {
-            $this->queryBag = new HttpsImmutableQuery($parsedUrl['query']);
+            $this->queryBag = new HttpsMutablePath($parsedUrl['query']);
         } else {
-            $this->queryBag = new HttpsImmutableQuery();
+            $this->queryBag = new HttpsMutablePath();
         }
 
         if (isset($parsedUrl['path']) && !empty($parsedUrl['path'])) {
-            $this->pathBag = new HttpsImmutablePath($parsedUrl['path']);
+            $this->pathBag = new HttpsMutablePath($parsedUrl['path']);
         } else {
-            $this->pathBag = new HttpsImmutablePath();
+            $this->pathBag = new HttpsMutablePath();
         }
     }
 
@@ -156,28 +141,54 @@ class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterfa
     /**
      * @param array $parsedUrl
      */
-    private function setAuthority(array $parsedUrl)
+    private function setInitialAuthority(array $parsedUrl): void
     {
         $authority = '';
 
-        if(isset($parsedUrl['user'])) {
+        if (isset($parsedUrl['user'])) {
             $authority .= $parsedUrl['user'];
             $this->user = $parsedUrl['user'];
         }
 
-        if(isset($parsedUrl['pass'])) {
-            $authority .= ':' . $parsedUrl['pass'];
+        if (isset($parsedUrl['pass'])) {
+            $authority .= ':'.$parsedUrl['pass'];
             $this->password = $parsedUrl['pass'];
         }
 
-        if(isset($parsedUrl['host'])) {
-            $authority .= '@' . $parsedUrl['host'];
+        if (isset($parsedUrl['host'])) {
+            $authority .= '@'.$parsedUrl['host'];
             $this->host = $parsedUrl['host'];
         }
 
-        if(isset($parsedUrl['port'])) {
+        if (isset($parsedUrl['port'])) {
             $authority .= $parsedUrl['port'];
             $this->port = $parsedUrl['port'];
+        }
+
+        $this->authority = $authority;
+    }
+
+    /**
+     * Recreate the authority
+     */
+    private function buildAuthority(): void
+    {
+        $authority = '';
+
+        if (!empty($this->user)) {
+            $authority .= $this->user;
+        }
+
+        if (!empty($this->password)) {
+            $authority .= ':'.$this->password;
+        }
+
+        if (!empty($this->host)) {
+            $authority .= '@'.$this->host;
+        }
+
+        if (-1 !== $this->port) {
+            $authority .= $this->port;
         }
 
         $this->authority = $authority;
@@ -236,24 +247,132 @@ class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterfa
     }
 
     /**
-     * @return HttpsImmutableQuery
+     * @return HttpsMutableQuery
      */
-    public function getQueryBag(): HttpsImmutableQuery
+    public function getQueryBag(): HttpsMutableQuery
     {
         return $this->queryBag;
     }
 
     /**
-     * @return HttpsImmutablePath
+     * @return HttpsMutablePath
      */
-    public function getPathBag(): HttpsImmutablePath
+    public function getPathBag(): HttpsMutablePath
     {
         return $this->pathBag;
+    }
+
+//////////////////////////
+/// SETTER FUNCTIONS  ///
+////////////////////////
+
+    /**
+     * @param string $user
+     * @return HttpsBuilder
+     */
+    public function setUser(string $user): self
+    {
+        $this->user = $user;
+        // Rebuild the authority
+        $this->buildAuthority();
+
+        return $this;
+    }
+
+    /**
+     * @param string $password
+     * @return HttpsBuilder
+     */
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+        // Rebuild the authority
+        $this->buildAuthority();
+
+        return $this;
+    }
+
+    /**
+     * @param string $host
+     * @return HttpsBuilder
+     */
+    public function setHost(string $host): self
+    {
+        $this->host = $host;
+        // Rebuild the authority
+        $this->buildAuthority();
+
+        return $this;
+    }
+
+    /**
+     * @param int $port
+     * @return HttpsBuilder
+     */
+    public function setPort(int $port): self
+    {
+        $this->port = $port;
+        // Rebuild the authority
+        $this->buildAuthority();
+
+        return $this;
+    }
+
+    /**
+     * @param string $fragment
+     * @return HttpsBuilder
+     */
+    public function setFragment(string $fragment): self
+    {
+        $this->fragment = $fragment;
+
+        return $this;
     }
 
 /////////////////////////////////
 /// INTERFACE IMPLEMENTATION  ///
 /////////////////////////////////
+
+    /**
+     * @param bool $urlEncode
+     *
+     * @return string
+     */
+    public function build(bool $urlEncode = false): string
+    {
+        // mailtoURL  =  "mailto:" [ to ] [ headers ]
+        // to         =  #mailbox
+        // headers    =  "?" header *( "&" header )
+        // header     =  hname "=" hvalue
+        // hname      =  *urlc
+        // hvalue     =  *urlc
+
+        $url = self::SCHEME.':';
+        $commaEncoded = '%2C';
+
+        // The path ca be either a single string value or an array of values
+        if (is_array($this->path)) {
+            foreach ($this->path as $email) {
+                if ($urlEncode) {
+                    $url .= $email.$commaEncoded;
+                } else {
+                    $url .= $email.',';
+                }
+            }
+            $url = rtrim($url, ',');
+        } else {
+            $url .= $this->path;
+        }
+
+        if ($urlEncode) {
+            $url .= $this->queryBag->encoded();
+        } else {
+            $url .= $this->queryBag->raw();
+        }
+
+        return $url;
+    }
+
 
     /**
      * Returns all the components of the scheme including
@@ -269,7 +388,7 @@ class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterfa
             'user' => $this->user,
             'password' => $this->password,
             'host' => $this->host,
-            'port' => $this->port === -1 ? null : $this->port,
+            'port' => -1 === $this->port ? null : $this->port,
             'query' => $this->queryBag->all(),
             'path' => $this->pathBag->all(),
             'fragment' => $this->fragment,

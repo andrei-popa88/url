@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Ftp;
 
-use Keppler\Url\Interfaces\SchemeInterface;
+use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Schemes\Ftp\Bags\FtpImmutablePath;
 
@@ -22,7 +22,7 @@ use Keppler\Url\Scheme\Schemes\Ftp\Bags\FtpImmutablePath;
  *
  * @package Keppler\Url\Schemes\Ftp
  */
-class FtpImmutable extends AbstractImmutable implements SchemeInterface
+class FtpImmutable extends AbstractImmutable implements ImmutableSchemeInterface
 {
     /**
      * The default scheme for this class

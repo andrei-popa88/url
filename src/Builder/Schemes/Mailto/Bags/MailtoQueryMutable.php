@@ -10,11 +10,11 @@ use Keppler\Url\Traits\Accessor;
 use Keppler\Url\Traits\Mutator;
 
 /**
- * Class MailtoQueryMutableBag
+ * Class MailtoQueryMutable
  *
  * @package Keppler\Url\Builder\Schemes\MailtoImmutable\Bags
  */
-class MailtoQueryMutableBag implements MutableBagInterface
+class MailtoQueryMutable implements MutableBagInterface
 {
     use Accessor;
     use Mutator;
@@ -113,10 +113,10 @@ class MailtoQueryMutableBag implements MutableBagInterface
 
     /**
      * @param array $to
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      * @throws InvalidComponentsException
      */
-    public function setTo(array $to): MailtoQueryMutableBag
+    public function setTo(array $to): MailtoQueryMutable
     {
         if (count($to) !== count($to, COUNT_RECURSIVE)) {
             throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $to component in %s',
@@ -131,9 +131,9 @@ class MailtoQueryMutableBag implements MutableBagInterface
     /**
      * @param string $body
      *
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      */
-    public function setBody(string $body): MailtoQueryMutableBag
+    public function setBody(string $body): MailtoQueryMutable
     {
         $this->body = $body;
 
@@ -142,10 +142,10 @@ class MailtoQueryMutableBag implements MutableBagInterface
 
     /**
      * @param array $cc
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      * @throws InvalidComponentsException
      */
-    public function setCc(array $cc): MailtoQueryMutableBag
+    public function setCc(array $cc): MailtoQueryMutable
     {
         if (count($cc) !== count($cc, COUNT_RECURSIVE)) {
             throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $cc component in %s',
@@ -159,10 +159,10 @@ class MailtoQueryMutableBag implements MutableBagInterface
 
     /**
      * @param array $bcc
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      * @throws InvalidComponentsException
      */
-    public function setBcc(array $bcc): MailtoQueryMutableBag
+    public function setBcc(array $bcc): MailtoQueryMutable
     {
         if (count($bcc) !== count($bcc, COUNT_RECURSIVE)) {
             throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $bcc component in %s',
@@ -177,9 +177,9 @@ class MailtoQueryMutableBag implements MutableBagInterface
     /**
      * @param string $subject
      *
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      */
-    public function setSubject(string $subject): MailtoQueryMutableBag
+    public function setSubject(string $subject): MailtoQueryMutable
     {
         $this->subject = $subject;
 
@@ -240,7 +240,7 @@ class MailtoQueryMutableBag implements MutableBagInterface
 
     /**
      * @param string $value
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      */
     public function appendToTo(string $value): self
     {
@@ -251,7 +251,7 @@ class MailtoQueryMutableBag implements MutableBagInterface
 
     /**
      * @param string $value
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      */
     public function appendToCc(string $value): self
     {
@@ -262,7 +262,7 @@ class MailtoQueryMutableBag implements MutableBagInterface
 
     /**
      * @param string $value
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      */
     public function appendToBcc(string $value): self
     {
@@ -273,7 +273,7 @@ class MailtoQueryMutableBag implements MutableBagInterface
 
     /**
      * @param string $value
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      */
     public function prependToTo(string $value): self
     {
@@ -284,7 +284,7 @@ class MailtoQueryMutableBag implements MutableBagInterface
 
     /**
      * @param string $value
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      */
     public function prependToCC(string $value): self
     {
@@ -295,7 +295,7 @@ class MailtoQueryMutableBag implements MutableBagInterface
 
     /**
      * @param string $value
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      */
     public function prependToBcc(string $value): self
     {
@@ -350,7 +350,7 @@ class MailtoQueryMutableBag implements MutableBagInterface
     }
 
     /**
-     * @return MailtoQueryMutableBag
+     * @return MailtoQueryMutable
      */
     public function forgetBody(): self
     {
@@ -386,9 +386,9 @@ class MailtoQueryMutableBag implements MutableBagInterface
         return isset(array_flip($this->bcc)[$value]);
     }
 
+/////////////////////////////////
+/// INTERFACE IMPLEMENTATION  ///
 ////////////////////////////////
-/// INTEFACE IMPLEMENTATION  ///
-///////////////////////////////
 
     /**
      * @return array
@@ -408,17 +408,17 @@ class MailtoQueryMutableBag implements MutableBagInterface
      * @param string $key
      * @return bool
      */
-    public function has(string $key): bool
+    public function has($key): bool
     {
         return property_exists($this, $key);
     }
 
     /**
-     * @param string $key
+     * @param $key
      * @return mixed
      * @throws ComponentNotFoundException
      */
-    public function get(string $key)
+    public function get($key)
     {
         if (!$this->has($key)) {
             throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));

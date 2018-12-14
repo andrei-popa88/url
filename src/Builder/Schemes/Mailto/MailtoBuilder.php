@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Builder\Schemes\Mailto;
 
-use Keppler\Url\Builder\Schemes\Mailto\Bags\MailtoQueryMutableBag;
+use Keppler\Url\Builder\Schemes\Mailto\Bags\MailtoQueryMutable;
 use Keppler\Url\Exceptions\InvalidComponentsException;
-use Keppler\Url\Interfaces\SchemeInterface;
+use Keppler\Url\Interfaces\Mutable\MutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 use Keppler\Url\Traits\Accessor;
 use Keppler\Url\Traits\Mutator;
@@ -15,7 +15,7 @@ use Keppler\Url\Traits\Mutator;
  *
  * @package Keppler\Url\Builder\Schemes\MailtoImmutable
  */
-class MailtoBuilder implements SchemeInterface
+class MailtoBuilder implements MutableSchemeInterface
 {
     use Mutator;
     use Accessor;
@@ -28,7 +28,7 @@ class MailtoBuilder implements SchemeInterface
     const SCHEME = 'mailto';
 
     /**
-     * @var MailtoQueryMutableBag
+     * @var MailtoQueryMutable
      */
     private $queryBag;
 
@@ -39,17 +39,18 @@ class MailtoBuilder implements SchemeInterface
 
     /**
      * MailtoBuilder constructor.
-     *
      * @param MailtoImmutable $mailto
+     * @throws InvalidComponentsException
      */
     public function __construct(MailtoImmutable $mailto)
     {
-        $this->queryBag = new MailtoQueryMutableBag();
+        $this->queryBag = new MailtoQueryMutable();
         $this->populate($mailto);
     }
 
     /**
      * @param MailtoImmutable $mailto
+     * @throws InvalidComponentsException
      */
     private function populate(MailtoImmutable $mailto): void
     {
@@ -65,7 +66,7 @@ class MailtoBuilder implements SchemeInterface
             $this->queryBag->setSubject($mailto->getQueryBag()->getSubject());
             $this->queryBag->setBody($mailto->getQueryBag()->getBody());
         } else {
-            $this->queryBag = new MailtoQueryMutableBag();
+            $this->queryBag = new MailtoQueryMutable();
         }
     }
 
@@ -74,7 +75,7 @@ class MailtoBuilder implements SchemeInterface
 ////////////////////////
 
     /**
-     * @return MailtoQueryMutableBag|null
+     * @return MailtoQueryMutable|null
      */
     public function getQueryBag()
     {
@@ -220,9 +221,9 @@ class MailtoBuilder implements SchemeInterface
         return $this;
     }
 
-////////////////////////
-/// OTHER FUNCTIONS  ///
-////////////////////////
+/////////////////////////////////
+/// INTERFACE IMPLEMENTATION  ///
+/////////////////////////////////
 
     /**
      * @param bool $urlEncode
@@ -263,10 +264,6 @@ class MailtoBuilder implements SchemeInterface
 
         return $url;
     }
-
-/////////////////////////////////
-/// INTERFACE IMPLEMENTATION  ///
-/////////////////////////////////
 
     /**
      * @return array

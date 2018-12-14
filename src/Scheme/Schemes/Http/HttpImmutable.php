@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Http;
 
-use Keppler\Url\Interfaces\SchemeInterface;
+use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Schemes\Http\Bags\HttpImmutablePath;
 use Keppler\Url\Scheme\Schemes\Http\Bags\HttpImmutableQuery;
@@ -25,7 +25,7 @@ use Keppler\Url\Scheme\Schemes\Http\Bags\HttpImmutableQuery;
  *
  * @package Keppler\Url\Schemes\Http
  */
-class HttpImmutable extends AbstractImmutable implements SchemeInterface
+class HttpImmutable extends AbstractImmutable implements ImmutableSchemeInterface
 {
     /**
      * The default scheme for this class
@@ -223,7 +223,7 @@ class HttpImmutable extends AbstractImmutable implements SchemeInterface
      */
     public function getPort(): ?int
     {
-        return -1 === $this->port ? '' : $this->port;
+        return -1 === $this->port ? null : $this->port;
     }
 
     /**
@@ -235,17 +235,17 @@ class HttpImmutable extends AbstractImmutable implements SchemeInterface
     }
 
     /**
-     * @return HttpsImmutableQuery
+     * @return HttpImmutableQuery
      */
-    public function getQueryBag(): HttpsImmutableQuery
+    public function getQueryBag(): HttpImmutableQuery
     {
         return $this->queryBag;
     }
 
     /**
-     * @return HttpsImmutablePath
+     * @return HttpImmutablePath
      */
-    public function getPathBag(): HttpsImmutablePath
+    public function getPathBag(): HttpImmutablePath
     {
         return $this->pathBag;
     }
