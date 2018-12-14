@@ -142,9 +142,9 @@ class HttpImmutable extends AbstractImmutable implements ImmutableSchemeInterfac
         }
 
         if (isset($parsedUrl['path']) && !empty($parsedUrl['path'])) {
-            $this->pathBag = new HttpImmutableQuery($parsedUrl['path']);
+            $this->pathBag = new HttpImmutablePath($parsedUrl['path']);
         } else {
-            $this->pathBag = new HttpImmutableQuery();
+            $this->pathBag = new HttpImmutablePath();
         }
     }
 

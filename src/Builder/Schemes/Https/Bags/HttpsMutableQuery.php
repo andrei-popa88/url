@@ -6,6 +6,7 @@ namespace Keppler\Url\Builder\Schemes\Https\Bags;
 use Keppler\Url\Exceptions\ComponentNotFoundException;
 use Keppler\Url\Interfaces\Mutable\MutableBagInterface;
 use Keppler\Url\Traits\Accessor;
+use Keppler\Url\Traits\Mutator;
 
 /**
  * Class HttpsMutableQuery
@@ -13,6 +14,7 @@ use Keppler\Url\Traits\Accessor;
  */
 class HttpsMutableQuery implements MutableBagInterface
 {
+    use Mutator;
     use Accessor;
 
     /**
@@ -27,36 +29,6 @@ class HttpsMutableQuery implements MutableBagInterface
      */
     private $raw = '';
 
-    /**
-     * This should be the ONLY entry point and it should accept ONLY the raw string
-     *
-     * HttpsImmutableQuery constructor.
-     *
-     * @param string $raw
-     */
-    public function __construct(string $raw = '')
-    {
-        // Leave the class with defaults if no valid raw string is provided
-        if ('' !== trim($raw)) {
-            $this->raw = $raw;
-
-            $result = [];
-            parse_str($raw, $result);
-            $this->buildFromParsed($result);
-        }
-    }
-
-///////////////////////////
-/// PRIVATE FUNCTIONS  ///
-/////////////////////////
-
-    /**
-     * @param $result
-     */
-    private function buildFromParsed($result)
-    {
-        $this->query = $result;
-    }
 
 /////////////////////////////////
 /// INTERFACE IMPLEMENTATION  ///
@@ -68,7 +40,7 @@ class HttpsMutableQuery implements MutableBagInterface
      */
     public function get($key)
     {
-        $this->getIn($this->query, $key);
+        $this->getKeyIn($this->query, $key);
     }
 
     /**
@@ -97,7 +69,11 @@ class HttpsMutableQuery implements MutableBagInterface
      */
     public function raw(): string
     {
-        return $this->raw;
+        if(!empty($this->query)) {
+            return '?' . urldecode(http_build_query($this->query));
+        }
+
+        return '';
     }
 
     /**
@@ -107,7 +83,11 @@ class HttpsMutableQuery implements MutableBagInterface
      */
     public function encoded(): string
     {
-        // TODO: Implement encoded() method.
+        if(!empty($this->query)) {
+            return '?' . http_build_query($this->query);
+        }
+
+        return '';
     }
 
     /**
@@ -117,12 +97,12 @@ class HttpsMutableQuery implements MutableBagInterface
      *
      * @param $key
      * @param $value
-     * @throws ComponentNotFoundException
-     * @return MutableBagInterface
+     * @return self
      */
-    public function set($key, $value): MutableBagInterface
+    public function set($key, $value): self
     {
-        // TODO: Implement set() method.
-    }
+        $this->query[$key] = $value;
 
+        return $this;
+    }
 }

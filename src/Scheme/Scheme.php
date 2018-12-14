@@ -26,6 +26,7 @@ class Scheme
      */
     public static function mailto(string $url)
     {
+        $url = trim($url);
         $parsed = self::parse($url);
 
         if (MailtoImmutable::SCHEME === $parsed['scheme']) {
@@ -42,6 +43,7 @@ class Scheme
      */
     public static function https(string $url)
     {
+        $url = trim($url);
         $parsed = self::parse($url);
 
         if (HttpsImmutable::SCHEME === $parsed['scheme']) {
@@ -58,6 +60,7 @@ class Scheme
      */
     public static function http(string $url)
     {
+        $url = trim($url);
         $parsed = self::parse($url);
 
         if (HttpImmutable::SCHEME === $parsed['scheme']) {
@@ -74,6 +77,7 @@ class Scheme
      */
     public static function ftp(string $url)
     {
+        $url = trim($url);
         $parsed = self::parse($url);
 
         if (FtpImmutable::SCHEME === $parsed['scheme']) {
@@ -90,6 +94,7 @@ class Scheme
      */
     private static function parse(string $url)
     {
+        $url = trim($url);
         $parsed = parse_url($url);
 
         if (false === $parsed) {

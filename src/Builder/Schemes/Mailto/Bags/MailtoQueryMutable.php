@@ -96,7 +96,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function getInTo(int $key): string
     {
-        return $this->getIn($this->to, $key);
+        return $this->getKeyIn($this->to, $key);
     }
 
     /**

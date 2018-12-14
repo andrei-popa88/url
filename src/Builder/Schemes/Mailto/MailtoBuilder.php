@@ -6,7 +6,6 @@ namespace Keppler\Url\Builder\Schemes\Mailto;
 use Keppler\Url\Builder\Schemes\Mailto\Bags\MailtoPathMutable;
 use Keppler\Url\Builder\Schemes\Mailto\Bags\MailtoQueryMutable;
 use Keppler\Url\Exceptions\InvalidComponentsException;
-use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
 use Keppler\Url\Interfaces\Mutable\MutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 use Keppler\Url\Traits\Accessor;
@@ -42,14 +41,15 @@ class MailtoBuilder implements MutableSchemeInterface
     /**
      * MailtoBuilder constructor.
      *
-     * @param ImmutableSchemeInterface $mailto
+     * @param MailtoImmutable $mailto
      *
      * @throws InvalidComponentsException
      */
-    public function __construct(ImmutableSchemeInterface $mailto)
+    public function __construct(MailtoImmutable $mailto)
     {
         $this->queryBag = new MailtoQueryMutable();
         $this->pathBag = new MailtoPathMutable();
+
         $this->populate($mailto);
     }
 
@@ -59,14 +59,11 @@ class MailtoBuilder implements MutableSchemeInterface
      */
     private function populate(MailtoImmutable $mailto): void
     {
-        $this->pathBag = $mailto->getPath();
-
         $this->queryBag->setCc($mailto->getQueryBag()->getCc());
         $this->queryBag->setBcc($mailto->getQueryBag()->getBcc());
         $this->queryBag->setTo($mailto->getQueryBag()->getTo());
         $this->queryBag->setSubject($mailto->getQueryBag()->getSubject());
         $this->queryBag->setBody($mailto->getQueryBag()->getBody());
-
     }
 
 /////////////////////////
@@ -100,33 +97,13 @@ class MailtoBuilder implements MutableSchemeInterface
      */
     public function build(bool $urlEncode = false): string
     {
-        // mailtoURL  =  "mailto:" [ to ] [ headers ]
-        // to         =  #mailbox
-        // headers    =  "?" header *( "&" header )
-        // header     =  hname "=" hvalue
-        // hname      =  *urlc
-        // hvalue     =  *urlc
-
         $url = self::SCHEME.':';
-        $commaEncoded = '%2C';
-
-        // The path ca be either a single string value or an array of values
-        if (is_array($this->pathBag)) {
-            foreach ($this->path as $email) {
-                if ($urlEncode) {
-                    $url .= $email.$commaEncoded;
-                } else {
-                    $url .= $email.',';
-                }
-            }
-            $url = rtrim($url, ',');
-        } else {
-            $url .= $this->path;
-        }
 
         if ($urlEncode) {
+            $url .= $this->pathBag->encoded();
             $url .= $this->queryBag->encoded();
         } else {
+            $url .= $this->pathBag->raw();
             $url .= $this->queryBag->raw();
         }
 
@@ -140,7 +117,7 @@ class MailtoBuilder implements MutableSchemeInterface
     {
         return [
             'scheme' => self::SCHEME,
-            'path' => $this->path,
+            'path' => $this->pathBag->all(),
             'query' => $this->getQueryBag()->all(),
         ];
     }

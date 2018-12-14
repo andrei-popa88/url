@@ -70,17 +70,9 @@ class HttpImmutablePath extends AbstractImmutable implements ImmutableBagInterfa
 ////////////////////////
 
     /**
-     * @return array
-     */
-    public function getPath(): array
-    {
-        return $this->path;
-    }
-
-    /**
      * @return string
      */
-    public function getFirst(): string
+    public function first(): string
     {
         return $this->firstIn($this->path);
     }
@@ -88,7 +80,7 @@ class HttpImmutablePath extends AbstractImmutable implements ImmutableBagInterfa
     /**
      * @return string
      */
-    public function getLast(): string
+    public function last(): string
     {
         return $this->lastIn($this->path);
     }
@@ -99,7 +91,7 @@ class HttpImmutablePath extends AbstractImmutable implements ImmutableBagInterfa
      */
     public function get(int $key)
     {
-        $this->getIn($this->path, $key);
+        $this->getKeyIn($this->path, $key);
     }
 
     /**

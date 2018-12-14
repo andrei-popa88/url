@@ -49,24 +49,6 @@ class HttpsMutablePath implements  MutableBagInterface
      */
     private $raw = '';
 
-    /**
-     * This should be the ONLY entry point and it should accept ONLY the raw string
-     *
-     * HttpsImmutablePath constructor.
-     *
-     * @param string $raw
-     */
-    public function __construct(string $raw = '')
-    {
-        // Leave the class with defaults if no valid raw string is provided
-        if ('' !== trim($raw)) {
-            $this->raw = $raw;
-
-            // explode by /
-            $this->path = explode('/', trim($raw, '/'));
-        }
-    }
-
 //////////////////////////
 /// GETTER FUNCTIONS  ///
 ////////////////////////
@@ -105,7 +87,7 @@ class HttpsMutablePath implements  MutableBagInterface
      */
     public function get($key)
     {
-        $this->getIn($this->path, $key);
+        $this->getKeyIn($this->path, $key);
     }
 
     /**
@@ -134,7 +116,16 @@ class HttpsMutablePath implements  MutableBagInterface
      */
     public function raw(): string
     {
-        return $this->raw;
+        if(empty($this->path)) {
+            return '';
+        }
+
+        $path = '/';
+        foreach($this->path as $element) {
+            $path .= $element . '/';
+        }
+
+        return $path;
     }
 
     /**
@@ -144,20 +135,25 @@ class HttpsMutablePath implements  MutableBagInterface
      */
     public function encoded(): string
     {
-        // TODO: Implement encoded() method.
+        if(empty($this->path)) {
+            return '';
+        }
+
+        $path = '/';
+        foreach($this->path as $element) {
+            $path .= urlencode($element) . '/';
+        }
+
+        return $path;
     }
 
     /**
-     * Sets a given key => value to the path
-     * Some bags should set a class property if they
-     * contain multidimensional values by default
-     *
      * @param $key
      * @param $value
-     * @throws ComponentNotFoundException
-     * @return MutableBagInterface
+     *
+     * @return HttpsMutablePath
      */
-    public function set($key, $value): MutableBagInterface
+    public function set($key, $value): self
     {
         $this->path[$key] = $value;
 

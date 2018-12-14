@@ -64,7 +64,7 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function appendToPath(string $value): self
     {
-        $this->append($this->path, $value);
+        $this->mutatorPrepend($this->path, $value);
 
         return $this;
     }
@@ -76,7 +76,7 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function prependToPath(string $value): self
     {
-        $this->prepend($this->path, $value);
+        $this->mutatorAppend($this->path, $value);
 
         return $this;
     }
@@ -171,35 +171,37 @@ class MailtoPathMutable implements MutableBagInterface
     }
 
     /**
-     * Gets a given key from the query or path
-     * Some bags CAN and SHOULD return a class property
-     * If the given bag has predefined set of values
-     * for example MailtoImmutableQuery
+     * Gets a given value from the path
      *
-     * @param $key
+     * @param $value
      *
      * @throws ComponentNotFoundException
      * @return mixed
      */
     public function get($value)
     {
-        // TODO: Implement get() method.
+        if(!$this->has($value)) {
+            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $value, __CLASS__));
+        }
+
+        return $this->getValueIn($this->path, $value);
     }
 
     /**
-     * Sets a given key => value to the query or path
-     * Some bags should set a class property if they
-     * contain multidimensional values by default
-     *
      * @param $key
      * @param $value
      *
-     * @throws ComponentNotFoundException
-     * @return MutableBagInterface
+     * @return MailtoPathMutable
      */
     public function set($key, $value): self
     {
-        // TODO: Implement set() method.
+        if(!is_int($key)) {
+            throw new \LogicException(sprintf('Method %s can only accept integers as a key', __METHOD__));
+        }
+
+        $this->path[$key] = $value;
+
+        return $this;
     }
 
 

@@ -49,5 +49,5 @@ interface MutableBagInterface extends ImmutableBagInterface
      * @throws ComponentNotFoundException
      * @return MutableBagInterface
      */
-    public function set($key, $value): self;
+    public function set($key, $value);
 }

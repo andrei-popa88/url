@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Ftp;
 
+use Keppler\Url\Interfaces\Immutable\ImmutableBagInterface;
 use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Schemes\Ftp\Bags\FtpImmutablePath;
@@ -100,6 +101,14 @@ class FtpImmutable extends AbstractImmutable implements ImmutableSchemeInterface
 //////////////////////////
 /// GETTER FUNCTIONS  ///
 ////////////////////////
+
+    /**
+     * @return FtpImmutablePath
+     */
+    public function getPathBag(): FtpImmutablePath
+    {
+        return $this->pathBag;
+    }
 
     /**
      * @return string

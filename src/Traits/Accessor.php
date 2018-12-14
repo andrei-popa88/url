@@ -42,7 +42,7 @@ trait Accessor
      * @return mixed
      * @throws ComponentNotFoundException
      */
-    protected function getIn($in, $key)
+    protected function getKeyIn($in, $key)
     {
         if (!array_key_exists($key, $in)) {
             throw new ComponentNotFoundException(sprintf('Component with index "%s" does not exist in %s', $key,
@@ -50,6 +50,24 @@ trait Accessor
         }
 
         return $in[$key];
+    }
+
+    /**
+     * @param array $in
+     * @param       $value
+     *
+     * @return mixed
+     * @throws ComponentNotFoundException
+     */
+    public function getValueIn(array $in, $value) {
+        foreach($in as $element) {
+            if($element === $value) {
+                return $value;
+            }
+        }
+
+        throw new ComponentNotFoundException(sprintf('Component with index "%s" does not exist in %s', $key,
+            __CLASS__));
     }
 
     /**

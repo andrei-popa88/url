@@ -6,6 +6,7 @@ namespace Keppler\Url\Builder\Schemes\Https;
 use Keppler\Url\Builder\Schemes\Https\Bags\HttpsMutablePath;
 use Keppler\Url\Builder\Schemes\Https\Bags\HttpsMutableQuery;
 use Keppler\Url\Interfaces\Mutable\MutableSchemeInterface;
+use Keppler\Url\Scheme\Schemes\Https\HttpsImmutable;
 
 /**
  * Class HttpsBuilder
@@ -101,71 +102,39 @@ class HttpsBuilder implements MutableSchemeInterface
     private $raw = '';
 
     /**
-     * HttpsImmutable constructor.
-     * @param $url
+     * HttpsBuilder constructor.
+     *
+     * @param HttpsImmutable $https
      */
-    public function __construct(string $url)
+    public function __construct(HttpsImmutable $https)
     {
-        $this->raw = $url;
+        $this->pathBag = new HttpsMutablePath();
+        $this->queryBag = new HttpsMutableQuery();
+        $this->populate($https);
 
-        $parsedUrl = parse_url($url);
-
-        $this->setInitialAuthority($parsedUrl);
-
-        if (isset($parsedUrl['fragment'])) {
-            if (false !== strpos($parsedUrl['fragment'], '#')) {
-                // get only the first fragment
-                $this->fragment = explode('#', $parsedUrl['fragment'])[0];
-            } else {
-                $this->fragment = $parsedUrl['fragment'];
-            }
-        }
-
-        if (isset($parsedUrl['query']) && !empty($parsedUrl['query'])) {
-            $this->queryBag = new HttpsMutablePath($parsedUrl['query']);
-        } else {
-            $this->queryBag = new HttpsMutablePath();
-        }
-
-        if (isset($parsedUrl['path']) && !empty($parsedUrl['path'])) {
-            $this->pathBag = new HttpsMutablePath($parsedUrl['path']);
-        } else {
-            $this->pathBag = new HttpsMutablePath();
-        }
+        $this->authority = $https->getAuthority();
+        $this->user = $https->getUser();
+        $this->password = $https->getPassword();
+        $this->host = $https->getHost();
+        $this->port = -1 === $https->getPort() ? -1 : $https->getPort();
+        $this->fragment = $https->getFragment();
     }
 
 ///////////////////////////
 /// PRIVATE FUNCTIONS  ///
 /////////////////////////
-
     /**
-     * @param array $parsedUrl
+     * @param HttpsImmutable $https
      */
-    private function setInitialAuthority(array $parsedUrl): void
+    private function populate(HttpsImmutable $https): void
     {
-        $authority = '';
-
-        if (isset($parsedUrl['user'])) {
-            $authority .= $parsedUrl['user'];
-            $this->user = $parsedUrl['user'];
+        foreach ($https->getPathBag()->all() as $key => $value){
+            $this->pathBag->set($key, $value);
         }
 
-        if (isset($parsedUrl['pass'])) {
-            $authority .= ':'.$parsedUrl['pass'];
-            $this->password = $parsedUrl['pass'];
+        foreach ($https->getQueryBag()->all() as $key => $value){
+            $this->queryBag->set($key, $value);
         }
-
-        if (isset($parsedUrl['host'])) {
-            $authority .= '@'.$parsedUrl['host'];
-            $this->host = $parsedUrl['host'];
-        }
-
-        if (isset($parsedUrl['port'])) {
-            $authority .= $parsedUrl['port'];
-            $this->port = $parsedUrl['port'];
-        }
-
-        $this->authority = $authority;
     }
 
     /**
@@ -188,7 +157,7 @@ class HttpsBuilder implements MutableSchemeInterface
         }
 
         if (-1 !== $this->port) {
-            $authority .= $this->port;
+            $authority .= ':' . $this->port;
         }
 
         $this->authority = $authority;
@@ -307,10 +276,16 @@ class HttpsBuilder implements MutableSchemeInterface
 
     /**
      * @param int $port
+     *
      * @return HttpsBuilder
+     * @throws \LogicException
      */
     public function setPort(int $port): self
     {
+        if(abs($port) !== $port) {
+            throw new \LogicException('Ports cannot be negative');
+        }
+
         $this->port = $port;
         // Rebuild the authority
         $this->buildAuthority();
@@ -340,39 +315,24 @@ class HttpsBuilder implements MutableSchemeInterface
      */
     public function build(bool $urlEncode = false): string
     {
-        // mailtoURL  =  "mailto:" [ to ] [ headers ]
-        // to         =  #mailbox
-        // headers    =  "?" header *( "&" header )
-        // header     =  hname "=" hvalue
-        // hname      =  *urlc
-        // hvalue     =  *urlc
+        $url = self::SCHEME.'://';
 
-        $url = self::SCHEME.':';
-        $commaEncoded = '%2C';
-
-        // The path ca be either a single string value or an array of values
-        if (is_array($this->path)) {
-            foreach ($this->path as $email) {
-                if ($urlEncode) {
-                    $url .= $email.$commaEncoded;
-                } else {
-                    $url .= $email.',';
-                }
-            }
-            $url = rtrim($url, ',');
-        } else {
-            $url .= $this->path;
-        }
+        $url .= $this->authority;
 
         if ($urlEncode) {
+            $url .= $this->pathBag->encoded();
             $url .= $this->queryBag->encoded();
         } else {
+            $url .= $this->pathBag->raw();
             $url .= $this->queryBag->raw();
+        }
+
+        if(!empty($this->fragment)) {
+            $url .= '#' . $this->fragment;
         }
 
         return $url;
     }
-
 
     /**
      * Returns all the components of the scheme including

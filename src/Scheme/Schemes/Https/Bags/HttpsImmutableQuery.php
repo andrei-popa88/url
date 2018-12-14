@@ -68,7 +68,7 @@ class HttpsImmutableQuery extends AbstractImmutable implements ImmutableBagInter
      */
     public function get($key)
     {
-        $this->getIn($this->query, $key);
+        $this->getKeyIn($this->query, $key);
     }
 
     /**
@@ -78,6 +78,19 @@ class HttpsImmutableQuery extends AbstractImmutable implements ImmutableBagInter
     public function has($key): bool
     {
         return $this->hasKeyIn($this->query, $key);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function first(): ?string
+    {
+        return $this->firstIn($this->query);
+    }
+
+    public function last(): ?string
+    {
+        return $this->lastIn($this->query);
     }
 
 /////////////////////////////////
