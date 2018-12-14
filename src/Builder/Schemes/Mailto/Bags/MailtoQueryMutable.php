@@ -53,9 +53,9 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     private $body = '';
 
-/////////////////////////
-/// GETTER FUNCTIONS  ///
-////////////////////////
+    /////////////////////////
+    /// GETTER FUNCTIONS  ///
+    ////////////////////////
 
     /**
      * @return array
@@ -91,6 +91,7 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param int $key
+     *
      * @return string
      * @throws ComponentNotFoundException
      */
@@ -107,12 +108,13 @@ class MailtoQueryMutable implements MutableBagInterface
         return $this->body;
     }
 
-/////////////////////////
-/// SETTER FUNCTIONS  ///
-////////////////////////
+    /////////////////////////
+    /// SETTER FUNCTIONS  ///
+    ////////////////////////
 
     /**
      * @param array $to
+     *
      * @return MailtoQueryMutable
      * @throws InvalidComponentsException
      */
@@ -142,6 +144,7 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param array $cc
+     *
      * @return MailtoQueryMutable
      * @throws InvalidComponentsException
      */
@@ -159,6 +162,7 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param array $bcc
+     *
      * @return MailtoQueryMutable
      * @throws InvalidComponentsException
      */
@@ -186,9 +190,9 @@ class MailtoQueryMutable implements MutableBagInterface
         return $this;
     }
 
-//////////////////////////
-/// MUTATOR FUNCTIONS  ///
-/////////////////////////
+    //////////////////////////
+    /// MUTATOR FUNCTIONS  ///
+    /////////////////////////
 
     /**
      * @return string
@@ -240,9 +244,10 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param string $value
+     *
      * @return MailtoQueryMutable
      */
-    public function appendToTo(string $value): self
+    public function putInTo(string $value): self
     {
         $this->mutatorAppend($this->to, $value);
 
@@ -251,9 +256,10 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param string $value
+     *
      * @return MailtoQueryMutable
      */
-    public function appendToCc(string $value): self
+    public function putInCc(string $value): self
     {
         $this->mutatorAppend($this->cc, $value);
 
@@ -262,50 +268,19 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param string $value
+     *
      * @return MailtoQueryMutable
      */
-    public function appendToBcc(string $value): self
+    public function putInBcc(string $value): self
     {
         $this->mutatorAppend($this->cc, $value);
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     * @return MailtoQueryMutable
-     */
-    public function prependToTo(string $value): self
-    {
-        $this->mutatorPrepend($this->to, $value);
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     * @return MailtoQueryMutable
-     */
-    public function prependToCC(string $value): self
-    {
-        $this->mutatorPrepend($this->cc, $value);
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     * @return MailtoQueryMutable
-     */
-    public function prependToBcc(string $value): self
-    {
-        $this->mutatorPrepend($this->bcc, $value);
 
         return $this;
     }
 
     /**
      * @param $keyOrValue
+     *
      * @return $this
      */
     public function forgetFromTo($keyOrValue): self
@@ -317,6 +292,7 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param $keyOrValue
+     *
      * @return $this
      */
     public function forgetFromCc($keyOrValue): self
@@ -328,6 +304,7 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param $keyOrValue
+     *
      * @return $this
      */
     public function forgetFromBcc($keyOrValue): self
@@ -385,6 +362,7 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param string $value
+     *
      * @return bool
      */
     public function toHas(string $value): bool
@@ -394,6 +372,7 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param string $value
+     *
      * @return bool
      */
     public function ccHas(string $value): bool
@@ -403,6 +382,7 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param string $value
+     *
      * @return bool
      */
     public function bccHas(string $value): bool
@@ -410,9 +390,22 @@ class MailtoQueryMutable implements MutableBagInterface
         return isset(array_flip($this->bcc)[$value]);
     }
 
-/////////////////////////////////
-/// INTERFACE IMPLEMENTATION  ///
-////////////////////////////////
+
+    /**
+     * @return MailtoQueryMutable
+     */
+    public function forgetAll(): self
+    {
+        $this->to = [];
+        $this->cc = [];
+        $this->bcc = [];
+
+        return $this;
+    }
+
+    /////////////////////////////////
+    /// INTERFACE IMPLEMENTATION  ///
+    ////////////////////////////////
 
     /**
      * @return array
@@ -420,16 +413,17 @@ class MailtoQueryMutable implements MutableBagInterface
     public function all(): array
     {
         return [
-            'to' => $this->to,
-            'cc' => $this->cc,
-            'bcc' => $this->bcc,
+            'to'      => $this->to,
+            'cc'      => $this->cc,
+            'bcc'     => $this->bcc,
             'subject' => $this->subject,
-            'body' => $this->body,
+            'body'    => $this->body,
         ];
     }
 
     /**
      * @param string $key
+     *
      * @return bool
      */
     public function has($key): bool
@@ -439,13 +433,15 @@ class MailtoQueryMutable implements MutableBagInterface
 
     /**
      * @param $key
+     *
      * @return mixed
      * @throws ComponentNotFoundException
      */
     public function get($key)
     {
-        if (!$this->has($key)) {
-            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
+        if ( ! $this->has($key)) {
+            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s',
+                $key, __CLASS__));
         }
 
         return $this->$key;
@@ -454,14 +450,16 @@ class MailtoQueryMutable implements MutableBagInterface
     /**
      * @param $key
      * @param $value
+     *
      * @return MutableBagInterface
      * @throws ComponentNotFoundException
      * @throws InvalidComponentsException
      */
     public function set($key, $value): MutableBagInterface
     {
-        if (!$this->has($key)) {
-            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
+        if ( ! $this->has($key)) {
+            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s',
+                $key, __CLASS__));
         }
 
         if (is_array($this->$key)) {
@@ -496,12 +494,13 @@ class MailtoQueryMutable implements MutableBagInterface
         return $this->buildQuery(false);
     }
 
-////////////////////////
-/// OTHER FUNCTIONS ///
-///////////////////////
+    ////////////////////////
+    /// OTHER FUNCTIONS ///
+    ///////////////////////
 
     /**
      * @param bool $urlEncode
+     *
      * @return string
      */
     private function buildQuery(bool $urlEncode = false): string
@@ -510,7 +509,7 @@ class MailtoQueryMutable implements MutableBagInterface
         $encodedComma = '%2C'; // only valid encoded delimiter - encoded comma
         $trim = $encodedComma.',';
 
-        if (!empty($this->getTo())) {
+        if ( ! empty($this->getTo())) {
             $query .= '&to=';
             foreach ($this->to as $value) {
                 if ($urlEncode) {
@@ -523,7 +522,7 @@ class MailtoQueryMutable implements MutableBagInterface
             $query = rtrim($query, $trim);
         }
 
-        if (!empty($this->cc)) {
+        if ( ! empty($this->cc)) {
             $query .= '&cc=';
             foreach ($this->cc as $value) {
                 if ($urlEncode) {
@@ -536,7 +535,7 @@ class MailtoQueryMutable implements MutableBagInterface
             $query = rtrim($query, $trim);
         }
 
-        if (!empty($this->bcc)) {
+        if ( ! empty($this->bcc)) {
             $query .= '&bcc=';
             foreach ($this->bcc as $value) {
                 if ($urlEncode) {

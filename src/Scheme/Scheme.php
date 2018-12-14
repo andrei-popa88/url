@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme;
 
-use Keppler\Url\Scheme\Schemes\Ftp\FtpImmutable;
+use Keppler\Url\Scheme\Schemes\Ftp\FtpBuilder;
 use Keppler\Url\Scheme\Schemes\Http\HttpImmutable;
 use Keppler\Url\Scheme\Schemes\Https\HttpsImmutable;
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
@@ -73,19 +73,20 @@ class Scheme
 
     /**
      * @param string $url
-     * @return FtpImmutable
+     *
+     * @return FtpBuilder
      */
     public static function ftp(string $url)
     {
         $url = trim($url);
         $parsed = self::parse($url);
 
-        if (FtpImmutable::SCHEME === $parsed['scheme']) {
-            return new FtpImmutable($url);
+        if (FtpBuilder::SCHEME === $parsed['scheme']) {
+            return new FtpBuilder($url);
         }
 
         throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',
-            FtpImmutable::class, FtpImmutable::SCHEME, $parsed['scheme']));
+            FtpBuilder::class, FtpBuilder::SCHEME, $parsed['scheme']));
     }
 
     /**

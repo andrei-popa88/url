@@ -1,26 +1,26 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Builder\Schemes\Https;
+namespace Keppler\Url\Builder\Schemes\Http;
 
-use Keppler\Url\Builder\Schemes\Https\Bags\HttpsMutablePath;
-use Keppler\Url\Builder\Schemes\Https\Bags\HttpsMutableQuery;
+use Keppler\Url\Builder\Schemes\Http\Bags\HttpMutablePath;
+use Keppler\Url\Builder\Schemes\Http\Bags\HttpMutableQuery;
 use Keppler\Url\Interfaces\Mutable\MutableSchemeInterface;
-use Keppler\Url\Scheme\Schemes\Https\HttpsImmutable;
+use Keppler\Url\Scheme\Schemes\Http\HttpImmutable;
 
 /**
- * Class HttpsBuilder
+ * Class HttpBuilder
  *
  * @package Keppler\Url\Builder\Schemes\Https
  */
-class HttpsBuilder implements MutableSchemeInterface
+class HttpBuilder implements MutableSchemeInterface
 {
     /**
      * The default scheme for this class
      *
      * @var string
      */
-    const SCHEME = 'https';
+    const SCHEME = 'http';
 
     /**
      * authority = [ userinfo "@" ] host [ ":" port ]
@@ -94,47 +94,52 @@ class HttpsBuilder implements MutableSchemeInterface
     private $fragment = '';
 
     /**
-     * @var HttpsMutableQuery
+     * @var HttpMutableQuery
      */
     private $queryBag;
 
     /**
-     * @var HttpsMutablePath
+     * @var HttpMutablePath
      */
     private $pathBag;
 
     /**
-     * HttpsBuilder constructor.
-     *
-     * @param HttpsImmutable $https
+     * @var string
      */
-    public function __construct(HttpsImmutable $https)
-    {
-        $this->pathBag = new HttpsMutablePath();
-        $this->queryBag = new HttpsMutableQuery();
-        $this->populate($https);
+    private $raw = '';
 
-        $this->authority = $https->getAuthority();
-        $this->user = $https->getUser();
-        $this->password = $https->getPassword();
-        $this->host = $https->getHost();
-        $this->port = -1 === $https->getPort() ? -1 : $https->getPort();
-        $this->fragment = $https->getFragment();
+    /**
+     * HttpBuilder constructor.
+     *
+     * @param HttpImmutable $http
+     */
+    public function __construct(HttpImmutable $http)
+    {
+        $this->pathBag = new HttpMutablePath();
+        $this->queryBag = new HttpMutableQuery();
+        $this->populate($http);
+
+        $this->authority = $http->getAuthority();
+        $this->user = $http->getUser();
+        $this->password = $http->getPassword();
+        $this->host = $http->getHost();
+        $this->port = -1 === $http->getPort() ? -1 : $http->getPort();
+        $this->fragment = $http->getFragment();
     }
 
     ///////////////////////////
     /// PRIVATE FUNCTIONS  ///
     /////////////////////////
     /**
-     * @param HttpsImmutable $https
+     * @param HttpImmutable $http
      */
-    private function populate(HttpsImmutable $https): void
+    private function populate(HttpImmutable $http): void
     {
-        foreach ($https->getPathBag()->all() as $key => $value) {
+        foreach ($http->getPathBag()->all() as $key => $value) {
             $this->pathBag->set($key, $value);
         }
 
-        foreach ($https->getQueryBag()->all() as $key => $value) {
+        foreach ($http->getQueryBag()->all() as $key => $value) {
             $this->queryBag->set($key, $value);
         }
     }
@@ -218,17 +223,17 @@ class HttpsBuilder implements MutableSchemeInterface
     }
 
     /**
-     * @return HttpsMutableQuery
+     * @return HttpMutableQuery
      */
-    public function getQueryBag(): HttpsMutableQuery
+    public function getQueryBag(): HttpMutableQuery
     {
         return $this->queryBag;
     }
 
     /**
-     * @return HttpsMutablePath
+     * @return HttpMutablePath
      */
-    public function getPathBag(): HttpsMutablePath
+    public function getPathBag(): HttpMutablePath
     {
         return $this->pathBag;
     }
@@ -240,7 +245,7 @@ class HttpsBuilder implements MutableSchemeInterface
     /**
      * @param string $user
      *
-     * @return HttpsBuilder
+     * @return HttpBuilder
      */
     public function setUser(string $user): self
     {
@@ -254,7 +259,7 @@ class HttpsBuilder implements MutableSchemeInterface
     /**
      * @param string $password
      *
-     * @return HttpsBuilder
+     * @return HttpBuilder
      */
     public function setPassword(string $password): self
     {
@@ -268,7 +273,7 @@ class HttpsBuilder implements MutableSchemeInterface
     /**
      * @param string $host
      *
-     * @return HttpsBuilder
+     * @return HttpBuilder
      */
     public function setHost(string $host): self
     {
@@ -282,7 +287,7 @@ class HttpsBuilder implements MutableSchemeInterface
     /**
      * @param int $port
      *
-     * @return HttpsBuilder
+     * @return HttpBuilder
      * @throws \LogicException
      */
     public function setPort(int $port): self
@@ -301,7 +306,7 @@ class HttpsBuilder implements MutableSchemeInterface
     /**
      * @param string $fragment
      *
-     * @return HttpsBuilder
+     * @return HttpBuilder
      */
     public function setFragment(string $fragment): self
     {
@@ -368,7 +373,7 @@ class HttpsBuilder implements MutableSchemeInterface
      */
     public function raw(): string
     {
-        return $this->build();
+        return $this->raw;
     }
 
     /**

@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Builder\Schemes\Https\Bags;
+namespace Keppler\Url\Builder\Schemes\Http\Bags;
 
 use Keppler\Url\Interfaces\Mutable\MutableBagInterface;
 use Keppler\Url\Traits\Accessor;
 use Keppler\Url\Traits\Mutator;
 
 /**
- * Class HttpsMutableQuery
+ * Class HttpMutableQuery
  *
  * @package Keppler\Url\Builder\Schemes\Https\Bags
  */
-class HttpsMutableQuery implements MutableBagInterface
+class HttpMutableQuery implements MutableBagInterface
 {
     use Mutator;
     use Accessor;
@@ -44,7 +44,7 @@ class HttpsMutableQuery implements MutableBagInterface
     /**
      * @param string $value
      *
-     * @return HttpsMutableQuery
+     * @return HttpMutableQuery
      */
     public function put(string $value): self
     {
@@ -56,7 +56,7 @@ class HttpsMutableQuery implements MutableBagInterface
     /**
      * @param string ...$args
      *
-     * @return HttpsMutableQuery
+     * @return HttpMutableQuery
      */
     public function forget(string ...$args): self
     {
@@ -73,7 +73,7 @@ class HttpsMutableQuery implements MutableBagInterface
     }
 
     /**
-     * @return HttpsMutableQuery
+     * @return HttpMutableQuery
      */
     public function forgetAll(): self
     {
@@ -85,7 +85,7 @@ class HttpsMutableQuery implements MutableBagInterface
     /**
      * @param string ...$args
      *
-     * @return HttpsMutableQuery
+     * @return HttpMutableQuery
      */
     public function only(string ...$args): self
     {
