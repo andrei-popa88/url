@@ -15,9 +15,9 @@ trait Accessor
      * @param array $array
      * @return string
      */
-    protected function firstIn(array $array): string
+    protected function firstIn(array $array): ?string
     {
-        return false !== reset($array) ? (string)reset($array) : '';
+        return false !== reset($array) ? (string)reset($array) : null;
     }
 
     /**
@@ -26,11 +26,11 @@ trait Accessor
      * @param array $array
      * @return string
      */
-    protected function lastIn(array $array): string
+    protected function lastIn(array $array): ?string
     {
         $array_revers = array_reverse($array);
 
-        return false !== reset($array_revers) ? (string)reset($array_revers) : '';
+        return false !== reset($array_revers) ? (string)reset($array_revers) : null;
     }
 
     /**

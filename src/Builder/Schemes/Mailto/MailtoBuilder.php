@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Builder\Schemes\Mailto;
 
+use Keppler\Url\Builder\Schemes\Mailto\Bags\MailtoPathMutable;
 use Keppler\Url\Builder\Schemes\Mailto\Bags\MailtoQueryMutable;
 use Keppler\Url\Exceptions\InvalidComponentsException;
+use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
 use Keppler\Url\Interfaces\Mutable\MutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 use Keppler\Url\Traits\Accessor;
@@ -33,18 +35,21 @@ class MailtoBuilder implements MutableSchemeInterface
     private $queryBag;
 
     /**
-     * @var string | array
+     * @var MailtoPathMutable
      */
-    private $path = '';
+    private $pathBag;
 
     /**
      * MailtoBuilder constructor.
-     * @param MailtoImmutable $mailto
+     *
+     * @param ImmutableSchemeInterface $mailto
+     *
      * @throws InvalidComponentsException
      */
-    public function __construct(MailtoImmutable $mailto)
+    public function __construct(ImmutableSchemeInterface $mailto)
     {
         $this->queryBag = new MailtoQueryMutable();
+        $this->pathBag = new MailtoPathMutable();
         $this->populate($mailto);
     }
 
@@ -54,20 +59,14 @@ class MailtoBuilder implements MutableSchemeInterface
      */
     private function populate(MailtoImmutable $mailto): void
     {
-        $this->path = $mailto->getPath();
+        $this->pathBag = $mailto->getPath();
 
-        // The $mailto may not have any queries at all
-        // Which is quite a common case thus the
-        // Bag may not exist to begin with
-        if (null !== $mailto->getQueryBag()) {
-            $this->queryBag->setCc($mailto->getQueryBag()->getCc());
-            $this->queryBag->setBcc($mailto->getQueryBag()->getBcc());
-            $this->queryBag->setTo($mailto->getQueryBag()->getTo());
-            $this->queryBag->setSubject($mailto->getQueryBag()->getSubject());
-            $this->queryBag->setBody($mailto->getQueryBag()->getBody());
-        } else {
-            $this->queryBag = new MailtoQueryMutable();
-        }
+        $this->queryBag->setCc($mailto->getQueryBag()->getCc());
+        $this->queryBag->setBcc($mailto->getQueryBag()->getBcc());
+        $this->queryBag->setTo($mailto->getQueryBag()->getTo());
+        $this->queryBag->setSubject($mailto->getQueryBag()->getSubject());
+        $this->queryBag->setBody($mailto->getQueryBag()->getBody());
+
     }
 
 /////////////////////////
@@ -85,140 +84,9 @@ class MailtoBuilder implements MutableSchemeInterface
     /**
      * @return array|string
      */
-    public function getPath()
+    public function getPathBag()
     {
-        return $this->path;
-    }
-
-//////////////////////////
-/// MUTATOR FUNCTIONS  ///
-/////////////////////////
-
-    /**
-     * @param string $value
-     * @return MailtoBuilder
-     */
-    public function appendToPath(string $value): self
-    {
-        if (!is_array($this->path)) {
-            if ('' !== $this->path) {
-                $this->path[] = $this->path;
-            } else {
-                $this->path = [];
-            }
-        }
-
-        $this->append($this->path, $value);
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     * @return MailtoBuilder
-     */
-    public function prependToPath(string $value): self
-    {
-        if (!is_array($this->path)) {
-            if ('' !== $this->path) {
-                $this->path[] = $this->path;
-            } else {
-                $this->path = [];
-            }
-        }
-
-        $this->prepend($this->path, $value);
-
-        return $this;
-    }
-
-    /**
-     * @return array|string
-     */
-    public function firstInPath()
-    {
-        if (is_array($this->path)) {
-            return $this->firstIn($this->path);
-        }
-
-        return $this->path;
-    }
-
-    /**
-     * @return array|string
-     */
-    public function lastInPath()
-    {
-        if (is_array($this->path)) {
-            return $this->lastIn($this->path);
-        }
-
-        return $this->path;
-    }
-
-    /**
-     * @param string $key
-     * @return bool
-     */
-    public function hasInPath(string $key): bool
-    {
-        if (is_array($this->path)) {
-            return $this->hasKeyIn($this->path, $key);
-        }
-
-        return $key === $this->path;
-    }
-
-    /**
-     * @param $keyOrValue
-     * @return MailtoBuilder
-     */
-    public function forgetInPath($keyOrValue): self
-    {
-        if (is_array($this->path)) {
-            $this->forgetKeyOrValue($this->path, $keyOrValue);
-
-            return $this;
-        }
-
-        if ($keyOrValue === $this->path) {
-            $this->path = '';
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return MailtoBuilder
-     */
-    public function forgetPath(): self
-    {
-        $this->path = '';
-
-        return $this;
-    }
-
-/////////////////////////
-/// SETTER FUNCTIONS  ///
-/////////////////////////
-
-    /**
-     * @param $path array|string
-     * @return $this
-     * @throws InvalidComponentsException
-     */
-    public function setPath($path): self
-    {
-        if (is_array($path)) {
-            if (count($path) !== count($path, COUNT_RECURSIVE)) {
-                throw new InvalidComponentsException(sprintf('Unable to accept multidimensional arrays for $path component in %s',
-                    __CLASS__));
-            }
-        }
-
-        $this->path = $path;
-
-        return $this;
+        return $this->pathBag;
     }
 
 /////////////////////////////////
@@ -243,7 +111,7 @@ class MailtoBuilder implements MutableSchemeInterface
         $commaEncoded = '%2C';
 
         // The path ca be either a single string value or an array of values
-        if (is_array($this->path)) {
+        if (is_array($this->pathBag)) {
             foreach ($this->path as $email) {
                 if ($urlEncode) {
                     $url .= $email.$commaEncoded;

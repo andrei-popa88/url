@@ -172,7 +172,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     /**
      * @return string
      */
-    public function firstInTo(): string
+    public function firstInTo(): ?string
     {
         return $this->firstIn($this->to);
     }
@@ -180,7 +180,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     /**
      * @return string
      */
-    public function lastInTo(): string
+    public function lastInTo(): ?string
     {
         return $this->lastIn($this->cc);
     }
@@ -201,7 +201,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     /**
      * @return string
      */
-    public function firstInCc(): string
+    public function firstInCc(): ?string
     {
         return $this->firstIn($this->cc);
     }
@@ -209,7 +209,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     /**
      * @return string
      */
-    public function lastInCc(): string
+    public function lastInCc(): ?string
     {
         return $this->lastIn($this->cc);
     }
@@ -230,7 +230,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     /**
      * @return string
      */
-    public function firstInBcc(): string
+    public function firstInBcc(): ?string
     {
         return $this->firstIn($this->bcc);
     }
@@ -238,7 +238,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     /**
      * @return string
      */
-    public function lastInBcc(): string
+    public function lastInBcc(): ?string
     {
         return $this->lastIn($this->bcc);
     }

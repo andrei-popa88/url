@@ -244,7 +244,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function appendToTo(string $value): self
     {
-        $this->append($this->to, $value);
+        $this->mutatorAppend($this->to, $value);
 
         return $this;
     }
@@ -255,7 +255,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function appendToCc(string $value): self
     {
-        $this->append($this->cc, $value);
+        $this->mutatorAppend($this->cc, $value);
 
         return $this;
     }
@@ -266,7 +266,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function appendToBcc(string $value): self
     {
-        $this->append($this->cc, $value);
+        $this->mutatorAppend($this->cc, $value);
 
         return $this;
     }
@@ -277,7 +277,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function prependToTo(string $value): self
     {
-        $this->prepend($this->to, $value);
+        $this->mutatorPrepend($this->to, $value);
 
         return $this;
     }
@@ -288,7 +288,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function prependToCC(string $value): self
     {
-        $this->prepend($this->cc, $value);
+        $this->mutatorPrepend($this->cc, $value);
 
         return $this;
     }
@@ -299,7 +299,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function prependToBcc(string $value): self
     {
-        $this->prepend($this->bcc, $value);
+        $this->mutatorPrepend($this->bcc, $value);
 
         return $this;
     }
@@ -310,7 +310,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function forgetFromTo($keyOrValue): self
     {
-        $this->forgetKeyOrValue($this->to, $keyOrValue);
+        $this->mutatorForgetKeyOrValue($this->to, $keyOrValue);
 
         return $this;
     }
@@ -321,7 +321,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function forgetFromCc($keyOrValue): self
     {
-        $this->forgetKeyOrValue($this->cc, $keyOrValue);
+        $this->mutatorForgetKeyOrValue($this->cc, $keyOrValue);
 
         return $this;
     }
@@ -332,9 +332,33 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function forgetFromBcc($keyOrValue): self
     {
-        $this->forgetKeyOrValue($this->bcc, $keyOrValue);
+        $this->mutatorForgetKeyOrValue($this->bcc, $keyOrValue);
 
         return $this;
+    }
+
+    /**
+     * Sets to to an empty array
+     */
+    public function forgetTo(): void
+    {
+        $this->to = [];
+    }
+
+    /**
+     * Sets cc to an empty array
+     */
+    public function forgetCc(): void
+    {
+        $this->cc = [];
+    }
+
+    /**
+     * Sets bcc to an empty array
+     */
+    public function forgetBcc(): void
+    {
+        $this->bcc = [];
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Keppler\Url\Scheme\Schemes\Mailto;
 
 use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
+use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutablePath;
 use Keppler\Url\Scheme\Schemes\Mailto\Bags\MailtoImmutableQuery;
 use Keppler\Url\Traits\Accessor;
 
@@ -55,14 +56,9 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
     private $queryBag;
 
     /**
-     * The path can be either a string or a comma separated value of strings
-     *
-     * @example mailto:john@gmail.com,test@gmail.com is an array
-     * @example mailto:john@gmail.com is a string
-     *
-     * @var string | array
+     * @var MailtoImmutablePath
      */
-    private $path = '';
+    private $pathBag;
 
     /**
      * @var string
@@ -79,63 +75,17 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
 
         $parsedUrl = parse_url($url);
 
-        if (isset($parsedUrl['path']) && !empty(trim($parsedUrl['path']))) {
-            // If a comma is present assume that the url contains more than one email address
-            // Also assume that the url isn't malformed in some way
-            // No validation of emails will occur, it's the job of the caller to do that
-            if (false !== strpos($parsedUrl['path'], ',')) {
-                $this->path = explode(',', $parsedUrl['path']);
-            } else {
-                $this->path = $parsedUrl['path'];
-            }
-        }
-
         if (isset($parsedUrl['query']) && !empty($parsedUrl['query'])) {
             $this->queryBag = new MailtoImmutableQuery($parsedUrl['query']);
         } else {
             $this->queryBag = new MailtoImmutableQuery();
         }
-    }
 
-///////////////////////
-/// PATH FUNCTIONS  ///
-///////////////////////
-
-    /**
-     * @return string
-     */
-    public function firstInPath(): string
-    {
-        if (is_array($this->path)) {
-            return $this->firstIn($this->path);
+        if (isset($parsedUrl['path']) && !empty($parsedUrl['path'])) {
+            $this->pathBag = new MailtoImmutablePath($parsedUrl['path']);
+        } else {
+            $this->pathBag = new MailtoImmutablePath();
         }
-
-        return $this->path;
-    }
-
-    /**
-     * @return string
-     */
-    public function lastInPath(): string
-    {
-        if (is_array($this->path)) {
-            return $this->lastIn($this->path);
-        }
-
-        return $this->path;
-    }
-
-    /**
-     * @param string $value
-     * @return bool
-     */
-    public function hasInPath(string $value): bool
-    {
-        if (is_array($this->path)) {
-            return $this->hasValueIn($this->path, $value);
-        }
-
-        return $value === $this->path;
     }
 
 /////////////////////////
@@ -143,11 +93,11 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
 ////////////////////////
 
     /**
-     * @return string | array
+     * @return MailtoImmutablePath
      */
-    public function getPath()
+    public function getPathBag(): MailtoImmutablePath
     {
-        return $this->path;
+        return $this->pathBag;
     }
 
     /**
@@ -169,7 +119,7 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
     {
         return [
             'scheme' => self::SCHEME,
-            'path' => $this->path,
+            'path' => $this->pathBag->all(),
             'query' => $this->queryBag->all(),
         ];
     }

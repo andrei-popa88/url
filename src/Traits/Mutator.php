@@ -13,7 +13,7 @@ trait Mutator
      * @param $to
      * @param $value
      */
-    protected function append(array $to, $value)
+    protected function mutatorAppend(array $to, $value)
     {
         array_push($to, $value);
     }
@@ -22,7 +22,7 @@ trait Mutator
      * @param $to
      * @param $value
      */
-    protected function prepend(array $to, $value)
+    protected function mutatorPrepend(array $to, $value)
     {
         array_unshift($to, $value);
     }
@@ -31,7 +31,7 @@ trait Mutator
      * @param $from
      * @param $keyOrValue
      */
-    protected function forgetKeyOrValue(array &$from, $keyOrValue)
+    protected function mutatorForgetKeyOrValue(array &$from, $keyOrValue)
     {
         if(isset($from[$keyOrValue])) {
             unset($from[$keyOrValue]);
