@@ -15,9 +15,9 @@ trait Accessor
      * @param array $array
      * @return string
      */
-    protected function firstIn(array $array): ?string
+    protected function firstIn(array $array)
     {
-        return false !== reset($array) ? (string)reset($array) : null;
+        return false !== reset($array) ? reset($array) : null;
     }
 
     /**
@@ -59,14 +59,14 @@ trait Accessor
      * @return mixed
      * @throws ComponentNotFoundException
      */
-    public function getValueIn(array $in, $value) {
+    protected function getValueIn(array $in, $value) {
         foreach($in as $element) {
             if($element === $value) {
                 return $value;
             }
         }
 
-        throw new ComponentNotFoundException(sprintf('Component with index "%s" does not exist in %s', $key,
+        throw new ComponentNotFoundException(sprintf('Component with index "%s" does not exist in %s', $value,
             __CLASS__));
     }
 

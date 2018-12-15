@@ -75,6 +75,12 @@ class MailtoImmutable extends AbstractImmutable implements ImmutableSchemeInterf
 
         $parsedUrl = parse_url($url);
 
+        if (MailtoImmutable::SCHEME !== $parsedUrl['scheme']) {
+            throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',
+                MailtoImmutable::class, MailtoImmutable::SCHEME,
+                $parsedUrl['scheme']));
+        }
+
         if (isset($parsedUrl['query']) && !empty($parsedUrl['query'])) {
             $this->queryBag = new MailtoImmutableQuery($parsedUrl['query']);
         } else {

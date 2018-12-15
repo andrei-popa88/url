@@ -178,7 +178,7 @@ class HttpImmutable extends AbstractImmutable implements ImmutableSchemeInterfac
         }
 
         if(isset($parsedUrl['port'])) {
-            $authority .= $parsedUrl['port'];
+            $authority .= ':' . $parsedUrl['port'];
             $this->port = $parsedUrl['port'];
         }
 

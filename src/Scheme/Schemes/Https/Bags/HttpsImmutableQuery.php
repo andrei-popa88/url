@@ -83,12 +83,12 @@ class HttpsImmutableQuery extends AbstractImmutable implements ImmutableBagInter
     /**
      * @return null|string
      */
-    public function first(): ?string
+    public function first()
     {
         return $this->firstIn($this->query);
     }
 
-    public function last(): ?string
+    public function last()
     {
         return $this->lastIn($this->query);
     }

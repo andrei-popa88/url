@@ -87,8 +87,6 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
         // Check ONLY for accepted values in the rfc
         // There's no point in looking for something else
 
-        // Some functions will check if there are multiple email addresses by
-
         // Try to set $to
         if (isset($parsed['to']) && !empty(trim($parsed['to']))) {
             $this->setTo($parsed['to']);
@@ -182,7 +180,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
      */
     public function lastInTo(): ?string
     {
-        return $this->lastIn($this->cc);
+        return $this->lastIn($this->to);
     }
 
 /////////////////////

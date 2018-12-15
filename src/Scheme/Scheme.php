@@ -3,15 +3,16 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme;
 
-use Keppler\Url\Scheme\Schemes\Ftp\FtpBuilder;
+use Keppler\Url\Scheme\Schemes\Ftp\FtpImmutable;
 use Keppler\Url\Scheme\Schemes\Http\HttpImmutable;
 use Keppler\Url\Scheme\Schemes\Https\HttpsImmutable;
 use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 
 /**
- * Note: This class should not make any attempt to sanitize, correct or otherwise improve the
- * information it receives. It will be take AS IS and parsed with exactly what it gets
- * any sort of errors that result from that are the concern of the caller not this class
+ * Note: This class should not make any attempt to sanitize, correct or
+ * otherwise improve the information it receives. It will be take AS IS and
+ * parsed with exactly what it gets any sort of errors that result from that
+ * are the concern of the caller not this class
  *
  * Class Scheme
  *
@@ -34,11 +35,13 @@ class Scheme
         }
 
         throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',
-            MailtoImmutable::class, MailtoImmutable::SCHEME, $parsed['scheme']));
+            MailtoImmutable::class, MailtoImmutable::SCHEME,
+            $parsed['scheme']));
     }
 
     /**
      * @param string $url
+     *
      * @return HttpsImmutable
      */
     public static function https(string $url)
@@ -56,6 +59,7 @@ class Scheme
 
     /**
      * @param string $url
+     *
      * @return HttpImmutable
      */
     public static function http(string $url)
@@ -74,23 +78,24 @@ class Scheme
     /**
      * @param string $url
      *
-     * @return FtpBuilder
+     * @return FtpImmutable
      */
     public static function ftp(string $url)
     {
         $url = trim($url);
         $parsed = self::parse($url);
 
-        if (FtpBuilder::SCHEME === $parsed['scheme']) {
-            return new FtpBuilder($url);
+        if (FtpImmutable::SCHEME === $parsed['scheme']) {
+            return new FtpImmutable($url);
         }
 
         throw new \InvalidArgumentException(sprintf('Invalid scheme provided for %s, expected "%s" got "%s"',
-            FtpBuilder::class, FtpBuilder::SCHEME, $parsed['scheme']));
+            FtpImmutable::class, FtpImmutable::SCHEME, $parsed['scheme']));
     }
 
     /**
      * @param $url
+     *
      * @return mixed
      */
     private static function parse(string $url)
@@ -102,8 +107,9 @@ class Scheme
             throw new \InvalidArgumentException('The url is malformed');
         }
 
-        if( !isset($parsed['scheme'])) {
-            throw new \InvalidArgumentException(sprintf('Unable to determine scheme for %s', $url));
+        if ( ! isset($parsed['scheme'])) {
+            throw new \InvalidArgumentException(sprintf('Unable to determine scheme for %s',
+                $url));
         }
 
         return $parsed;

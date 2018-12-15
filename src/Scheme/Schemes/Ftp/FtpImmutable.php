@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes\Ftp;
 
-use Keppler\Url\Interfaces\Immutable\ImmutableBagInterface;
 use Keppler\Url\Interfaces\Immutable\ImmutableSchemeInterface;
 use Keppler\Url\Scheme\Schemes\AbstractImmutable;
 use Keppler\Url\Scheme\Schemes\Ftp\Bags\FtpImmutablePath;
@@ -90,11 +89,26 @@ class FtpImmutable extends AbstractImmutable implements ImmutableSchemeInterface
 
         $parsedUrl = parse_url($url);
 
-
         if (isset($parsedUrl['path']) && !empty($parsedUrl['path'])) {
             $this->pathBag = new FtpImmutablePath($parsedUrl['path']);
         } else {
             $this->pathBag = new FtpImmutablePath();
+        }
+
+        if(isset($parsedUrl['user']) && !empty($parsedUrl['user'])) {
+            $this->user = $parsedUrl['user'];
+        }
+
+        if(isset($parsedUrl['host']) && !empty($parsedUrl['host'])) {
+            $this->host = $parsedUrl['host'];
+        }
+
+        if(isset($parsedUrl['port']) && !empty($parsedUrl['port'])) {
+            $this->port = $parsedUrl['port'];
+        }
+
+        if(isset($parsedUrl['pass']) && !empty($parsedUrl['pass'])) {
+            $this->password = $parsedUrl['pass'];
         }
     }
 

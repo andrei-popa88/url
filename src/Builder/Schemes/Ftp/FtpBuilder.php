@@ -72,7 +72,7 @@ class FtpBuilder implements MutableSchemeInterface
     private $port = -1;
 
     /**
-     * @var FtpImmutablePath
+     * @var FtpMutablePath
      */
     private $pathBag;
 
@@ -110,9 +110,9 @@ class FtpBuilder implements MutableSchemeInterface
     ////////////////////////
 
     /**
-     * @return FtpImmutablePath
+     * @return FtpMutablePath
      */
-    public function getPathBag(): FtpImmutablePath
+    public function getPathBag(): FtpMutablePath
     {
         return $this->pathBag;
     }
@@ -278,10 +278,6 @@ class FtpBuilder implements MutableSchemeInterface
             $url .= $this->pathBag->encoded();
         } else {
             $url .= $this->pathBag->raw();
-        }
-
-        if ( ! empty($this->fragment)) {
-            $url .= '#'.$this->fragment;
         }
 
         return $url;
