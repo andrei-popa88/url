@@ -151,9 +151,9 @@ class FtpImmutable extends AbstractImmutable implements ImmutableSchemeInterface
     /**
      * @return int
      */
-    public function getPort(): int
+    public function getPort(): ?int
     {
-        return $this->port;
+        return -1 === $this->port ? null : $this->port;
     }
 
 /////////////////////////////////
