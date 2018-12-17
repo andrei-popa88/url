@@ -64,6 +64,7 @@ class MailtoBuilder implements MutableSchemeInterface
         $this->queryBag->setTo($mailto->getQueryBag()->getTo());
         $this->queryBag->setSubject($mailto->getQueryBag()->getSubject());
         $this->queryBag->setBody($mailto->getQueryBag()->getBody());
+        $this->pathBag->setPath($mailto->getPathBag()->getPath());
     }
 
 /////////////////////////
@@ -79,7 +80,7 @@ class MailtoBuilder implements MutableSchemeInterface
     }
 
     /**
-     * @return array|string
+     * @return MailtoPathMutable
      */
     public function getPathBag()
     {
@@ -118,7 +119,7 @@ class MailtoBuilder implements MutableSchemeInterface
         return [
             'scheme' => self::SCHEME,
             'path' => $this->pathBag->all(),
-            'query' => $this->getQueryBag()->all(),
+            'query' => $this->queryBag->all(),
         ];
     }
 

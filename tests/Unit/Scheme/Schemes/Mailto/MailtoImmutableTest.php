@@ -9,8 +9,7 @@ use PHPUnit\Framework\TestCase;
 class MailtoImmutableTest extends TestCase
 {
     private $validUrl
-        = 'mailto:path@email.com,path2@email.com?to=email@example.com,email2@example.com'
-        .
+        = 'mailto:path@email.com,path2@email.com?to=email@example.com,email2@example.com'.
         '&cc=email3@example.com,email4@example.com'.
         '&bcc=email4@example.com,email5@example.com'.
         '&subject=Hello'.

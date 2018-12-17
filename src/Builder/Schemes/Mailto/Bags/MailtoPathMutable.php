@@ -163,19 +163,17 @@ class MailtoPathMutable implements MutableBagInterface
     /**
      * @param string ...$args
      *
-     * @return MailtoPathMutable
+     * @return array
      */
-    public function only(string ...$args): self
+    public function only(string ...$args): array
     {
         foreach($args as $item) {
             if(!$this->hasValueIn($this->path, $item)) {
-                throw new \LogicException(sprintf('Cannot forget %s as it does not exist', $item));
+                throw new \LogicException(sprintf('Value %s does not exist', $item));
             }
         }
 
-        $this->path = $this->mutatorOnlyValues($this->path, $args);
-
-        return $this;
+        return $this->mutatorOnlyValues($this->path, $args);
     }
 
     /**
@@ -199,12 +197,11 @@ class MailtoPathMutable implements MutableBagInterface
             return '';
         }
 
-        $path = '/';
+        $path = '';
         foreach($this->path as $element) {
-            $path .= ($element) . '/';
+            $path .= ($element) . ',';
         }
-
-        return $path;
+        return rtrim($path, ',');
     }
 
     /**
@@ -218,41 +215,40 @@ class MailtoPathMutable implements MutableBagInterface
             return '';
         }
 
-        $path = '/';
+        $path = '';
         foreach($this->path as $element) {
-            $path .= urlencode($element) . '/';
+            $path .= ($element) . urlencode(',');
         }
-
-        return $path;
+        return rtrim($path, urlencode(','));
     }
 
     /**
      * Checks weather a given bag or path has a certain key
      *
-     * @param string $value
+     * @param int $key
      *
      * @return bool
      */
-    public function has($value): bool
+    public function has($key): bool
     {
-        return $this->hasValueIn($this->path, $value);
+        return $this->hasKeyIn($this->path, $key);
     }
 
     /**
      * Gets a given value from the path
      *
-     * @param $value
+     * @param $key
      *
      * @throws ComponentNotFoundException
      * @return mixed
      */
-    public function get($value)
+    public function get($key)
     {
-        if(!$this->has($value)) {
-            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $value, __CLASS__));
+        if(!$this->has($key)) {
+            throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
         }
 
-        return $this->getValueIn($this->path, $value);
+        return $this->getKeyIn($this->path, $key);
     }
 
     /**

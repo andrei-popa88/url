@@ -101,6 +101,28 @@ class MailtoQueryMutable implements MutableBagInterface
     }
 
     /**
+     * @param int $key
+     *
+     * @return string
+     * @throws ComponentNotFoundException
+     */
+    public function getInCC(int $key): string
+    {
+        return $this->getKeyIn($this->cc, $key);
+    }
+
+    /**
+     * @param int $key
+     *
+     * @return string
+     * @throws ComponentNotFoundException
+     */
+    public function getInBcc(int $key): string
+    {
+        return $this->getKeyIn($this->bcc, $key);
+    }
+
+    /**
      * @return string
      */
     public function getBody(): string
@@ -223,7 +245,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function lastInTo(): string
     {
-        return $this->lastIn($this->cc);
+        return $this->lastIn($this->to);
     }
 
     /**
