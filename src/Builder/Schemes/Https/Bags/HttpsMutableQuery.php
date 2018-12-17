@@ -26,31 +26,19 @@ class HttpsMutableQuery implements MutableBagInterface
 
 
     /**
-     * @return string
+     * @return array|null
      */
-    public function first(): string
+    public function first(): ?array
     {
-        return $this->firstIn($this->query);
+        return $this->firstInQuery($this->query);
     }
 
     /**
-     * @return string
+     * @return array|null
      */
-    public function last(): string
+    public function last()
     {
-        return $this->lastIn($this->query);
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return HttpsMutableQuery
-     */
-    public function put(string $value): self
-    {
-        $this->mutatorAppend($this->query, $value);
-
-        return $this;
+        return $this->lastInQuery($this->query);
     }
 
     /**
@@ -84,21 +72,11 @@ class HttpsMutableQuery implements MutableBagInterface
 
     /**
      * @param string ...$args
-     *
-     * @return HttpsMutableQuery
+     * @return array
      */
-    public function only(string ...$args): self
+    public function only(string ...$args): array
     {
-        foreach ($args as $item) {
-            if ( ! $this->hasValueIn($this->query, $item)) {
-                throw new \LogicException(sprintf('Cannot forget %s as it does not exist',
-                    $item));
-            }
-        }
-
-        $this->query = $this->mutatorOnlyValues($this->query, $args);
-
-        return $this;
+        return $this->mutatorQueryOnlyValues($this->query, $args);
     }
 
     /////////////////////////////////
@@ -107,13 +85,12 @@ class HttpsMutableQuery implements MutableBagInterface
 
     /**
      * @param $key
-     *
-     * @return mixed|void
+     * @return mixed
      * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
      */
     public function get($key)
     {
-        $this->getKeyIn($this->query, $key);
+        return $this->getKeyIn($this->query, $key);
     }
 
     /**

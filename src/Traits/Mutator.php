@@ -110,7 +110,7 @@ trait Mutator
      *
      * @return array
      */
-    protected function mutatorOnlyValues(array $array, ...$args)
+    protected function mutatorOnlyPathValues(array $array, ...$args)
     {
         $result = [];
 
@@ -120,6 +120,26 @@ trait Mutator
             }
 
             $result[] = $item;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $array
+     * @param mixed ...$args
+     * @return array
+     */
+    protected function mutatorQueryOnlyValues(array $array, ...$args)
+    {
+        $result = [];
+
+        foreach($array as $key => $item) {
+            if(!in_array($key, $args[0])) {
+                continue;
+            }
+
+            $result[$key] = $item;
         }
 
         return $result;

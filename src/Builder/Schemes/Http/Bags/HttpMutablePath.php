@@ -57,19 +57,19 @@ class HttpMutablePath implements  MutableBagInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function first(): string
+    public function first(): ?string
     {
-        return $this->firstIn($this->path);
+        return $this->firstInPath($this->path);
     }
 
     /**
      * @return string
      */
-    public function last(): string
+    public function last(): ?string
     {
-        return $this->lastIn($this->path);
+        return $this->lastInPath($this->path);
     }
 
     /**
@@ -185,20 +185,11 @@ class HttpMutablePath implements  MutableBagInterface
 
     /**
      * @param string ...$args
-     *
-     * @return HttpMutablePath
+     * @return array
      */
-    public function only(string ...$args): self
+    public function only(string ...$args): array
     {
-        foreach($args as $item) {
-            if(!$this->hasValueIn($this->path, $item)) {
-                throw new \LogicException(sprintf('Cannot forget %s as it does not exist', $item));
-            }
-        }
-
-        $this->path = $this->mutatorOnlyValues($this->path, $args);
-
-        return $this;
+        return$this->mutatorOnlyPathValues($this->path, $args);
     }
 
 /////////////////////////////////

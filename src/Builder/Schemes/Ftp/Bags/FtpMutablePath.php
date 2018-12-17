@@ -57,11 +57,11 @@ class FtpMutablePath implements MutableBagInterface
     }
 
     /**
-     * @return string
+     * @return array|null
      */
-    public function first(): string
+    public function first(): ?string
     {
-        return $this->firstIn($this->path);
+        return $this->firstInPath($this->path);
     }
 
     /**
@@ -185,20 +185,11 @@ class FtpMutablePath implements MutableBagInterface
 
     /**
      * @param string ...$args
-     *
-     * @return FtpMutablePath
+     * @return array
      */
-    public function only(string ...$args): self
+    public function only(string ...$args): array
     {
-        foreach($args as $item) {
-            if(!$this->hasValueIn($this->path, $item)) {
-                throw new \LogicException(sprintf('Cannot forget %s as it does not exist', $item));
-            }
-        }
-
-        $this->path = $this->mutatorOnlyValues($this->path, $args);
-
-        return $this;
+        return $this->mutatorOnlyPathValues($this->path, $args);
     }
 
     /////////////////////////////////

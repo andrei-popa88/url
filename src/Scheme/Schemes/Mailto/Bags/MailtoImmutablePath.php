@@ -54,13 +54,14 @@ class MailtoImmutablePath extends AbstractImmutable implements ImmutableBagInter
 /////////////////////////
 /// GETTER FUNCTIONS  ///
 ////////////////////////
+
     /**
-     * @return string
+     * @return string|null
      */
-    public function firstInPath(): ?string
+    public function first(): ?string
     {
         if (is_array($this->path)) {
-            return $this->firstIn($this->path);
+            return $this->firstInPath($this->path);
         }
 
         return $this->path;
@@ -69,10 +70,10 @@ class MailtoImmutablePath extends AbstractImmutable implements ImmutableBagInter
     /**
      * @return string
      */
-    public function lastInPath(): ?string
+    public function last(): ?string
     {
         if (is_array($this->path)) {
-            return $this->lastIn($this->path);
+            return $this->lastInPath($this->path);
         }
 
         return $this->path;

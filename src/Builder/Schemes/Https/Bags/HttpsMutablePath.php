@@ -57,11 +57,11 @@ class HttpsMutablePath implements  MutableBagInterface
     }
 
     /**
-     * @return string
+     * @return array|null
      */
-    public function first(): string
+    public function first(): ?string
     {
-        return $this->firstIn($this->path);
+        return $this->firstInPath($this->path);
     }
 
     /**
@@ -69,7 +69,7 @@ class HttpsMutablePath implements  MutableBagInterface
      */
     public function last(): string
     {
-        return $this->lastIn($this->path);
+        return $this->lastInPath($this->path);
     }
 
     /**
@@ -185,20 +185,11 @@ class HttpsMutablePath implements  MutableBagInterface
 
     /**
      * @param string ...$args
-     *
-     * @return HttpsMutablePath
+     * @return array
      */
-    public function only(string ...$args): self
+    public function only(string ...$args): array
     {
-        foreach($args as $item) {
-            if(!$this->hasValueIn($this->path, $item)) {
-                throw new \LogicException(sprintf('Cannot forget %s as it does not exist', $item));
-            }
-        }
-
-        $this->path = $this->mutatorOnlyValues($this->path, $args);
-
-        return $this;
+        return $this->mutatorOnlyPathValues($this->path, $args);
     }
 
 /////////////////////////////////
@@ -206,12 +197,13 @@ class HttpsMutablePath implements  MutableBagInterface
 ///////////////////////////////
 
     /**
-     * @param int $key
-     * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
+     * @param $key
+     * @return mixed
+     * @throws ComponentNotFoundException
      */
     public function get($key)
     {
-        $this->getKeyIn($this->path, $key);
+        return $this->getKeyIn($this->path, $key);
     }
 
     /**

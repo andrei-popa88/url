@@ -70,11 +70,11 @@ class FtpImmutablePath extends AbstractImmutable implements ImmutableBagInterfac
 ////////////////////////
 
     /**
-     * @return string
+     * @return string|null
      */
     public function first(): ?string
     {
-        return $this->firstIn($this->path);
+        return $this->firstInPath($this->path);
     }
 
     /**
@@ -82,7 +82,7 @@ class FtpImmutablePath extends AbstractImmutable implements ImmutableBagInterfac
      */
     public function last(): ?string
     {
-        return $this->lastIn($this->path);
+        return $this->lastInPath($this->path);
     }
 
     /**

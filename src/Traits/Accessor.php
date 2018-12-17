@@ -12,12 +12,21 @@ use Keppler\Url\Exceptions\ComponentNotFoundException;
 trait Accessor
 {
     /**
-     * @param array $array
-     * @return string
+     * @param array $path
+     * @return false|mixed|null
      */
-    protected function firstIn(array $array)
+    protected function firstInPath(array $path)
     {
-        return false !== reset($array) ? reset($array) : null;
+        return false !== reset($path) ? reset($path) : null;
+    }
+
+    /**
+     * @param array $query
+     * @return array|null
+     */
+    protected function firstInQuery(array $query)
+    {
+        return false !== reset($query) ? [key($query) => reset($query)] : null;
     }
 
     /**
@@ -26,11 +35,22 @@ trait Accessor
      * @param array $array
      * @return string
      */
-    protected function lastIn(array $array): ?string
+    protected function lastInPath(array $array): ?string
     {
         $array_revers = array_reverse($array);
 
         return false !== reset($array_revers) ? (string)reset($array_revers) : null;
+    }
+
+    /**
+     * @param array $query
+     * @return array|null
+     */
+    protected function lastInQuery(array $query)
+    {
+        $array_revers = array_reverse($query);
+
+        return false !== reset($array_revers) ? [key($array_revers) => reset($array_revers)] : null;
     }
 
     /**
@@ -77,6 +97,12 @@ trait Accessor
      */
     protected function hasValueIn(array $in, $value): bool
     {
+        $toFlip = [];
+
+        foreach($in as $k => $v) {
+
+        }
+
         return array_key_exists($value, array_flip($in));
     }
 

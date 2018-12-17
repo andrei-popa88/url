@@ -106,7 +106,7 @@ class MailtoQueryMutable implements MutableBagInterface
      * @return string
      * @throws ComponentNotFoundException
      */
-    public function getInCC(int $key): string
+    public function getInCc(int $key): string
     {
         return $this->getKeyIn($this->cc, $key);
     }
@@ -217,11 +217,11 @@ class MailtoQueryMutable implements MutableBagInterface
     /////////////////////////
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function firstInCc(): string
+    public function firstInCc(): ?string
     {
-        return $this->firstIn($this->cc);
+        return $this->firstInPath($this->cc);
     }
 
     /**
@@ -229,31 +229,31 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function lastInCc(): string
     {
-        return $this->lastIn($this->cc);
+        return $this->lastInPath($this->cc);
     }
 
     /**
-     * @return string
+     * @return array|null
      */
-    public function firstInTo(): string
+    public function firstInTo(): ?string
     {
-        return $this->firstIn($this->to);
+        return $this->firstInPath($this->to);
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function lastInTo(): string
+    public function lastInTo(): ?string
     {
-        return $this->lastIn($this->to);
+        return $this->lastInPath($this->to);
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function firstInBcc(): string
+    public function firstInBcc(): ?string
     {
-        return $this->firstIn($this->bcc);
+        return $this->firstInPath($this->bcc);
     }
 
     /**
@@ -261,7 +261,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function lastInBcc(): string
     {
-        return $this->lastIn($this->bcc);
+        return $this->lastInPath($this->bcc);
     }
 
     /**
@@ -339,25 +339,31 @@ class MailtoQueryMutable implements MutableBagInterface
     /**
      * Sets to to an empty array
      */
-    public function forgetTo(): void
+    public function forgetTo(): self
     {
         $this->to = [];
+
+        return $this;
     }
 
     /**
      * Sets cc to an empty array
      */
-    public function forgetCc(): void
+    public function forgetCc(): self
     {
         $this->cc = [];
+
+        return $this;
     }
 
     /**
      * Sets bcc to an empty array
      */
-    public function forgetBcc(): void
+    public function forgetBcc(): self
     {
         $this->bcc = [];
+
+        return $this;
     }
 
     /**

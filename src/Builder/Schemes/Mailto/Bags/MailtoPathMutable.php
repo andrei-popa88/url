@@ -116,6 +116,22 @@ class MailtoPathMutable implements MutableBagInterface
     }
 
     /**
+     * @return false|mixed|null
+     */
+    public function first()
+    {
+        return $this->firstInPath($this->path);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function last()
+    {
+        return $this->lastInPath($this->path);
+    }
+
+    /**
      * @param string $after
      * @param string $value
      *
@@ -162,18 +178,11 @@ class MailtoPathMutable implements MutableBagInterface
 
     /**
      * @param string ...$args
-     *
      * @return array
      */
     public function only(string ...$args): array
     {
-        foreach($args as $item) {
-            if(!$this->hasValueIn($this->path, $item)) {
-                throw new \LogicException(sprintf('Value %s does not exist', $item));
-            }
-        }
-
-        return $this->mutatorOnlyValues($this->path, $args);
+        return $this->mutatorOnlyPathValues($this->path, $args);
     }
 
     /**
