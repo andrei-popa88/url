@@ -1,20 +1,13 @@
 .. KepplerPl\url documentation master file, created by
-   sphinx-quickstart on Mon Dec 17 14:13:11 2018.
+   sphinx-quickstart on Mon Dec 17 15:49:19 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to KepplerPl\url's documentation!
+KepplerPl\url
 =========================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   overview
+   usage

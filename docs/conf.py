@@ -1,3 +1,5 @@
+import sphinx_rtd_theme
+
 # -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
@@ -74,7 +76,7 @@ pygments_style = None
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -171,3 +173,30 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
+
+import sphinx_rtd_theme
+html_theme = "sphinx_rtd_theme"
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+    
+# Set up PHP syntax highlights
+from sphinx.highlighting import lexers
+from pygments.lexers.web import PhpLexer
+lexers["php"] = PhpLexer(startinline=True, linenos=1)
+lexers["php-annotations"] = PhpLexer(startinline=True, linenos=1)
+primary_domain = "php"
+
+
+
+
+import sphinx_rtd_theme
+html_theme = "sphinx_rtd_theme"
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+    
+# Set up PHP syntax highlights
+from sphinx.highlighting import lexers
+from pygments.lexers.web import PhpLexer
+lexers["php"] = PhpLexer(startinline=True, linenos=1)
+lexers["php-annotations"] = PhpLexer(startinline=True, linenos=1)
+primary_domain = "php"
+
+
