@@ -30,11 +30,6 @@ The usage is straight forward:
 
 .. code-block:: php
 
-    $url = 'http://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top';
-    $http = Scheme::http($url);
-
-.. code-block:: php
-
     $url = 'mailto:path@email.com,path2@email.com?to=email@example.com,email2@example.com&cc=email3@example.com,email4@example.com&bcc=email4@example.com,email5@example.com&subject=Hello&body=World';
     $mailto = Scheme::mailto($url);
 
@@ -204,8 +199,6 @@ Much like the query bag, the path bag comes with its own functions
     The path bag may not always contain something. Most mailto urls don't usually have a path or a query for that matter.
     They're much more simplistic. You can still use the path and/or query bag, but they'll just return empty strings.
 
-The path can be either a string or a comma separated value of strings.
-
 .. code-block:: php
 
     public function first()
@@ -215,3 +208,5 @@ The path can be either a string or a comma separated value of strings.
     public function hasInPath(string $value): bool
 
     public function getPath(): array
+
+The functions are self explanatory.
