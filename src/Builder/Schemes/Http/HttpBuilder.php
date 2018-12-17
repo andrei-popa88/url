@@ -104,11 +104,6 @@ class HttpBuilder implements MutableSchemeInterface
     private $pathBag;
 
     /**
-     * @var string
-     */
-    private $raw = '';
-
-    /**
      * HttpBuilder constructor.
      *
      * @param HttpImmutable $http
@@ -373,7 +368,7 @@ class HttpBuilder implements MutableSchemeInterface
      */
     public function raw(): string
     {
-        return $this->raw;
+        return $this->build();
     }
 
     /**

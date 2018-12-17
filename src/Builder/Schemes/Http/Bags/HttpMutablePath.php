@@ -197,12 +197,13 @@ class HttpMutablePath implements  MutableBagInterface
 ///////////////////////////////
 
     /**
-     * @param int $key
-     * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
+     * @param $key
+     * @return mixed
+     * @throws ComponentNotFoundException
      */
     public function get($key)
     {
-        $this->getKeyIn($this->path, $key);
+        return $this->getKeyIn($this->path, $key);
     }
 
     /**

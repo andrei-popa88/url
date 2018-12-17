@@ -7,7 +7,7 @@ use Keppler\Url\Builder\Builder;
 use Keppler\Url\Scheme\Scheme;
 use PHPUnit\Framework\TestCase;
 
-class HttpMutableQueryTest extends TestCase
+class HttpsMutableQueryTest extends TestCase
 {
     private $validUrl = 'https://john:password@www.example.com:123/forum/questions 10/?tag[]=networking&order=newest&tag[]=music#top';
 
@@ -43,6 +43,5 @@ class HttpMutableQueryTest extends TestCase
                     ],
             ], $https->getQueryBag()->first());
         $this->assertEquals(['order' => 'newest'], $https->getQueryBag()->last());
-
     }
 }

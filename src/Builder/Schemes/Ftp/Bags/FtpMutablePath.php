@@ -69,7 +69,7 @@ class FtpMutablePath implements MutableBagInterface
      */
     public function last()
     {
-        return $this->lastIn($this->path);
+        return $this->lastInPath($this->path);
     }
 
     /**

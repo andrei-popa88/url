@@ -34,11 +34,11 @@ class HttpMutableQuery implements MutableBagInterface
     }
 
     /**
-     * @return string
+     * @return array|null
      */
-    public function last()
+    public function last(): ?array
     {
-        return $this->lastIn($this->query);
+        return $this->lastInQuery($this->query);
     }
 
     /**

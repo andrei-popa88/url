@@ -97,12 +97,6 @@ trait Accessor
      */
     protected function hasValueIn(array $in, $value): bool
     {
-        $toFlip = [];
-
-        foreach($in as $k => $v) {
-
-        }
-
         return array_key_exists($value, array_flip($in));
     }
 
