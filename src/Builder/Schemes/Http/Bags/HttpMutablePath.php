@@ -207,7 +207,7 @@ class HttpMutablePath implements  MutableBagInterface
     }
 
     /**
-     * @param int $key
+     * @param $key
      * @return bool
      */
     public function has($key): bool

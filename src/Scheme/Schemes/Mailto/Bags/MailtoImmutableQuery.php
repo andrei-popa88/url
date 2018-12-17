@@ -53,7 +53,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     /**
      * The raw query string
      *
-     * @var string | null
+     * @var string
      */
     private $raw = '';
 
@@ -226,7 +226,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function firstInBcc(): ?string
     {
@@ -304,7 +304,7 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
     public function raw(): string
     {

@@ -13,7 +13,7 @@ trait Accessor
 {
     /**
      * @param array $path
-     * @return false|mixed|null
+     * @return string|null
      */
     protected function firstInPath(array $path)
     {
@@ -101,7 +101,7 @@ trait Accessor
     }
 
     /**
-     * @param $in
+     * @param array $in
      * @param $key
      * @return bool
      */

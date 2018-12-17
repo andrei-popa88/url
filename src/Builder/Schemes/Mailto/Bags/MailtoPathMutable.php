@@ -20,12 +20,12 @@ class MailtoPathMutable implements MutableBagInterface
      * @example mailto:john@gmail.com,test@gmail.com is an array
      * @example mailto:john@gmail.com is a string
      *
-     * @var string | array
+     * @var array
      */
     private $path = [];
 
     /**
-     * @param $path array|string
+     * @param $path array
      * @return MailtoPathMutable
      * @throws InvalidComponentsException
      */

@@ -225,15 +225,15 @@ class MailtoQueryMutable implements MutableBagInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function lastInCc(): string
+    public function lastInCc(): ?string
     {
         return $this->lastInPath($this->cc);
     }
 
     /**
-     * @return array|null
+     * @return string|null
      */
     public function firstInTo(): ?string
     {
@@ -257,9 +257,9 @@ class MailtoQueryMutable implements MutableBagInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function lastInBcc(): string
+    public function lastInBcc(): ?string
     {
         return $this->lastInPath($this->bcc);
     }

@@ -70,7 +70,7 @@ class HttpImmutablePath extends AbstractImmutable implements ImmutableBagInterfa
 ////////////////////////
 
     /**
-     * @return array|null
+     * @return string|null
      */
     public function first(): ?string
     {

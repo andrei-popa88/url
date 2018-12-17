@@ -22,7 +22,7 @@ class MailtoImmutablePath extends AbstractImmutable implements ImmutableBagInter
      * @example mailto:john@gmail.com,test@gmail.com is an array
      * @example mailto:john@gmail.com is a string
      *
-     * @var string | array
+     * @var array
      */
     private $path = [];
 
@@ -56,9 +56,9 @@ class MailtoImmutablePath extends AbstractImmutable implements ImmutableBagInter
 ////////////////////////
 
     /**
-     * @return string|null
+     * @return array|string|null
      */
-    public function first(): ?string
+    public function first()
     {
         if (is_array($this->path)) {
             return $this->firstInPath($this->path);
@@ -68,9 +68,9 @@ class MailtoImmutablePath extends AbstractImmutable implements ImmutableBagInter
     }
 
     /**
-     * @return string
+     * @return array|string|null
      */
-    public function last(): ?string
+    public function last()
     {
         if (is_array($this->path)) {
             return $this->lastInPath($this->path);
@@ -97,7 +97,7 @@ class MailtoImmutablePath extends AbstractImmutable implements ImmutableBagInter
 /////////////////////////////////
 
     /**
-     * @return string | array
+     * @return array
      */
     public function getPath()
     {

@@ -89,7 +89,7 @@ class FtpBuilder implements MutableSchemeInterface
         $this->user = $ftp->getUser();
         $this->password = $ftp->getPassword();
         $this->host = $ftp->getHost();
-        $this->port = -1 === $ftp->getPort() ? -1 : $ftp->getPort();
+        $this->port = null === $ftp->getPort() ? -1 : $ftp->getPort();
     }
 
     ///////////////////////////

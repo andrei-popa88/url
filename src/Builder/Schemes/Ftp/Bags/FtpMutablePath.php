@@ -57,7 +57,7 @@ class FtpMutablePath implements MutableBagInterface
     }
 
     /**
-     * @return array|null
+     * @return string|null
      */
     public function first(): ?string
     {
@@ -197,8 +197,9 @@ class FtpMutablePath implements MutableBagInterface
     ///////////////////////////////
 
     /**
-     * @param int $key
-     * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
+     * @param $key
+     * @return mixed|void
+     * @throws ComponentNotFoundException
      */
     public function get($key)
     {
@@ -206,7 +207,7 @@ class FtpMutablePath implements MutableBagInterface
     }
 
     /**
-     * @param int $key
+     * @param $key
      * @return bool
      */
     public function has($key): bool

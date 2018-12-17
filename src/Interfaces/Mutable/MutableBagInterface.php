@@ -22,7 +22,7 @@ interface MutableBagInterface extends ImmutableBagInterface
     /**
      * Checks weather a given bag or path has a certain key
      *
-     * @param string $key
+     * @param $key
      * @return bool
      */
     public function has($key): bool;

@@ -57,7 +57,7 @@ class HttpsMutablePath implements  MutableBagInterface
     }
 
     /**
-     * @return array|null
+     * @return string|null
      */
     public function first(): ?string
     {
@@ -65,9 +65,9 @@ class HttpsMutablePath implements  MutableBagInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function last(): string
+    public function last(): ?string
     {
         return $this->lastInPath($this->path);
     }

@@ -118,7 +118,7 @@ class HttpsBuilder implements MutableSchemeInterface
         $this->user = $https->getUser();
         $this->password = $https->getPassword();
         $this->host = $https->getHost();
-        $this->port = -1 === $https->getPort() ? -1 : $https->getPort();
+        $this->port = null === $https->getPort() ? -1 : $https->getPort();
         $this->fragment = $https->getFragment();
     }
 
