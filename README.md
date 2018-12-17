@@ -29,17 +29,17 @@ $parser = new Parser();
 $parser->parseUrl($urlString);
 
 echo $parser->getHost(); // www.example.com
-echo $parser->getSchema(); // http
+echo $parser->getScheme(); // http
 echo $parser->getAuthority(); // john.doe@www.example.com:123
 
 // you can also do
 echo Parser::from($urlString)->getHost(); // www.example.com
-echo Parser::from($urlString)->getSchema(); // http
+echo Parser::from($urlString)->getScheme(); // http
 echo Parser::from($urlString)->getAuthority(); // john.doe@www.example.com:123
 
 ````
 
-The path and query are kept in separte bags and can be accessed by getting the bag
+The path and query are kept in separate bags and can be accessed by getting the bag
 
 #### The query bag:
 
@@ -125,7 +125,7 @@ echo $builder->getUrl(false); // without trailing slash
 ````
 
 ```php
-// Please note that path/query setters are only fluent with themselfs meaning you can't do this
+// Please note that path/query setters are only fluent with themselves meaning you can't do this
 $builder
     ->path
     ->insertAfter(0 'fatal')

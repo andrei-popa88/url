@@ -6,7 +6,7 @@ use Keppler\Url\Builder\Bags\PathBag;
 use Keppler\Url\Builder\Bags\QueryBag;
 use Keppler\Url\Builder\Builder;
 use Keppler\Url\Exceptions\MalformedUrlException;
-use Keppler\Url\Exceptions\SchemaNotSupportedException;
+use Keppler\Url\Exceptions\SchemeNotSupportedException;
 use Keppler\Url\Parser\Parser;
 use PHPUnit\Framework\TestCase;
 
@@ -28,15 +28,15 @@ class BuilderTest extends TestCase
         $this->assertInstanceOf(QueryBag::class, $builder->query);
     }
 
-    public function test_invalid_schema()
+    public function test_invalid_scheme()
     {
-        $this->expectException(SchemaNotSupportedException::class);
+        $this->expectException(SchemeNotSupportedException::class);
 
         $builder = new Builder();
-        $builder->setScheme('invalid_schema');
+        $builder->setScheme('invalid_scheme');
     }
 
-    public function test_build_without_schema_or_host()
+    public function test_build_without_scheme_or_host()
     {
         $this->expectException(\LogicException::class);
 

@@ -13,22 +13,22 @@ abstract class AbstractUrl
     /**
      * @var string
      */
-    protected $original = null;
+    protected $original;
 
     /**
-     * @var
+     * @var string|null
      */
     public $path;
 
     /**
-     * @var
+     * @var string|null
      */
     public $query;
 
     /**
      * @var array
      */
-    protected $allowedSchemas
+    protected $allowedSchemes
         = [
             'http',
             'https',
@@ -38,7 +38,7 @@ abstract class AbstractUrl
     /**
      * @var
      */
-    protected $schema = null;
+    protected $scheme = null;
 
     /**
      * @var
@@ -51,22 +51,22 @@ abstract class AbstractUrl
     protected $fragment = null;
 
     /**
-     * @var
+     * @var string|null
      */
     protected $username = null;
 
     /**
-     * @var
+     * @var string|null
      */
     protected $host = null;
 
     /**
-     * @var null
+     * @var string|null
      */
     protected $password = null;
 
     /**
-     * @var
+     * @var int|null
      */
     protected $port = null;
 }
