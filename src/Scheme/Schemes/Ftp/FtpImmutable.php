@@ -193,7 +193,7 @@ class FtpImmutable extends AbstractImmutable implements ImmutableSchemeInterface
      *
      * @return string
      */
-    public function getScheme()
+    public function getScheme(): string
     {
         return self::SCHEME;
     }

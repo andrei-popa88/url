@@ -114,9 +114,9 @@ class MailtoImmutableQuery extends AbstractImmutable implements ImmutableBagInte
         }
     }
 
-///////////////////////
-/// START PRIVATE  ///
-//////////////////////
+////////////////////////////
+/// PRIVATE FUNCTIONS   ///
+//////////////////////////
 
     /**
      * @param string $bcc

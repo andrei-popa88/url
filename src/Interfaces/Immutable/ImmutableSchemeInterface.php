@@ -13,7 +13,7 @@ interface ImmutableSchemeInterface
 
     /**
      * Returns all the components of the scheme including
-     *  any bags in the form of an array
+     * any bags in the form of an array
      *
      * @return array
      */
@@ -31,5 +31,5 @@ interface ImmutableSchemeInterface
      *
      * @return string
      */
-    public function getScheme();
+    public function getScheme(): string;
 }

@@ -239,6 +239,14 @@ class FtpBuilder implements MutableSchemeInterface
     }
 
     /**
+     * @return string
+     */
+    public function encoded(): string
+    {
+        return $this->build(true);
+    }
+
+    /**
      * Returns the scheme associated with the class
      *
      * @return string

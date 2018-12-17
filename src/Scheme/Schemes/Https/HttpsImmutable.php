@@ -294,7 +294,7 @@ class HttpsImmutable extends AbstractImmutable implements ImmutableSchemeInterfa
      *
      * @return string
      */
-    public function getScheme()
+    public function getScheme(): string
     {
         return self::SCHEME;
     }
