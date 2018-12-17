@@ -1,4 +1,7 @@
 import sphinx_rtd_theme
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 # -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
