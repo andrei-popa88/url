@@ -3,190 +3,60 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Builder;
 
-use Keppler\Url\AbstractUrl;
-use Keppler\Url\Builder\Bags\PathBag;
-use Keppler\Url\Builder\Bags\QueryBag;
-use Keppler\Url\Exceptions\SchemeNotSupportedException;
-use Keppler\Url\Parser\Parser;
+use Keppler\Url\Builder\Schemes\Ftp\FtpBuilder;
+use Keppler\Url\Builder\Schemes\Http\HttpBuilder;
+use Keppler\Url\Builder\Schemes\Https\HttpsBuilder;
+use Keppler\Url\Builder\Schemes\Mailto\MailtoBuilder;
+use Keppler\Url\Scheme\Schemes\Ftp\FtpImmutable;
+use Keppler\Url\Scheme\Schemes\Http\HttpImmutable;
+use Keppler\Url\Scheme\Schemes\Https\HttpsImmutable;
+use Keppler\Url\Scheme\Schemes\Mailto\MailtoImmutable;
 
 /**
  * Class Builder
  *
  * @package Url\Builder
  */
-class Builder extends AbstractUrl
+class Builder
 {
     /**
-     * @var PathBag
-     */
-    public $path;
-
-    /**
-     * @var QueryBag
-     */
-    public $query;
-
-    /**
-     * Builder constructor.
-     */
-    public function __construct()
-    {
-        $this->query = new QueryBag();
-        $this->path = new PathBag();
-    }
-
-    /**
-     * @param Parser $parser
+     * @param MailtoImmutable $mailto
      *
-     * @return Builder
+     * @return MailtoBuilder
+     * @throws \Keppler\Url\Exceptions\InvalidComponentsException
      */
-    public static function from(Parser $parser): self
+    public static function mailto(MailtoImmutable $mailto): MailtoBuilder
     {
-        $self = new self;
-        $self->query = new QueryBag();
-        $self->path = new PathBag();
-
-        $self->original = $parser->getOriginal();
-        $self->scheme = $parser->getScheme();
-        $self->authority = $parser->getAuthority();
-        $self->fragment = $parser->getFragment();
-        $self->username = $parser->getUsername();
-        $self->host = $parser->getHost();
-        $self->password = $parser->getPassword();
-        $self->port = $parser->getPort();
-
-        $self->path->setPathComponents($parser->path->all());
-        $self->query->setQueryComponents($parser->query->all());
-
-        return $self;
+        return new MailtoBuilder($mailto);
     }
 
     /**
-     * @param string $scheme
+     * @param HttpsImmutable $https
      *
-     * @return Builder
-     * @throws SchemeNotSupportedException
+     * @return HttpsBuilder
      */
-    public function setScheme(string $scheme): self
+    public static function https(HttpsImmutable $https): HttpsBuilder
     {
-        if ( ! in_array($scheme, $this->allowedSchemes)) {
-            throw new SchemeNotSupportedException("The scheme is not supported.");
-        }
-
-        $this->scheme = $scheme;
-
-        return $this;
+        return new HttpsBuilder($https);
     }
 
     /**
-     * @param string $fragment
+     * @param HttpImmutable $http
      *
-     * @return Builder
+     * @return HttpBuilder
      */
-    public function setFragment(string $fragment): self
+    public static function http(HttpImmutable $http): HttpBuilder
     {
-        $this->fragment = $fragment;
-
-        return $this;
+        return new HttpBuilder($http);
     }
 
     /**
-     * @param string $username
+     * @param FtpImmutable $ftp
      *
-     * @return Builder
+     * @return FtpBuilder
      */
-    public function setUsername(string $username): self
+    public static function ftp(FtpImmutable $ftp): FtpBuilder
     {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * @param string $host
-     *
-     * @return Builder
-     */
-    public function setHost(string $host): self
-    {
-        $this->host = $host;
-
-        return $this;
-    }
-
-    /**
-     * @param string $password
-     *
-     * @return Builder
-     */
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * @param int $port
-     *
-     * @return Builder
-     */
-    public function setPort(int $port): self
-    {
-        $this->port = $port;
-
-        return $this;
-    }
-
-    /**
-     * Builds the authority by appending username:password@host:port
-     */
-    private function buildAuthority(): string
-    {
-        $authority = '';
-
-        if (null !== $this->username) {
-            $authority .= $this->username;
-
-            if (null !== $this->password) {
-                $authority .= ':'.$this->password.'@';
-            } else {
-                $authority .= '@';
-            }
-        }
-
-        if (null !== $this->host) {
-            $authority .= $this->host;
-        }
-
-        if (null !== $this->port) {
-            $authority .= ':'.$this->port;
-        }
-
-        return $authority;
-    }
-
-    /**
-     * @param bool $withTrailingSlash
-     *
-     * @return string
-     */
-    public function getUrl(bool $withTrailingSlash = true): string
-    {
-        $url = '';
-
-        if (null === $this->scheme || null === $this->host) {
-            throw new \LogicException("At least the scheme and the host must be present.");
-        }
-
-        $url .= $this->scheme.'://';
-        $url .= $this->buildAuthority();
-        $url .= $this->path->raw($withTrailingSlash);
-        $url .= $this->query->raw();
-        if (null !== $this->fragment) {
-            $url .= '#'.$this->fragment;
-        }
-
-        return $url;
+        return new FtpBuilder($ftp);
     }
 }
