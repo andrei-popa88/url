@@ -132,7 +132,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'KepplerPl_url.tex', 'KepplerPl\\_url Documentation',
+    (master_doc, 'KepplerPl_url.tex', 'KepplerPl_url Documentation',
      'Andrei Popa', 'manual'),
 ]
 
