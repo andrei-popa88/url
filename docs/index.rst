@@ -8,6 +8,14 @@ KepplerPl\url
 
 .. toctree::
    :maxdepth: 2
+   :caption: Contents:
 
    overview
    usage
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
