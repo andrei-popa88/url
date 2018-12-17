@@ -1,3 +1,4 @@
+import sphinx_rtd_theme
 project = 'KepplerPl_url'
 copyright = '2018, Andrei Popa'
 author = 'Andrei Popa'
