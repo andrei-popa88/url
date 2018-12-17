@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Scheme\Schemes;
 
-use Keppler\Url\Scheme\Exceptions\ImmutableException;
+use Keppler\Url\Exceptions\ImmutableException;
 
 /**
  * Not truly immutable since reflection is always an option

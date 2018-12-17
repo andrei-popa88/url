@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Keppler\Url\Scheme\Exceptions;
+namespace Keppler\Url\Exceptions;
 
 /**
  * Class ImmutableException
