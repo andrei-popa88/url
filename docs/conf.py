@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'KepplerPl_Scheme'
+project = 'KepplerPl\\url'
 copyright = '2018, Andrei Popa'
 author = 'Andrei Popa'
 
@@ -74,7 +74,7 @@ pygments_style = None
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -101,7 +101,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'KepplerPl_Schemedoc'
+htmlhelp_basename = 'Url'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -150,7 +150,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'KepplerPl_Scheme', 'KepplerPl_Scheme Documentation',
-     author, 'KepplerPl_Scheme', 'One line description of project.',
+     author, 'Andrei Popa', 'One line description of project.',
      'Miscellaneous'),
 ]
 
