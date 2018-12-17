@@ -1,5 +1,3 @@
-from recommonmark.parser import CommonMarkParser
-
 # -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
@@ -21,7 +19,7 @@ from recommonmark.parser import CommonMarkParser
 
 # -- Project information -----------------------------------------------------
 
-project = 'KepplerPl_url'
+project = 'Url'
 copyright = '2018, Andrei Popa'
 author = 'Andrei Popa'
 
@@ -103,7 +101,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'KepplerPl_urldoc'
+htmlhelp_basename = 'Urldoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -130,7 +128,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'KepplerPl_url.tex', 'KepplerPl\\_url Documentation',
+    (master_doc, 'Url.tex', 'Url Documentation',
      'Andrei Popa', 'manual'),
 ]
 
@@ -140,7 +138,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'kepplerpl_url', 'KepplerPl_url Documentation',
+    (master_doc, 'url', 'Url Documentation',
      [author], 1)
 ]
 
@@ -151,8 +149,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'KepplerPl_url', 'KepplerPl_url Documentation',
-     author, 'KepplerPl_url', 'One line description of project.',
+    (master_doc, 'Url', 'Url Documentation',
+     author, 'Url', 'One line description of project.',
      'Miscellaneous'),
 ]
 
@@ -173,9 +171,3 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
-
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-
-source_suffix = ['.rst', '.md']
