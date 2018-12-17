@@ -52,10 +52,6 @@ If you choose to build from an existing url you must pass it a Scheme instance w
 
     $url =  'ftp://user:password@host:123/path';
 
-    $scheme = \Keppler\Url\Scheme\Scheme::ftp($url);
-
-    $url =  'ftp://user:password@host:123/path';
-
     $ftpScheme = \Keppler\Url\Scheme\Scheme::ftp($url);
     $builder = \Keppler\Url\Builder\Builder::ftp($ftpScheme);
 
