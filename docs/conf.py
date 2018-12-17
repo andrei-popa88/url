@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Url'
+project = 'KepplerPl_Scheme'
 copyright = '2018, Andrei Popa'
 author = 'Andrei Popa'
 
@@ -101,7 +101,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Urldoc'
+htmlhelp_basename = 'KepplerPl_Schemedoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -128,7 +128,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Url.tex', 'Url Documentation',
+    (master_doc, 'KepplerPl_Scheme.tex', 'KepplerPl\\_Scheme Documentation',
      'Andrei Popa', 'manual'),
 ]
 
@@ -138,7 +138,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'url', 'Url Documentation',
+    (master_doc, 'kepplerpl_scheme', 'KepplerPl_Scheme Documentation',
      [author], 1)
 ]
 
@@ -149,8 +149,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Url', 'Url Documentation',
-     author, 'Url', 'One line description of project.',
+    (master_doc, 'KepplerPl_Scheme', 'KepplerPl_Scheme Documentation',
+     author, 'KepplerPl_Scheme', 'One line description of project.',
      'Miscellaneous'),
 ]
 
