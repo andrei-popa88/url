@@ -135,16 +135,6 @@ The mailto scheme can have a query consisting of: to recipients, cc recipients, 
 
 .. code-block:: php
 
-    mailto:path@email.com,path2@email.com?to=email@example.com,email2@example.com&cc=email3@example.com,email4@example.com&bcc=email4@example.com,email5@example.com&subject=Hello&body=World
-
-Here we have a full mailto scheme, path included.
-
-Each part of the mailto scheme has it's own dedicated functions.
-
-Example:
-
-.. code-block:: php
-
     $url = 'mailto:path@email.com,path2@email.com?to=email@example.com,email2@example.com&cc=email3@example.com,email4@example.com&bcc=email4@example.com,email5@example.com&subject=Hello&body=World';
     $mailto = Scheme::mailto($url);
     echo $mailto->getQueryBag()->firstInTo(); // email@example.com
@@ -223,6 +213,7 @@ Besides the default interface implementation the http and https immutable classe
 The query bag
 --------------
 
+Besides the default interface implementation the http/https immutable bags class has the following functions
 
 .. code-block:: php
 
@@ -254,6 +245,8 @@ The query bag
 The path bag
 -------------
 
+Besides the default interface implementation the http/https immutable bags class has the following functions
+
 .. code-block:: php
 
     $url = 'http://john:password@www.example.com:123/forum/questions 10/?&tag[]=networking&tag[]=cisco&order=newest#top';
@@ -271,6 +264,44 @@ The path bag
     ...
 
     Fatal error:  Uncaught Keppler\Url\Exceptions\ComponentNotFoundException: Component with index "10" does not exist in Keppler\Url\Scheme\Schemes\Http\Bags\HttpImmutablePath
+
+.. code-block:: php
+
+    public function first(): ?string
+
+    public function last(): ?string
+
+    public function get(int $key)
+
+    public function has(int $key): bool
+
+
+Ftp
+===
+
+The ftp parser has only a path bag along side the default interface options
+
+The ftp class does its best to keep in accordance with https://tools.ietf.org/html/rfc3986
+
+Besides the default interface implementation the ftp immutable class has the following functions
+
+.. code-block:: php
+
+    public function getPathBag(): FtpImmutablePath
+
+    public function getUser(): string
+
+    public function getPassword(): string
+
+    public function getHost(): string
+
+    public function getPort(): ?int
+
+The path bag
+------------
+
+Besides the default interface implementation the ftp immutable bag class has the following functions
+
 
 .. code-block:: php
 
