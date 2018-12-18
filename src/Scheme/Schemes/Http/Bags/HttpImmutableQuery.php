@@ -64,11 +64,12 @@ class HttpImmutableQuery extends AbstractImmutable implements ImmutableBagInterf
 
     /**
      * @param $key
+     * @return mixed
      * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
      */
     public function get($key)
     {
-        $this->getKeyIn($this->query, $key);
+        return $this->getKeyIn($this->query, $key);
     }
 
     /**
@@ -88,7 +89,10 @@ class HttpImmutableQuery extends AbstractImmutable implements ImmutableBagInterf
         return $this->firstInQuery($this->query);
     }
 
-    public function last()
+    /**
+     * @return string|null
+     */
+    public function last(): ?string
     {
         return $this->lastInPath($this->query);
     }

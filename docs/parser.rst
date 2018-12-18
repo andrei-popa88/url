@@ -8,6 +8,24 @@ Usage and Interface
 Usage
 -----
 
+.. warning::
+
+    PLEASE READ!
+
+    The parser makes absolutely no promises regarding the validity of the scheme nor does it try to parse severely malformed urls.
+
+    Passing such urls to the parser will most likely result in an error.
+
+
+    If a query or path is given to a scheme that doesn't support it, it will be discarded
+
+
+    Some url schemes MAY not have information in the path/query bag since some urls can simply not have a path or a query.
+    For example the mailto scheme may not have a query or a path, or both.
+    The ftp scheme simply doesn't support a query so the parse will automatically discard it if one is given.
+
+    The path and/or query bags will ALWAYS exist but they may not contain any information.
+
 The Scheme.php class is used as the parser. Any Parser instance is immutable, meaning you cannot change it once it has been created.
 
 The usage is straight forward:
@@ -56,10 +74,6 @@ Other types of urls will support both a path and a query bag.
 
     $https->getPathBag()->...;
     $https->getQueryBag()->...;
-
-.. warning::
-
-    If a query or path is given to a scheme that doesn't support it, it will be discarded
 
 Parser Interface
 ------------------
@@ -110,21 +124,12 @@ Mailto
 
 The mailto scheme has a path and a query bag along side the default interface options
 
-The mailto scheme does it's best to keep in accordance with https://tools.ietf.org/html/rfc6068
+The mailto scheme class does it's best to keep in accordance with https://tools.ietf.org/html/rfc6068
 
-.. warning::
-
-    The parser makes absolutely no promises regarding the validity of the scheme nor does it try to parse severely malformed urls.
-
-    Passing such urls to the parser will most likely result in an error.
+The mailto immutable has no other functions except the default implementations and getters for the bags.
 
 The query bag
 -------------
-
-.. warning::
-
-    The query bag may not always contain something. Most mailto urls don't usually have a path or a query for that matter.
-    You can still use the path and/or query bag, but they'll just return empty strings.
 
 The mailto scheme can have a query consisting of: to recipients, cc recipients, bcc recipients, body, and subject.
 
@@ -169,11 +174,6 @@ The path bag
 
 Much like the query bag, the path bag comes with its own functions
 
-.. warning::
-
-    The query bag may not always contain something. Most mailto urls don't usually have a path or a query for that matter.
-    You can still use the path and/or query bag, but they'll just return empty strings.
-
 .. code-block:: php
 
     public function first()
@@ -185,3 +185,99 @@ Much like the query bag, the path bag comes with its own functions
     public function getPath(): array
 
 Due to the simplicity of the path in mailto schemes the path bag is not very feature rich.
+
+Http and Https
+==============
+
+The http and https schemes have a path and a query bag along side the default interface options
+
+The http and https scheme classes do their best to keep in accordance with https://tools.ietf.org/html/rfc3986
+
+.. note::
+
+    Due to major similarities between the 2 schemes there is a single section dedicated to both.
+
+    HOWEVER each scheme has its own dedicated parser.
+
+Besides the default interface implementation the http and https immutable classes have the following functions
+
+.. code-block:: php
+
+    public function getAuthority(): string
+
+    public function getUser(): string
+
+    public function getPassword(): string
+
+    public function getHost(): string
+
+    public function getPort(): ?int
+
+    public function getFragment(): string
+
+    public function getQueryBag(): HttpImmutableQuery
+
+    public function getPathBag(): HttpImmutablePath
+
+
+The query bag
+--------------
+
+
+.. code-block:: php
+
+    $url = 'http://john:password@www.example.com:123/forum/questions 10/?&tag[]=networking&tag[]=cisco&order=newest#top';
+
+    $scheme = Scheme::http($url);
+
+    var_dump($scheme->getQueryBag()->get('tag'));
+
+    ...
+
+    Array
+    (
+        [0] => networking
+        [1] => cisco
+    )
+
+
+.. code-block:: php
+
+    public function get($key)
+
+    public function has($key): bool
+
+    public function first(): ?array
+
+    public function last(): ?string
+
+The path bag
+-------------
+
+.. code-block:: php
+
+    $url = 'http://john:password@www.example.com:123/forum/questions 10/?&tag[]=networking&tag[]=cisco&order=newest#top';
+
+    $scheme = Scheme::http($url);
+
+    var_dump($scheme->getPathBag()->get(0));
+
+    ...
+
+    string(5) "forum"
+
+    $scheme->getPathBag()->get(10);
+
+    ...
+
+    Fatal error:  Uncaught Keppler\Url\Exceptions\ComponentNotFoundException: Component with index "10" does not exist in Keppler\Url\Scheme\Schemes\Http\Bags\HttpImmutablePath
+
+.. code-block:: php
+
+    public function first(): ?string
+
+    public function last(): ?string
+
+    public function get(int $key)
+
+    public function has(int $key): bool

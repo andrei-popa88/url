@@ -87,11 +87,12 @@ class HttpImmutablePath extends AbstractImmutable implements ImmutableBagInterfa
 
     /**
      * @param int $key
+     * @return mixed
      * @throws \Keppler\Url\Exceptions\ComponentNotFoundException
      */
     public function get(int $key)
     {
-        $this->getKeyIn($this->path, $key);
+        return $this->getKeyIn($this->path, $key);
     }
 
     /**

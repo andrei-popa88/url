@@ -198,12 +198,12 @@ class FtpMutablePath implements MutableBagInterface
 
     /**
      * @param $key
-     * @return mixed|void
+     * @return mixed
      * @throws ComponentNotFoundException
      */
     public function get($key)
     {
-        $this->getKeyIn($this->path, $key);
+        return $this->getKeyIn($this->path, $key);
     }
 
     /**
