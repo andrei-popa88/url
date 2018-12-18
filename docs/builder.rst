@@ -338,3 +338,136 @@ The http and https scheme classes do their best to keep in accordance with https
     Due to major similarities between the 2 schemes there is a single section dedicated to both.
 
     HOWEVER each scheme has its own dedicated builder.
+
+.. code-block:: php
+
+    public function getAuthority(): string
+
+    public function getUser(): string
+
+    public function getPassword(): string
+
+    public function getHost(): string
+
+    public function getPort(): ?int
+
+    public function getFragment(): string
+
+    public function getQueryBag(): HttpImmutableQuery
+
+    public function getPathBag(): HttpImmutablePath
+
+    public function setUser(string $user): self
+
+    public function setPassword(string $password): self
+
+    public function setHost(string $host): self
+
+    public function setPort(int $port): self
+
+    public function setFragment(string $fragment): self
+
+The query bag
+--------------
+
+Besides the default interface implementation the http/https mutable bags classes have the following functions
+
+
+.. code-block:: php
+
+    public function first(): ?array
+
+    public function last()
+
+    public function forget(string ...$args): self
+
+    public function forgetAll(): self
+
+    public function only(string ...$args): array
+
+The path bag
+-------------
+
+Besides the default interface implementation the http/https bags bags classes have the following functions
+
+.. code-block:: php
+
+    public function getPath(): array
+
+    public function first(): ?string
+
+    public function last(): ?string
+
+    public function append(string $value): self
+
+    public function prepend(string $value): self
+
+    public function putInBetween(string $value, string $first = null, string $last = null): self
+
+    public function putBefore(string $before, string $value) : self
+
+    public function putAfter(string $after, string $value): self
+
+    public function forget(string ...$args): self
+
+    public function forgetAll(): self
+
+    public function only(string ...$args): array
+
+Ftp
+===
+
+The ftp builder has only a path bag along side the default interface options
+
+The ftp class does its best to keep in accordance with https://tools.ietf.org/html/rfc3986
+
+Besides the default interface implementation the ftp mutable class has the following functions
+
+.. code-block:: php
+
+    public function getPathBag(): FtpMutablePath
+
+    public function getUser(): string
+
+    public function getPassword(): string
+
+    public function getHost(): string
+
+    public function getPort(): int
+
+    public function setUser(string $user): self
+
+    public function setPassword(string $password): self
+
+    public function setHost(string $host): self
+
+    public function setPort(int $port): self
+
+The path bag
+------------
+
+Besides the default interface implementation the ftp immutable bag class has the following functions
+
+.. code-block:: php
+
+    public function getPath(): array
+
+    public function first(): ?string
+
+    public function last()
+
+    public function append(string $value): self
+
+    public function prepend(string $value): self
+
+    public function putInBetween(string $value, string $first = null, string $last = null): self
+
+    public function putBefore(string $before, string $value) : self
+
+    public function putAfter(string $after, string $value): self
+
+    public function forget(string ...$args): self
+
+    public function forgetAll(): self
+
+    public function only(string ...$args): array

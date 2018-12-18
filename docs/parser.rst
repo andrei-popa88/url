@@ -216,7 +216,7 @@ Besides the default interface implementation the http and https immutable classe
 The query bag
 --------------
 
-Besides the default interface implementation the http/https immutable bags class has the following functions
+Besides the default interface implementation the http/https immutable bags classes have the following functions
 
 .. code-block:: php
 
@@ -248,7 +248,7 @@ Besides the default interface implementation the http/https immutable bags class
 The path bag
 -------------
 
-Besides the default interface implementation the http/https immutable bags class has the following functions
+Besides the default interface implementation the http/https immutable bags classes have the following functions
 
 .. code-block:: php
 
@@ -257,15 +257,11 @@ Besides the default interface implementation the http/https immutable bags class
     $scheme = Scheme::http($url);
 
     var_dump($scheme->getPathBag()->get(0));
-
     ...
-
     string(5) "forum"
 
     $scheme->getPathBag()->get(10);
-
     ...
-
     Fatal error:  Uncaught Keppler\Url\Exceptions\ComponentNotFoundException: Component with index "10" does not exist in Keppler\Url\Scheme\Schemes\Http\Bags\HttpImmutablePath
 
 .. code-block:: php

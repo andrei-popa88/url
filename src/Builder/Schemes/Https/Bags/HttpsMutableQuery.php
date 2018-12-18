@@ -24,7 +24,6 @@ class HttpsMutableQuery implements MutableBagInterface
      */
     private $query = [];
 
-
     /**
      * @return array|null
      */
