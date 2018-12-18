@@ -371,7 +371,15 @@ class HttpBuilder implements MutableSchemeInterface
      */
     public function raw(): string
     {
-        return $this->build();
+        return $this->build(false);
+    }
+
+    /**
+     * @return string
+     */
+    public function encoded(): string
+    {
+        return $this->build(true);
     }
 
     /**

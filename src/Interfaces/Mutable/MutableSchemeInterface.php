@@ -16,4 +16,9 @@ interface MutableSchemeInterface extends ImmutableSchemeInterface
      * @return string
      */
     public function build(bool $urlEncode = false): string;
+
+    /**
+     * @return string
+     */
+    public function encoded(): string;
 }

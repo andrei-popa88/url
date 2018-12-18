@@ -26,9 +26,12 @@ Usage
 
     The path and/or query bags will ALWAYS exist but they may not contain any information.
 
+
 .. note::
 
-    The classes found in the Parser can be used independently too.
+    The classes found in the Parser can be used independently too. See the Quickstart link bellow.
+
+:doc:`Quickstart <usage>`
 
 The Scheme.php class is used as the parser. Any Parser instance is immutable, meaning you cannot change it once it has been created.
 
@@ -92,13 +95,9 @@ All parsers implement the ImmutableSchemeInterface which has the following funct
 
     public function all(): array;
 
-.. code-block:: php
-
     // Returns raw unaltered url
 
     public function raw(): string
-
-.. code-block:: php
 
     // Returns the scheme associated with the class instance
 

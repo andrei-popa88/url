@@ -135,6 +135,14 @@ class MailtoBuilder implements MutableSchemeInterface
     /**
      * @return string
      */
+    public function encoded(): string
+    {
+        return $this->build(true);
+    }
+
+    /**
+     * @return string
+     */
     public function getScheme(): string
     {
         return self::SCHEME;

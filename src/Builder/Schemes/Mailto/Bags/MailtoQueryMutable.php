@@ -418,7 +418,6 @@ class MailtoQueryMutable implements MutableBagInterface
         return isset(array_flip($this->bcc)[$value]);
     }
 
-
     /**
      * @return MailtoQueryMutable
      */
@@ -429,6 +428,27 @@ class MailtoQueryMutable implements MutableBagInterface
         $this->bcc = [];
 
         return $this;
+    }
+
+    /**
+     * @param string ...$args
+     *
+     * @return array
+     * @throws ComponentNotFoundException
+     */
+    public function only(string ...$args): array
+    {
+        $result = [];
+
+        foreach($args as $key => $item) {
+            if(!$this->has($item)) {
+                throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s',
+                    $key, __CLASS__));
+            }
+            $result[$item] = $this->$item;
+        }
+
+        return $result;
     }
 
     /////////////////////////////////

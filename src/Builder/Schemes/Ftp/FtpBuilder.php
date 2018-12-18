@@ -238,7 +238,7 @@ class FtpBuilder implements MutableSchemeInterface
      */
     public function raw(): string
     {
-        return $this->build();
+        return $this->build(false);
     }
 
     /**
