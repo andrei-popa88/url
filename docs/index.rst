@@ -11,6 +11,6 @@ KepplerPl\\\url
    :caption: Contents:
 
    overview
-   usage
+   quickstart
    parser
    builder
