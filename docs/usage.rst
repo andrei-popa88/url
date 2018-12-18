@@ -102,7 +102,6 @@ Each scheme supported can be used independently of the Parser/Builder.
 
     $ftpBuilder = new FtpBuilder();
 
-
     $ftpBuilder->setHost('host')
         ->setPassword('hunter2')
         ->setPort(987)
