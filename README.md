@@ -4,7 +4,7 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Documentation Status](https://readthedocs.org/projects/kepplerpl-scheme/badge/?version=latest)](https://kepplerpl-scheme.readthedocs.io/en/latest/?badge=latest)
 
-## [Documentation](https://kepplerpl-scheme.readthedocs.io/en/latest/)
+## [Read the docs documentation](https://kepplerpl-scheme.readthedocs.io/en/latest/)
 
 ### Installation
 
