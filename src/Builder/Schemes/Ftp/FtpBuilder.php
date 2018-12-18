@@ -79,17 +79,20 @@ class FtpBuilder implements MutableSchemeInterface
     /**
      * FtpBuilder constructor.
      *
-     * @param FtpImmutable $ftp
+     * @param FtpImmutable|null $ftp
      */
-    public function __construct(FtpImmutable $ftp)
+    public function __construct(FtpImmutable $ftp = null)
     {
         $this->pathBag = new FtpMutablePath();
-        $this->populate($ftp);
 
-        $this->user = $ftp->getUser();
-        $this->password = $ftp->getPassword();
-        $this->host = $ftp->getHost();
-        $this->port = null === $ftp->getPort() ? -1 : $ftp->getPort();
+        if(null !== $ftp) {
+            $this->populate($ftp);
+
+            $this->user = $ftp->getUser();
+            $this->password = $ftp->getPassword();
+            $this->host = $ftp->getHost();
+            $this->port = null === $ftp->getPort() ? -1 : $ftp->getPort();
+        }
     }
 
     ///////////////////////////
@@ -251,7 +254,7 @@ class FtpBuilder implements MutableSchemeInterface
      *
      * @return string
      */
-    public function getScheme()
+    public function getScheme(): string
     {
         return self::SCHEME;
     }

@@ -106,20 +106,22 @@ class HttpsBuilder implements MutableSchemeInterface
     /**
      * HttpsBuilder constructor.
      *
-     * @param HttpsImmutable $https
+     * @param HttpsImmutable|null $https
      */
-    public function __construct(HttpsImmutable $https)
+    public function __construct(HttpsImmutable $https = null)
     {
         $this->pathBag = new HttpsMutablePath();
         $this->queryBag = new HttpsMutableQuery();
-        $this->populate($https);
+        if(null !== $https) {
+            $this->populate($https);
 
-        $this->authority = $https->getAuthority();
-        $this->user = $https->getUser();
-        $this->password = $https->getPassword();
-        $this->host = $https->getHost();
-        $this->port = null === $https->getPort() ? -1 : $https->getPort();
-        $this->fragment = $https->getFragment();
+            $this->authority = $https->getAuthority();
+            $this->user = $https->getUser();
+            $this->password = $https->getPassword();
+            $this->host = $https->getHost();
+            $this->port = null === $https->getPort() ? -1 : $https->getPort();
+            $this->fragment = $https->getFragment();
+        }
     }
 
     ///////////////////////////

@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 KepplerPl\\\url
-=============
+===============
 
 .. toctree::
    :maxdepth: 2

@@ -41,16 +41,17 @@ class MailtoBuilder implements MutableSchemeInterface
     /**
      * MailtoBuilder constructor.
      *
-     * @param MailtoImmutable $mailto
-     *
+     * @param MailtoImmutable|null $mailto
      * @throws InvalidComponentsException
      */
-    public function __construct(MailtoImmutable $mailto)
+    public function __construct(MailtoImmutable $mailto = null)
     {
         $this->queryBag = new MailtoQueryMutable();
         $this->pathBag = new MailtoPathMutable();
 
-        $this->populate($mailto);
+        if(null !== $mailto) {
+            $this->populate($mailto);
+        }
     }
 
     /**

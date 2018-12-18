@@ -161,6 +161,8 @@ Here we have a full mailto scheme, path included.
 
 Each part of the mailto scheme has it's own dedicated functions.
 
+Example:
+
 .. code-block:: php
 
     $url = 'mailto:path@email.com,path2@email.com?to=email@example.com,email2@example.com&cc=email3@example.com,email4@example.com&bcc=email4@example.com,email5@example.com&subject=Hello&body=World';
@@ -173,7 +175,6 @@ Each part of the mailto scheme has it's own dedicated functions.
 The same goes for CC and BCC functions with the only difference being the suffix of the function
 
 Besides the to, cc, and bcc functions getters are available for subject and body
-
 
 .. code-block:: php
 
@@ -208,5 +209,3 @@ Much like the query bag, the path bag comes with its own functions
     public function hasInPath(string $value): bool
 
     public function getPath(): array
-
-The functions are self explanatory.
