@@ -31,29 +31,31 @@ The Parser is the entry point for parsing a url. It's immutable, meaning you can
 The scheme is split into schemes such as ftp, http, https, mailto, etc.
 Each scheme is used to parse a single url type, as you might have guessed.
 
-    require 'vendor/autoload.php';
+```php
+require 'vendor/autoload.php';
 
-    $url =  'ftp://user:password@host:123/path';
+$url =  'ftp://user:password@host:123/path';
 
-    $scheme = Scheme::ftp($url);
+$scheme = Scheme::ftp($url);
 
-    print_r($scheme->all());
+print_r($scheme->all());
 
-    ...
+...
 
-    Array
-    (
-        [scheme] => ftp
-        [user] => user
-        [password] => password
-        [host] => host
-        [port] => 123
-        [path] => Array
-            (
-                [0] => path
-            )
+Array
+(
+    [scheme] => ftp
+    [user] => user
+    [password] => password
+    [host] => host
+    [port] => 123
+    [path] => Array
+        (
+            [0] => path
+        )
 
-    )
+)
+````
 
 At the time of this writing the parser supports 4 schemes: FTP, HTTPS, HTTP, and MAILTO
 
@@ -65,25 +67,25 @@ If you choose to build from an existing url you must pass it a Parser instance w
 
 At the time of this writing the Builder supports 4 schemes: FTP, HTTPS, HTTP, and MAILTO
 
-````
-    require 'vendor/autoload.php';
+```php
+require 'vendor/autoload.php';
 
-    $url =  'ftp://user:password@host:123/path';
+$url =  'ftp://user:password@host:123/path';
 
-    $ftpScheme = Scheme::ftp($url);
-    $builder = Builder::ftp($ftpScheme);
+$ftpScheme = Scheme::ftp($url);
+$builder = Builder::ftp($ftpScheme);
 
-    $builder->setHost('example.com')
-        ->setPassword('hunter2')
-        ->setPort(5);
+$builder->setHost('example.com')
+    ->setPassword('hunter2')
+    ->setPort(5);
 
-    print_r($builder->raw());
-    ...
-    ftp://user:hunter2@example.com:5/path/
+print_r($builder->raw());
+...
+ftp://user:hunter2@example.com:5/path/
 
-    print_r($builder->encoded());
-    ...
-    ftp://user:hunter2@example.com:5/path/to+encode/ // notice the extra +
+print_r($builder->encoded());
+...
+ftp://user:hunter2@example.com:5/path/to+encode/ // notice the extra +
 ````
 
 Both the Parser and the Builder can be used independently.
@@ -97,25 +99,25 @@ Assuming you don't want to use the Parser/Builder classes directly you can choos
 
 Each scheme supported can be used independently of the Parser/Builder.
 
+```php
+$ftpUrl = 'ftp://user:password@host:123/path';
 
-    $ftpUrl = 'ftp://user:password@host:123/path';
+$ftpImmutable = new FtpImmutable($ftpUrl);
 
-    $ftpImmutable = new FtpImmutable($ftpUrl);
+echo $ftpImmutable->raw();
 
-    echo $ftpImmutable->raw();
+$ftpBuilder = new FtpBuilder();
 
-```
-    $ftpBuilder = new FtpBuilder();
+$ftpBuilder->setHost('host')
+    ->setPassword('hunter2')
+    ->setPort(987)
+    ->setUser('hunter');
 
-    $ftpBuilder->setHost('host')
-        ->setPassword('hunter2')
-        ->setPort(987)
-        ->setUser('hunter');
+$ftpBuilder->getPathBag()
+    ->set(0, 'path')
+    ->set(1, 'new path');
 
-    $ftpBuilder->getPathBag()
-        ->set(0, 'path')
-        ->set(1, 'new path');
+echo $ftpBuilder->raw(); // ftp://hunter:hunter2@host:987/path/new path/
 
-    echo $ftpBuilder->raw(); // ftp://hunter:hunter2@host:987/path/new path/
-
-    echo $ftpBuilder->encoded(); // ftp://hunter:hunter2@host:987/path/new+path/
+echo $ftpBuilder->encoded(); // ftp://hunter:hunter2@host:987/path/new+path/
+````
