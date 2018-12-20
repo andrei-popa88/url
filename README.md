@@ -34,27 +34,23 @@ Each scheme is used to parse a single url type, as you might have guessed.
 ```php
 require 'vendor/autoload.php';
 
-$url =  'ftp://user:password@host:123/path';
+$url =  'https://john.doe@www.example.com:123/forum/questions/answered/latest?tag=networking&order=newest#top';
 
-$scheme = Scheme::ftp($url);
+$scheme = Scheme::https($url);
 
 print_r($scheme->all());
 
-...
+echo $scheme->getPathBag()->first(); // forum
+echo $scheme->getPathBag()->last(); // latest
+echo $scheme->getPathBag()->raw(); // /forum/questions/answered/latest
+echo $scheme->getPathBag()->get(1); // questions
+echo $scheme->getPathBag()->has(0); // true
+echo $scheme->getPathBag()->has(10); // false
 
-Array
-(
-    [scheme] => ftp
-    [user] => user
-    [password] => password
-    [host] => host
-    [port] => 123
-    [path] => Array
-        (
-            [0] => path
-        )
 
-)
+var_dump($scheme->getQueryBag()->first()); // ['tag' => 'networking']
+
+etc
 ````
 
 At the time of this writing the parser supports 4 schemes: FTP, HTTPS, HTTP, and MAILTO
