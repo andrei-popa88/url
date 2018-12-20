@@ -90,11 +90,11 @@ class HttpImmutableQuery extends AbstractImmutable implements ImmutableBagInterf
     }
 
     /**
-     * @return string|null
+     * @return array|null
      */
-    public function last(): ?string
+    public function last(): ?array
     {
-        return $this->lastInPath($this->query);
+        return $this->lastInQuery($this->query);
     }
 
     /**
