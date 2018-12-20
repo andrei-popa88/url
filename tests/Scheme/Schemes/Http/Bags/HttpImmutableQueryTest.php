@@ -31,7 +31,7 @@ class HttpImmutableQueryTest extends TestCase
             'tag' => ['networking', 'music'],
             'order' => 'newest',
         ], $https->all());
-        $this->assertEquals('newest', $https->last());
+        $this->assertEquals(['order' => 'newest'], $https->last());
         $this->assertEquals(['tag' => ['networking', 'music']], $https->first());
         $this->assertEquals(true, $https->has('tag'));
     }
