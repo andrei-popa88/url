@@ -12,7 +12,7 @@ Usage
 
     The classes found in the Builder can be used independently too. See the Quickstart link bellow.
 
-:doc:`Quickstart <usage>`
+:doc:`Quickstart <quickstart>`
 
 The Builder class is mutable. It will accept an Immutable class of the corresponding scheme.
 

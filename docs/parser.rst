@@ -31,7 +31,7 @@ Usage
 
     The classes found in the Parser can be used independently too. See the Quickstart link bellow.
 
-:doc:`Quickstart <usage>`
+:doc:`Quickstart <quickstart>`
 
 The Scheme.php class is used as the parser. Any Parser instance is immutable, meaning you cannot change it once it has been created.
 
