@@ -109,18 +109,4 @@ trait Accessor
     {
         return array_key_exists($key, $in);
     }
-
-    /**
-     * Recursively walks the array without breaking the iteration with return
-     *
-     * @param $array
-     *
-     * @return \Generator
-     */
-    protected function walkRecursive(array $array): \Generator
-    {
-        foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array)) as $key => $value) {
-            yield $key => $value;
-        }
-    }
 }

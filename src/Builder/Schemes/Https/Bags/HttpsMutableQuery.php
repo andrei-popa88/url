@@ -78,6 +78,16 @@ class HttpsMutableQuery implements MutableBagInterface
         return $this->mutatorQueryOnlyValues($this->query, $args);
     }
 
+    /**
+     * @return \Generator
+     */
+    public function walkRecursive(): \Generator
+    {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($this->query)) as $key => $value) {
+            yield $key => $value;
+        }
+    }
+
     /////////////////////////////////
     /// INTERFACE IMPLEMENTATION  ///
     ////////////////////////////////
