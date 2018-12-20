@@ -94,6 +94,16 @@ class HttpsImmutableQuery extends AbstractImmutable implements ImmutableBagInter
         return $this->lastInQuery($this->query);
     }
 
+    /**
+     * @return \Generator
+     */
+    public function walkRecursive(): \Generator
+    {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($this->query)) as $key => $value) {
+            yield $key => $value;
+        }
+    }
+
 /////////////////////////////////
 /// INTERFACE IMPLEMENTATION  ///
 ////////////////////////////////
