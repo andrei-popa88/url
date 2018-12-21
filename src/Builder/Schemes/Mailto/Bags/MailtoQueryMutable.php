@@ -557,7 +557,7 @@ class MailtoQueryMutable implements MutableBagInterface
         $encodedComma = '%2C'; // only valid encoded delimiter - encoded comma
         $trim = $encodedComma.',';
 
-        if ( ! empty($this->getTo())) {
+        if ( ! empty($this->cc)) {
             $query .= '&to=';
             foreach ($this->to as $value) {
                 if ($urlEncode) {
