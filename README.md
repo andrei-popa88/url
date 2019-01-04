@@ -4,6 +4,7 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Documentation Status](https://readthedocs.org/projects/kepplerpl-scheme/badge/?version=latest)](https://kepplerpl-scheme.readthedocs.io/en/latest/?badge=latest)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KepplerPl/url/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/KepplerPl/url/?branch=master)
 
 ## [Read the docs documentation](https://kepplerpl-scheme.readthedocs.io/en/latest/)
 
