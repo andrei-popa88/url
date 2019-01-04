@@ -85,12 +85,12 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function putInBetween(string $value, string $first = null, string $last = null): self
     {
-        if(null === $first && null === $last) {
+        if (null === $first && null === $last) {
             throw new \LogicException('Cannot put value if neither first or last is defined');
         }
 
-        if(!$this->hasValueIn($this->path, $first) && !$this->hasValueIn($this->path, $last)) {
-            throw new ComponentNotFoundException(sprintf('No component found matching either %s  %s',$first, $last));
+        if (!$this->hasValueIn($this->path, $first) && !$this->hasValueIn($this->path, $last)) {
+            throw new ComponentNotFoundException(sprintf('No component found matching either %s  %s', $first, $last));
         }
 
         $this->mutatorPutInBetweenKeys($this->path, $value, $first, $last);
@@ -106,7 +106,7 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function putBefore(string $before, string $value) : self
     {
-        if(!$this->hasValueIn($this->path, $before)) {
+        if (!$this->hasValueIn($this->path, $before)) {
             throw new \LogicException(sprintf('Cannot put value %s before %s as %s does not exist', $value, $before, $before));
         }
 
@@ -139,7 +139,7 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function putAfter(string $after, string $value): self
     {
-        if(!$this->hasValueIn($this->path, $after)) {
+        if (!$this->hasValueIn($this->path, $after)) {
             throw new \LogicException(sprintf('Cannot put value %s after %s as %s does not exist', $value, $after, $after));
         }
 
@@ -155,8 +155,8 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function forget(string ...$args): self
     {
-        foreach($args as $item) {
-            if(!$this->hasValueIn($this->path, $item)) {
+        foreach ($args as $item) {
+            if (!$this->hasValueIn($this->path, $item)) {
                 throw new \LogicException(sprintf('Cannot forget %s as it does not exist', $item));
             }
 
@@ -202,13 +202,13 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function raw(): string
     {
-        if(empty($this->path)) {
+        if (empty($this->path)) {
             return '';
         }
 
         $path = '';
-        foreach($this->path as $element) {
-            $path .= ($element) . ',';
+        foreach ($this->path as $element) {
+            $path .= ($element).',';
         }
         return rtrim($path, ',');
     }
@@ -220,13 +220,13 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function encoded(): string
     {
-        if(empty($this->path)) {
+        if (empty($this->path)) {
             return '';
         }
 
         $path = '';
-        foreach($this->path as $element) {
-            $path .= ($element) . urlencode(',');
+        foreach ($this->path as $element) {
+            $path .= ($element).urlencode(',');
         }
         return rtrim($path, urlencode(','));
     }
@@ -253,7 +253,7 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function get($key)
     {
-        if(!$this->has($key)) {
+        if (!$this->has($key)) {
             throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s', $key, __CLASS__));
         }
 
@@ -268,7 +268,7 @@ class MailtoPathMutable implements MutableBagInterface
      */
     public function set($key, $value): self
     {
-        if(!is_int($key)) {
+        if (!is_int($key)) {
             throw new \LogicException(sprintf('Method %s can only accept integers as a key', __METHOD__));
         }
 

@@ -80,8 +80,8 @@ trait Accessor
      * @throws ComponentNotFoundException
      */
     protected function getValueIn(array $in, $value) {
-        foreach($in as $element) {
-            if($element === $value) {
+        foreach ($in as $element) {
+            if ($element === $value) {
                 return $value;
             }
         }

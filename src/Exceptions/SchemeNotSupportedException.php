@@ -3,4 +3,4 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Exceptions;
 
-class SchemeNotSupportedException extends \Exception{};
+class SchemeNotSupportedException extends \Exception {};

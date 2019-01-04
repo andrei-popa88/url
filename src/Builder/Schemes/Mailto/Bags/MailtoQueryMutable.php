@@ -440,8 +440,8 @@ class MailtoQueryMutable implements MutableBagInterface
     {
         $result = [];
 
-        foreach($args as $key => $item) {
-            if(!$this->has($item)) {
+        foreach ($args as $key => $item) {
+            if (!$this->has($item)) {
                 throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s',
                     $key, __CLASS__));
             }
@@ -487,7 +487,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function get($key)
     {
-        if ( ! $this->has($key)) {
+        if (!$this->has($key)) {
             throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s',
                 $key, __CLASS__));
         }
@@ -505,7 +505,7 @@ class MailtoQueryMutable implements MutableBagInterface
      */
     public function set($key, $value): MutableBagInterface
     {
-        if ( ! $this->has($key)) {
+        if (!$this->has($key)) {
             throw new ComponentNotFoundException(sprintf('Component %s does not exist in %s',
                 $key, __CLASS__));
         }
@@ -557,7 +557,7 @@ class MailtoQueryMutable implements MutableBagInterface
         $encodedComma = '%2C'; // only valid encoded delimiter - encoded comma
         $trim = $encodedComma.',';
 
-        if ( ! empty($this->cc)) {
+        if (!empty($this->cc)) {
             $query .= '&to=';
             foreach ($this->to as $value) {
                 if ($urlEncode) {
@@ -570,7 +570,7 @@ class MailtoQueryMutable implements MutableBagInterface
             $query = rtrim($query, $trim);
         }
 
-        if ( ! empty($this->cc)) {
+        if (!empty($this->cc)) {
             $query .= '&cc=';
             foreach ($this->cc as $value) {
                 if ($urlEncode) {
@@ -583,7 +583,7 @@ class MailtoQueryMutable implements MutableBagInterface
             $query = rtrim($query, $trim);
         }
 
-        if ( ! empty($this->bcc)) {
+        if (!empty($this->bcc)) {
             $query .= '&bcc=';
             foreach ($this->bcc as $value) {
                 if ($urlEncode) {

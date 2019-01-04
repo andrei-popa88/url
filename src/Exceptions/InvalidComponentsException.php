@@ -3,4 +3,4 @@ declare(strict_types=1);
 
 namespace Keppler\Url\Exceptions;
 
-class InvalidComponentsException extends \Exception{};
+class InvalidComponentsException extends \Exception {};
