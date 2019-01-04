@@ -95,19 +95,19 @@ class FtpImmutable extends AbstractImmutable implements ImmutableSchemeInterface
             $this->pathBag = new FtpImmutablePath();
         }
 
-        if(isset($parsedUrl['user']) && !empty($parsedUrl['user'])) {
+        if (isset($parsedUrl['user']) && !empty($parsedUrl['user'])) {
             $this->user = $parsedUrl['user'];
         }
 
-        if(isset($parsedUrl['host']) && !empty($parsedUrl['host'])) {
+        if (isset($parsedUrl['host']) && !empty($parsedUrl['host'])) {
             $this->host = $parsedUrl['host'];
         }
 
-        if(isset($parsedUrl['port']) && !empty($parsedUrl['port'])) {
+        if (isset($parsedUrl['port']) && !empty($parsedUrl['port'])) {
             $this->port = $parsedUrl['port'];
         }
 
-        if(isset($parsedUrl['pass']) && !empty($parsedUrl['pass'])) {
+        if (isset($parsedUrl['pass']) && !empty($parsedUrl['pass'])) {
             $this->password = $parsedUrl['pass'];
         }
     }

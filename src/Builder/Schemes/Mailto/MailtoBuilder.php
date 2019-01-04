@@ -49,7 +49,7 @@ class MailtoBuilder implements MutableSchemeInterface
         $this->queryBag = new MailtoQueryMutable();
         $this->pathBag = new MailtoPathMutable();
 
-        if(null !== $mailto) {
+        if (null !== $mailto) {
             $this->populate($mailto);
         }
     }

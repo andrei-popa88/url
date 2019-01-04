@@ -107,7 +107,7 @@ class Scheme
             throw new \InvalidArgumentException('The url is malformed');
         }
 
-        if ( ! isset($parsed['scheme'])) {
+        if (!isset($parsed['scheme'])) {
             throw new \InvalidArgumentException(sprintf('Unable to determine scheme for %s',
                 $url));
         }

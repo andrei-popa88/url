@@ -85,7 +85,7 @@ class FtpBuilder implements MutableSchemeInterface
     {
         $this->pathBag = new FtpMutablePath();
 
-        if(null !== $ftp) {
+        if (null !== $ftp) {
             $this->populate($ftp);
 
             $this->user = $ftp->getUser();
@@ -270,9 +270,9 @@ class FtpBuilder implements MutableSchemeInterface
 
         $url = self::SCHEME.'://';
 
-        if ( ! empty($this->user)) {
+        if (!empty($this->user)) {
             $url .= $this->user;
-            if ( ! empty($this->password)) {
+            if (!empty($this->password)) {
                 $url .= ':'.$this->password;
             }
 

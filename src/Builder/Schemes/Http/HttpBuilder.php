@@ -113,7 +113,7 @@ class HttpBuilder implements MutableSchemeInterface
         $this->pathBag = new HttpMutablePath();
         $this->queryBag = new HttpMutableQuery();
 
-        if(null !== $http) {
+        if (null !== $http) {
             $this->populate($http);
 
             $this->authority = $http->getAuthority();
@@ -149,15 +149,15 @@ class HttpBuilder implements MutableSchemeInterface
     {
         $authority = '';
 
-        if ( ! empty($this->user)) {
+        if (!empty($this->user)) {
             $authority .= $this->user;
         }
 
-        if ( ! empty($this->password)) {
+        if (!empty($this->password)) {
             $authority .= ':'.$this->password;
         }
 
-        if ( ! empty($this->host)) {
+        if (!empty($this->host)) {
             $authority .= '@'.$this->host;
         }
 
@@ -336,7 +336,7 @@ class HttpBuilder implements MutableSchemeInterface
             $url .= $this->queryBag->raw();
         }
 
-        if ( ! empty($this->fragment)) {
+        if (!empty($this->fragment)) {
             $url .= '#'.$this->fragment;
         }
 

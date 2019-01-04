@@ -48,7 +48,7 @@ class HttpsMutableQuery implements MutableBagInterface
     public function forget(string ...$args): self
     {
         foreach ($args as $item) {
-            if ( ! $this->hasValueIn($this->query, $item)) {
+            if (!$this->hasValueIn($this->query, $item)) {
                 throw new \LogicException(sprintf('Cannot forget %s as it does not exist',
                     $item));
             }
@@ -129,7 +129,7 @@ class HttpsMutableQuery implements MutableBagInterface
      */
     public function raw(): string
     {
-        if ( ! empty($this->query)) {
+        if (!empty($this->query)) {
             return '?'.urldecode(http_build_query($this->query));
         }
 
@@ -143,7 +143,7 @@ class HttpsMutableQuery implements MutableBagInterface
      */
     public function encoded(): string
     {
-        if ( ! empty($this->query)) {
+        if (!empty($this->query)) {
             return '?'.http_build_query($this->query);
         }
 

@@ -126,11 +126,11 @@ class HttpImmutable extends AbstractImmutable implements ImmutableSchemeInterfac
 
         $this->setAuthority($parsedUrl);
 
-        if(isset($parsedUrl['fragment'])) {
-            if(false !== strpos($parsedUrl['fragment'], '#')) {
+        if (isset($parsedUrl['fragment'])) {
+            if (false !== strpos($parsedUrl['fragment'], '#')) {
                 // get only the first fragment
                 $this->fragment = explode('#', $parsedUrl['fragment'])[0];
-            }else {
+            } else {
                 $this->fragment = $parsedUrl['fragment'];
             }
         }
@@ -159,26 +159,26 @@ class HttpImmutable extends AbstractImmutable implements ImmutableSchemeInterfac
     {
         $authority = '';
 
-        if(isset($parsedUrl['user'])) {
+        if (isset($parsedUrl['user'])) {
             $authority .= $parsedUrl['user'];
             $this->user = $parsedUrl['user'];
         }
 
-        if(isset($parsedUrl['pass'])) {
-            $authority .= ':' . $parsedUrl['pass'];
+        if (isset($parsedUrl['pass'])) {
+            $authority .= ':'.$parsedUrl['pass'];
             $this->password = $parsedUrl['pass'];
         }
 
-        if(isset($parsedUrl['host'])) {
-            if(!empty($this->user) || !empty($this->password)) {
+        if (isset($parsedUrl['host'])) {
+            if (!empty($this->user) || !empty($this->password)) {
                 $authority .= '@';
             }
             $authority .= $parsedUrl['host'];
             $this->host = $parsedUrl['host'];
         }
 
-        if(isset($parsedUrl['port'])) {
-            $authority .= ':' . $parsedUrl['port'];
+        if (isset($parsedUrl['port'])) {
+            $authority .= ':'.$parsedUrl['port'];
             $this->port = $parsedUrl['port'];
         }
 

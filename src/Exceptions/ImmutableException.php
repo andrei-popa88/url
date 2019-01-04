@@ -8,4 +8,4 @@ namespace Keppler\Url\Exceptions;
  *
  * @package Keppler\Url\Scheme\Exceptions
  */
-class ImmutableException extends \Exception{}
+class ImmutableException extends \Exception {}

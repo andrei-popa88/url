@@ -114,8 +114,8 @@ trait Mutator
     {
         $result = [];
 
-        foreach($array as $item) {
-            if(!in_array($item, $args[0])) {
+        foreach ($array as $item) {
+            if (!in_array($item, $args[0])) {
                 continue;
             }
 
@@ -134,8 +134,8 @@ trait Mutator
     {
         $result = [];
 
-        foreach($array as $key => $item) {
-            if(!in_array($key, $args[0])) {
+        foreach ($array as $key => $item) {
+            if (!in_array($key, $args[0])) {
                 continue;
             }
 
